@@ -25,7 +25,7 @@
   <main class="container mx-auto px-4 py-8">
     <div class="space-y-6">
       <!-- Tabs -->
-      <div class="grid w-full grid-cols-4 bg-white/60 backdrop-blur-sm rounded-lg overflow-hidden">
+      <div class="grid w-full grid-cols-2 bg-white/60 backdrop-blur-sm rounded-lg overflow-hidden">
         @for (tab of tabs; track tab.value) {
           <button
             (click)="setActiveTab(tab.value)"
@@ -35,7 +35,7 @@
     }"
             class="py-2 px-4 flex items-center gap-2 justify-center text-sm transition"
           >
-            <i [ngClass]="tab.icon" class="w-4 h-4"></i>
+            <i-lucide [img]="tab.icon" class="w-4 h-4"></i-lucide>
             {{ tb[tab.label] }}
           </button>
         }
@@ -50,37 +50,6 @@
       <!-- Reminders Tab -->
       @if (activeTab === 'reminders') {
         <app-reminders [language]="language"></app-reminders>
-      }
-      <!-- Analytics Tab -->
-      @if (activeTab === 'analytics') {
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <div class="rounded-xl border border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 p-4">
-            <div class="flex items-center gap-2 text-blue-700 text-lg font-semibold mb-2">
-              <i class="lucide lucide-star w-5 h-5"></i>
-              Patient Satisfaction
-            </div>
-            <div class="text-3xl font-bold text-blue-600">4.8/5</div>
-            <p class="text-sm text-blue-600">Average rating this month</p>
-          </div>
-
-          <div class="rounded-xl border border-green-200 bg-gradient-to-br from-green-50 to-green-100 p-4">
-            <div class="flex items-center gap-2 text-green-700 text-lg font-semibold mb-2">
-              <i class="lucide lucide-message-square w-5 h-5"></i>
-              Feedback Volume
-            </div>
-            <div class="text-3xl font-bold text-green-600">1,247</div>
-            <p class="text-sm text-green-600">Responses collected</p>
-          </div>
-
-          <div class="rounded-xl border border-purple-200 bg-gradient-to-br from-purple-50 to-purple-100 p-4">
-            <div class="flex items-center gap-2 text-purple-700 text-lg font-semibold mb-2">
-              <i class="lucide lucide-bell w-5 h-5"></i>
-              Reminder Success
-            </div>
-            <div class="text-3xl font-bold text-purple-600">94%</div>
-            <p class="text-sm text-purple-600">Appointment attendance</p>
-          </div>
-        </div>
       }
     </div>
   </main>

@@ -1,8 +1,24 @@
 import {Component, Input} from '@angular/core';
+import {
+  Bell,
+  MessageSquare,
+  Clock,
+  Plus,
+  Calendar,
+  Pill,
+  LucideAngularModule,
+  LucideIconData,
+  Phone
+} from 'lucide-angular';
+import {NgClass} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-reminders',
-  imports: [],
+  imports: [
+    LucideAngularModule,
+    NgClass,
+    FormsModule],
   templateUrl: './reminders.html',
   standalone: true,
   styleUrl: './reminders.css'
@@ -53,5 +69,129 @@ export class Reminders {
 
   t = this.translations[this.language as keyof typeof this.translations] || this.translations.en;
 
+  activeReminders = [
+    {
+      id: 1,
+      type: "appointment",
+      title: "Dr. Appointment - Cardiology",
+      date: "2024-01-20",
+      time: "10:00",
+      patient: "Marie Dubois",
+      status: "scheduled",
+      method: "sms",
+    },
+    {
+      id: 2,
+      type: "medication",
+      title: "Take Blood Pressure Medication",
+      date: "2024-01-18",
+      time: "08:00",
+      patient: "Jean Kamga",
+      status: "sent",
+      method: "voice",
+    },
+    {
+      id: 3,
+      type: "appointment",
+      title: "Follow-up Visit",
+      date: "2024-01-22",
+      time: "14:30",
+      patient: "Fatima Nkomo",
+      status: "pending",
+      method: "sms",
+    },
+  ];
 
+  getStatusColor(status: string): string {
+    switch (status) {
+      case 'scheduled':
+        return 'bg-blue-100 text-blue-800';
+      case 'sent':
+        return 'bg-green-100 text-green-800';
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  }
+
+  getTypeIcon(type: string): LucideIconData {
+    return type === 'appointment' ? Calendar : Pill;
+  }
+
+  getMethodIcon(method: string): LucideIconData {
+    switch (method) {
+      case 'sms':
+        return MessageSquare;
+      case 'voice':
+        return Phone;
+      case 'email':
+      default:
+        return Bell;
+    }
+  }
+
+  getTranslation(key: string): string {
+    return this.t[key as keyof typeof this.t] ?? key;
+  }
+
+
+  // These properties bind to your form inputs
+  newReminderType: string = '';
+  newPatientName: string = '';
+  newDate: string = '';
+  newTime: string = '';
+  newMethod: string = '';
+
+  /*
+  newReminder = {
+    id: '',
+    type: '',
+    title: '',
+    date: '',
+    time: '',
+    patient: '',
+    status: 'pending',
+    method: '',
+  };
+
+   */
+
+  createReminder() {
+    if (!this.newReminderType || !this.newPatientName || !this.newDate || !this.newTime || !this.newMethod) {
+      alert('Please fill all fields'); // basic validation
+      return;
+    }
+
+    const newId = this.activeReminders.length > 0
+      ? Math.max(...this.activeReminders.map(r => r.id)) + 1
+      : 1;
+
+    const newReminder = {
+      id: newId,
+      type: this.newReminderType,
+      title: this.newReminderType === 'appointment'
+        ? `Dr. Appointment - ${this.newPatientName}`
+        : `Take Medication - ${this.newPatientName}`,
+      date: this.newDate,
+      time: this.newTime,
+      patient: this.newPatientName,
+      status: 'pending',
+      method: this.newMethod,
+    };
+
+    this.activeReminders = [...this.activeReminders, newReminder];
+
+    // Reset form inputs
+    this.newReminderType = '';
+    this.newPatientName = '';
+    this.newDate = '';
+    this.newTime = '';
+    this.newMethod = '';
+  }
+
+  protected readonly Bell = Bell;
+  protected readonly MessageSquare = MessageSquare;
+  protected readonly Clock = Clock;
+  protected readonly Plus = Plus;
 }

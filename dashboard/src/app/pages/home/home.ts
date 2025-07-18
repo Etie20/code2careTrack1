@@ -3,6 +3,7 @@ import {NgClass} from '@angular/common';
 import {Dashboard} from '../dashboard/dashboard';
 import {Reminders} from '../reminders/reminders';
 import {LanguageSelector} from '../../components/language-selector/language-selector';
+import {BellIcon, HomeIcon, LucideAngularModule} from 'lucide-angular';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,8 @@ import {LanguageSelector} from '../../components/language-selector/language-sele
     NgClass,
     Dashboard,
     Reminders,
-    LanguageSelector
+    LanguageSelector,
+    LucideAngularModule
   ],
   templateUrl: './home.html',
   standalone: true,
@@ -58,18 +60,13 @@ export class Home {
     {
       value: 'dashboard',
       label: 'dashboard',
-      icon: 'lucide lucide-home'
+      icon: HomeIcon
     },
     {
       value: 'reminders',
       label: 'reminders',
-      icon: 'lucide lucide-bell'
+      icon: BellIcon
     },
-    {
-      value: 'analytics',
-      label: 'analytics',
-      icon: 'lucide lucide-settings'
-    }
   ];
 
   setActiveTab(tab: string): void {
