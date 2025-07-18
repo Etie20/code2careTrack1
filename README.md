@@ -111,7 +111,7 @@ Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un ver
 | **Node.js & npm** | Build et gestion Angular | 20.x |
 | **Git / GitHub Actions** | Versioning et CI/CD | - |
 
-## 🗃️ **9. Modèle Conceptuel de Données (MLD)**
+## 🗃️ **9. Modèle Logique de Données (MLD)**
 
 <img width="536" height="524" alt="Screenshot 2025-07-18 204631" src="https://github.com/user-attachments/assets/d406e913-dfda-48de-9606-36481d6d5d64" />
 
