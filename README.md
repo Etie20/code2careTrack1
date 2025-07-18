@@ -217,22 +217,4 @@ cd track1Backend
 cd AnalysisBackend
 pip install -r requirements.txt
 uvicorn main:app --reload --port 8001
-
-Et le fichier dico.json 
-{
-  "appointment": {
-    "FR": "Bonjour {{name}}, vous avez un rendez-vous à l’hôpital {{hospital}} le {{date}} à {{time}}.",
-    "EN": "Hello {{name}}, you have an appointment at {{hospital}} hospital on {{date}} at {{time}}.",
-    "DLA": "Mônè {{name}}, rendez-vous na l’hôpital {{hospital}} le {{date}} à {{time}}.",
-    "BASSA": "Me yéga {{name}}, rendez-vous à l’hôpital {{hospital}} le {{date}} à {{time}}.",
-    "EWONDO": "Mbolo {{name}}, rendez-vous abe Douabra {{hospital}} le {{date}} à {{time}}."
-  },
-  "medication": {
-    "FR": "Bonjour {{name}}, n’oubliez pas de prendre votre médicament à {{time}}.",
-    "EN": "Hello {{name}}, don’t forget to take your medication at {{time}}.",
-    "DLA": "Mônè {{name}}, n’oublie pas de prendre ton médicament à {{time}}.",
-    "BASSA": "Me yéga {{name}}, n’oublie pas de prendre ton médicament à {{time}}.",
-    "EWONDO": "Mbolo {{name}}, tegu a ya Bibouma á {{time }}."
-  }
-}
 ```
