@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import {Card} from '../../shared/components/card/card';
+import {FeedbackForm} from '../../shared/components/feedback-form/feedback-form';
 
 @Component({
   selector: 'app-feedback',
   imports: [
-    Card
+    FeedbackForm
   ],
   templateUrl: './feedback.html',
   styleUrl: './feedback.css'

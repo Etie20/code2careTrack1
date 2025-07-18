@@ -1,0 +1,23 @@
+<div class="space-y-3">
+  <label class="text-base font-medium">{{ label }}</label>
+  <button
+    (click)="toggleRecording()"
+    [ngClass]="{
+      'bg-red-600 text-white hover:bg-red-700': recording,
+      'border border-gray-300 text-gray-700 hover:bg-gray-100': !recording
+    }"
+    class="w-full px-4 py-2 rounded flex items-center justify-center gap-2 transition-colors"
+  >
+    <svg
+      class="w-4 h-4"
+      [ngClass]="{ 'animate-pulse': recording }"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+    >
+      <path d="M12 1v22M5 12h14" />
+    </svg>
+    {{ recording ? 'Stop Recording' : 'Start Voice Recording' }}
+  </button>
+</div>
