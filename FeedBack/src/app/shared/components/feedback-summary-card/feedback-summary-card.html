@@ -1,0 +1,12 @@
+<div
+  class="bg-gradient-to-br cursor-pointer hover:shadow-md transition-shadow border rounded-lg"
+  [ngClass]="[bgColor, borderColor]"
+>
+  <div class="p-4 text-center">
+    <div class="w-8 h-8 mx-auto mb-2 text-2xl" [ngClass]="iconColor">
+      {{ emoji }}
+    </div>
+    <p class="font-medium" [ngClass]="textColor">{{ text }}</p>
+  </div>
+</div>
+

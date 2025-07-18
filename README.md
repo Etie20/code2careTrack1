@@ -1,3 +1,4 @@
+# 🚀 Projet CODE2CARE
 
 ---
 
@@ -84,3 +85,101 @@
 | Disponibilité du système      | ≥ 99 %                       |
 
 ---
+
+## 📑 **7. Description**
+
+Ce projet est une application complète regroupant :
+
+- Un **backend principal en Spring Boot** pour la gestion métier et l’API REST sécurisée.
+- Un **frontend Angular** pour l’interface utilisateur moderne et responsive.
+- Un **backend d’analyse en FastAPI**, dédié aux traitements analytiques et aux calculs spécifiques (IA, NLP ou statistiques selon le domaine).
+
+Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un versioning unique et une intégration continue simplifiée.
+
+---
+
+## 🛠️**8. Technologies utilisées**
+
+| Technologie | Rôle | Version |
+|-------------|------|---------|
+| **Spring Boot** | Backend principal (API REST, logique métier, sécurité JWT) | 3.x |
+| **Angular** | Frontend SPA | 20.x |
+| **FastAPI** | Backend d’analyse | 0.110+ |
+| **PostgreSQL** | Base de données relationnelle | 12.x |
+| **Docker / Docker Compose** | Conteneurisation et orchestration locale | latest |
+| **Gradle** | Build et gestion des dépendances Spring Boot | 8.14 |
+| **Node.js & npm** | Build et gestion Angular | 20.x |
+| **Git / GitHub Actions** | Versioning et CI/CD | - |
+
+## 🗃️ **9. Modèle Conceptuel de Données (MLD)**
+
+<img width="536" height="524" alt="Screenshot 2025-07-18 204631" src="https://github.com/user-attachments/assets/d406e913-dfda-48de-9606-36481d6d5d64" />
+
+---
+
+## 🗂️ **10. Structure du monorepo**
+
+/code2careTrack1
+│
+├── track1Backend/ # Application Spring Boot
+│ ├── src/
+│ ├── pom.xml
+│ └── ...
+│
+├── dashboard/ # Le Dashbord Angular
+│ ├── src/
+│ ├── angular.json
+│ └── ...
+│
+├── feedback/ # Application Angular pour le recensement des feedback
+│ ├── src/
+│ ├── angular.json
+│ └── ...
+├── AnalysisBackend/ # Application FastAPI
+│ ├── api/
+│ ├── main.py
+
+---
+
+## 🖼️ **11. Aperçu du frontend**
+
+![Capture d’écran 2025-07-18 203854](https://github.com/user-attachments/assets/28df3d22-aeae-49ef-a986-5fe0f0f3127c)
+![Capture d’écran 2025-07-18 203846](https://github.com/user-attachments/assets/9c7c6f54-31c4-4715-9a1f-3fe7a41cd696)
+![Capture d’écran 2025-07-18 203835](https://github.com/user-attachments/assets/4f6ecfd1-19e1-4d66-b8b8-ae36bd4fc313)
+![Capture d’écran 2025-07-18 200624](https://github.com/user-attachments/assets/bec557c9-0fe0-447c-8600-292d6400b608)
+
+
+---
+## 🔧 **12. Lancer le projet**
+
+### Prérequis
+
+- Docker et Docker Compose installés
+- Node.js v20+ et npm installés localement
+- Maven installé
+- Python 3.10+ avec pip (pour FastAPI)
+
+### Commandes principales
+
+```bash
+# Cloner le projet
+git clone [<repo_url>](https://github.com/gfriedtod/code2careTrack1)
+cd code2careTrack1
+
+# Lancer tous les services via docker-compose
+docker-compose up --build
+
+# Pour lancer uniquement Angular en local (développement)
+cd frontend-angular
+npm install
+ng serve
+
+# Pour lancer Spring Boot en local
+cd track1Backend
+./gradlew 
+
+# Pour lancer FastAPI en local
+cd AnalysisBackend
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8001
+
