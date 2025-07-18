@@ -3,6 +3,7 @@ package com.code2care.auth.infrastructure.adapters;
 import com.code2care.auth.domain.repository.AuthenticationRepository;
 import com.code2care.auth.infrastructure.repository.JpaDoctorRepository;
 import com.code2care.common.domain.model.DoctorDto;
+import com.code2care.common.domain.model.Email;
 import com.code2care.common.infrastructure.config.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -21,7 +22,7 @@ public class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
     @Override
     public Optional<DoctorDto> findByEmail(String email) {
-        return jpaDoctorRepository.findByEmail(email)
+        return jpaDoctorRepository.findByEmail(new Email(email))
                 .map(Mapper::mapDoctorDto);
     }
 }

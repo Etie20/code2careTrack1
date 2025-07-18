@@ -1,7 +1,6 @@
 package com.code2care.auth.infrastructure.controller;
 
 import com.code2care.auth.application.dto.AuthenticationRequest;
-import com.code2care.auth.application.dto.AuthenticationResponse;
 import com.code2care.auth.application.dto.RegisterRequest;
 import com.code2care.auth.application.service.AuthenticateUseCase;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationUseCase.register(request));
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity<String> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
