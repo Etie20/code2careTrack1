@@ -1,11 +1,26 @@
 <div
-  class="border flex justify-center items-center p-6 max-w-2xl mx-auto space-y-6"
+  class="border flex flex-col justify-center items-center p-6 max-w-2xl mx-auto space-y-6"
 >
   <div
     class="w-full p-6"
   >
     <app-feedback-form/>
   </div>
+
+  <div class="grid gap-4 md:grid-cols-3">
+    @for (card of feedbackCards; track $index) {
+      <app-feedback-summary-card
+        [emoji]="card.emoji"
+        [text]="card.text"
+        [bgColor]="card.bgColor"
+        [borderColor]="card.borderColor"
+        [textColor]="card.textColor"
+        [iconColor]="card.iconColor"
+      ></app-feedback-summary-card>
+
+    }
+  </div>
+
 
 
 </div>
