@@ -1,11 +1,22 @@
-<div class="card">
-  <header>
-    <h2>Card Title</h2>
-    <p>Card Description</p>
+<div class="card bg-white/80 backdrop-blur-sm">
+  <header
+    class="flex flex-col items-center space-y-1.5"
+  >
+    <h2
+      class="text-2xl font-semibold leading-none tracking-tight bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent"
+    >Patient Feedback</h2>
+    <p
+      class="text-sm text-muted-foreground"
+    >Help us improve our healthcare services</p>
   </header>
-  <section>
-    <p>Card Content</p>
+
+  <section
+    class="space-y-6 flex flex-col gap-3"
+  >
+    <app-rating-stars/>
+    <app-emoji-picker/>
   </section>
+
   <footer>
     <p>Card Footer</p>
   </footer>
