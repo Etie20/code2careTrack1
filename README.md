@@ -145,7 +145,6 @@ L’architecture **Onion (ou Clean Architecture)** adoptée dans ce projet Sprin
 │ ├── src/
 │ ├──
 │    └── auth
-| ├─────
 |        └── application
 |        └── domain
 |        └── infrastructure
