@@ -156,7 +156,7 @@ Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un ver
 
 - Docker et Docker Compose installés
 - Node.js v20+ et npm installés localement
-- Maven installé
+- Gradle installé
 - Python 3.10+ avec pip (pour FastAPI)
 
 ### Commandes principales
