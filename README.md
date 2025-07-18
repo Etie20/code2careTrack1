@@ -1,4 +1,4 @@
-# 🚀 Projet CODE2CARE
+# 🚀 Projet CODE2CARE (Team Enligthen Innovation)
 
 ---
 
@@ -111,19 +111,48 @@ Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un ver
 | **Node.js & npm** | Build et gestion Angular | 20.x |
 | **Git / GitHub Actions** | Versioning et CI/CD | - |
 
-## 🗃️ **9. Modèle Conceptuel de Données (MLD)**
+## 🗃️ **9. Modèle Logique de Données (MLD)**
 
+### MLD
 <img width="536" height="524" alt="Screenshot 2025-07-18 204631" src="https://github.com/user-attachments/assets/d406e913-dfda-48de-9606-36481d6d5d64" />
+
+### MLD (Datamart)
+<img width="597" height="527" alt="Screenshot 2025-07-18 232632" src="https://github.com/user-attachments/assets/028ac562-a3d3-44f9-9b59-fe023c785648" />
 
 ---
 
 ## 🗂️ **10. Structure du monorepo**
 
+### 🧅 Architecture Onion (Hexagonal / Clean Architecture)
+
+L’architecture **Onion (ou Clean Architecture)** adoptée dans ce projet Spring Boot se base sur les principes suivants :
+
+- **Core Domain au centre** :  
+  Contient la logique métier pure (entités, modèles, interfaces de repository).
+
+- **Application** :  
+  Contient les cas d’usage, la logique applicative orchestrant les entités et repositories.
+
+- **Infrastructure** :  
+  Implémentation technique des interfaces (ex: JPA repositories, clients externes, configuration DB, Contrôleurs REST exposant les API à Angular).
+
+📌 **Avantages :**
+
+- Couplage réduit entre l’extérieur et le cœur métier
+- Facilite les tests unitaires et l’évolutivité
+- Chaque dépendance pointe vers l’intérieur (domain) sans inverser la logique métier
+
+```bash
 /code2careTrack1
 │
 ├── track1Backend/ # Application Spring Boot
 │ ├── src/
-│ ├── pom.xml
+│ ├──
+│    └── auth
+|        └── application
+|        └── domain
+|        └── infrastructure
+│ ├── build.gradle.kts
 │ └── ...
 │
 ├── dashboard/ # Le Dashbord Angular
@@ -138,7 +167,7 @@ Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un ver
 ├── AnalysisBackend/ # Application FastAPI
 │ ├── api/
 │ ├── main.py
-
+```
 ---
 
 ## 🖼️ **11. Aperçu du frontend**
@@ -156,30 +185,36 @@ Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un ver
 
 - Docker et Docker Compose installés
 - Node.js v20+ et npm installés localement
-- Maven installé
+- Gradle installé
 - Python 3.10+ avec pip (pour FastAPI)
 
 ### Commandes principales
 
 ```bash
 # Cloner le projet
-git clone [<repo_url>](https://github.com/gfriedtod/code2careTrack1)
+git clone https://github.com/gfriedtod/code2careTrack1
 cd code2careTrack1
 
 # Lancer tous les services via docker-compose
 docker-compose up --build
 
-# Pour lancer uniquement Angular en local (développement)
-cd frontend-angular
+# Pour lancer l'application feedback
+cd feedback
+npm install
+ng serve
+
+# Pour lancer l'application dashboard
+cd dashboard
 npm install
 ng serve
 
 # Pour lancer Spring Boot en local
 cd track1Backend
-./gradlew 
+./gradlew build --refresh-dependencies 
+./gradlew bootRun
 
 # Pour lancer FastAPI en local
 cd AnalysisBackend
 pip install -r requirements.txt
 uvicorn main:app --reload --port 8001
-
+```

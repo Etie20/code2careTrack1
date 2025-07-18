@@ -2,7 +2,8 @@ import { Component, Input } from '@angular/core';
 import {NgClass} from '@angular/common';
 import { LucideAngularModule, MessageSquare, BarChart3, Heart, TrendingUp, Star,  } from 'lucide-angular';
 import {FeedbackCard} from '../../components/feedback-card/feedback-card';
-
+import {FeedBack} from '../../models/feedback';
+import {FeedbackService} from '../../services/feedback/feedback-service';
 
 
 @Component({
@@ -10,7 +11,7 @@ import {FeedbackCard} from '../../components/feedback-card/feedback-card';
   imports: [
     NgClass,
     LucideAngularModule,
-    FeedbackCard
+    FeedbackCard,
   ],
   templateUrl: './dashboard.html',
   standalone: true,
@@ -128,6 +129,31 @@ export class Dashboard {
     },
   }
   t = this.translations[this.language as keyof typeof this.translations] || this.translations.en;
+
+  isLoadingFeedback = true;
+  recentFeedBack: FeedBack[] = [];
+
+  constructor(private feedbackService: FeedbackService) {}
+
+  ngOnInit() {
+    this.fetchRecentFeedBack();
+  }
+
+  fetchRecentFeedBack() {
+    this.isLoadingFeedback = true;
+    this.feedbackService.findRecentFeedback().subscribe({
+      next: (feedbacks) => {
+        console.log('waiting');
+        this.recentFeedBack = feedbacks;
+        this.isLoadingFeedback = false;
+      },
+      error: () => {
+        console.log('error');
+        this.isLoadingFeedback = false;
+      },
+    });
+  }
+
 
   recentFeedback = [
     { id: 1, patient: "Anonymous", rating: 5, comment: "Excellent service, very caring staff", sentiment: "positive" },

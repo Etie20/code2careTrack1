@@ -1,4 +1,9 @@
+# IntelliJ project files
+
+/track1Backend/.gradle/
 /.idea/
+/FeedBack/.vscode/
+/venv/
 /FeedBack/.vscode/
 /track1Backend/.gradle/
 /track1Backend/build/
