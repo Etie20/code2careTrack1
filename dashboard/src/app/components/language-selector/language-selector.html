@@ -1,0 +1,20 @@
+<!-- language-selector.component.html -->
+<div class="flex items-center gap-2">
+  <svg class="w-4 h-4 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <!-- Globe icon similar to Lucide's Globe -->
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 3c4.97 0 9 4.03 9 9s-4.03 9-9 9-9-4.03-9-9 4.03-9 9-9zm0 0c2.76 0 5 4.03 5 9s-2.24 9-5 9-5-4.03-5-9 2.24-9 5-9z" />
+  </svg>
+
+  <select
+    [(ngModel)]="language"
+    (ngModelChange)="onChange($event)"
+    class="w-32 bg-white/80 backdrop-blur-sm rounded px-2 py-1 text-sm"
+  >
+    @for (lang of languages; track lang.code) {
+      <option [value]="lang.code">
+        {{ lang.flag }} {{ lang.name }}
+      </option>
+    }
+  </select>
+</div>

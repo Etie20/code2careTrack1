@@ -2,13 +2,15 @@ import { Component } from '@angular/core';
 import {NgClass} from '@angular/common';
 import {Dashboard} from '../dashboard/dashboard';
 import {Reminders} from '../reminders/reminders';
+import {LanguageSelector} from '../../components/language-selector/language-selector';
 
 @Component({
   selector: 'app-home',
   imports: [
     NgClass,
     Dashboard,
-    Reminders
+    Reminders,
+    LanguageSelector
   ],
   templateUrl: './home.html',
   standalone: true,
@@ -49,7 +51,7 @@ export class Home {
   tb: { [key: string]: string } = {
     dashboard: 'Dashboard',
     reminders: 'Reminders',
-    settings: 'Settings'
+    analytics: 'Analytics'
   };
 
   tabs = [
@@ -64,8 +66,8 @@ export class Home {
       icon: 'lucide lucide-bell'
     },
     {
-      value: 'settings',
-      label: 'settings',
+      value: 'analytics',
+      label: 'analytics',
       icon: 'lucide lucide-settings'
     }
   ];
