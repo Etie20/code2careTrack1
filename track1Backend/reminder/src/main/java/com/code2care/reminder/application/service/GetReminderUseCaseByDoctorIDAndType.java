@@ -12,21 +12,19 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class GetRemindersByTypeReminderUseCase extends ReminderUseCase {
-    protected GetRemindersByTypeReminderUseCase(ReminderRepository reminderRepository, ReminderDomainService reminderDomainService) {
+public class GetReminderUseCaseByDoctorIDAndType extends ReminderUseCase{
+    protected GetReminderUseCaseByDoctorIDAndType(ReminderRepository reminderRepository, ReminderDomainService reminderDomainService) {
         super(reminderRepository, reminderDomainService);
     }
 
-    List<ReminderDto> execute(String type, Pageable page ) {
-        try {
-            if (this.reminderDomainService.reminderTypeExists(type)) {
-                return reminderRepository.findAllByType(type,page);
-            } else {
-                throw new Exception();
+    List<ReminderDto> execute(int doctorID, String type, Pageable page ) {
+        try{
+            if(reminderDomainService.reminderTypeExists(type)){
+              return reminderRepository.findAllByDoctorIDAndType(doctorID,type,page);
             }
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new ReminderTypeNotExist();
+            throw  new ReminderTypeNotExist();
         }
     }
 }
