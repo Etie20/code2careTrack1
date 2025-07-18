@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {LucideAngularModule, Star} from "lucide-angular";
 import {NgClass} from '@angular/common';
+import {FeedBack} from '../../models/feedback';
 
 @Component({
   selector: 'app-feedback-card',
@@ -14,19 +15,7 @@ import {NgClass} from '@angular/common';
 })
 export class FeedbackCard {
 
-  @Input() feedback : {
-    id: number,
-    patient: string,
-    rating: number,
-    comment: string,
-    sentiment: string
-  } = {
-    id: 1,
-    patient: "",
-    rating: 5,
-    comment: "",
-    sentiment: ""
-  };
+  @Input() feedback : FeedBack | undefined ;
 
   @Input() language: string = 'en';
 
