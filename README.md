@@ -119,11 +119,37 @@ Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un ver
 
 ## 🗂️ **10. Structure du monorepo**
 
+### 🧅 Architecture Onion (Hexagonal / Clean Architecture)
+
+L’architecture **Onion (ou Clean Architecture)** adoptée dans ce projet Spring Boot se base sur les principes suivants :
+
+- **Core Domain au centre** :  
+  Contient la logique métier pure (entités, modèles, interfaces de repository).
+
+- **Application** :  
+  Contient les cas d’usage, la logique applicative orchestrant les entités et repositories.
+
+- **Infrastructure** :  
+  Implémentation technique des interfaces (ex: JPA repositories, clients externes, configuration DB, Contrôleurs REST exposant les API à Angular).
+
+📌 **Avantages :**
+
+- Couplage réduit entre l’extérieur et le cœur métier
+- Facilite les tests unitaires et l’évolutivité
+- Chaque dépendance pointe vers l’intérieur (domain) sans inverser la logique métier
+
+```bash
 /code2careTrack1
 │
 ├── track1Backend/ # Application Spring Boot
 │ ├── src/
-│ ├── pom.xml
+│ ├──
+│    └── auth
+| ├─────
+|        └── application
+|        └── domain
+|        └── infrastructure
+│ ├── build.gradle.kts
 │ └── ...
 │
 ├── dashboard/ # Le Dashbord Angular
@@ -138,7 +164,7 @@ Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un ver
 ├── AnalysisBackend/ # Application FastAPI
 │ ├── api/
 │ ├── main.py
-
+```
 ---
 
 ## 🖼️ **11. Aperçu du frontend**
