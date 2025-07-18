@@ -1,12 +1,11 @@
 import { Component, Input } from '@angular/core';
-import {NgClass, NgForOf} from '@angular/common';
+import {NgClass} from '@angular/common';
 
 
 @Component({
   selector: 'app-dashboard',
   imports: [
     NgClass,
-    NgForOf
   ],
   templateUrl: './dashboard.html',
   standalone: true,

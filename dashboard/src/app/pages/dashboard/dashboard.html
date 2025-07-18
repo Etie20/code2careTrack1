@@ -60,23 +60,27 @@
         <h3 class="font-semibold text-lg">{{ t.upcomingAppointments }}</h3>
       </div>
       <div class="space-y-4">
-        <div *ngFor="let appointment of upcomingAppointments" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-          <div>
-            <p class="font-medium">{{ appointment.patient }}</p>
-            <p class="text-sm text-gray-600">{{ appointment.type }}</p>
+        @for (appointment of upcomingAppointments; track appointment.id) {
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <div>
+              <p class="font-medium">{{ appointment.patient }}</p>
+              <p class="text-sm text-gray-600">{{ appointment.type }}</p>
+            </div>
+            <div class="text-right">
+              <p class="font-medium">{{ appointment.time }}</p>
+              <span
+                class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium"
+                [ngClass]="{
+          'bg-blue-600 text-white': appointment.status === 'confirmed',
+          'bg-gray-200 text-gray-700': appointment.status !== 'confirmed'
+        }"
+              >
+        {{ appointment.status }}
+      </span>
+            </div>
           </div>
-          <div class="text-right">
-            <p class="font-medium">{{ appointment.time }}</p>
-            <span
-              class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium"
-              [ngClass]="{
-                'bg-blue-600 text-white': appointment.status === 'confirmed',
-                'bg-gray-200 text-gray-700': appointment.status !== 'confirmed'
-              }">
-              {{ appointment.status }}
-            </span>
-          </div>
-        </div>
+        }
+
         <button class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50">
           {{ t.viewAll }}
         </button>
@@ -90,28 +94,32 @@
         <h3 class="font-semibold text-lg">{{ t.recentFeedback }}</h3>
       </div>
       <div class="space-y-4">
-        <div *ngFor="let feedback of recentFeedback" class="p-3 bg-gray-50 rounded-lg">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-sm font-medium">{{ feedback.patient }}</span>
-            <div class="flex items-center gap-1">
-              <ng-container *ngFor="let star of [0,1,2,3,4]; let i = index">
-                <i
-                  class="w-4 h-4"
-                  [ngClass]="i < feedback.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'"
-                ></i>
-              </ng-container>
+        @for (feedback of recentFeedback; track feedback.id) {
+          <div class="p-3 bg-gray-50 rounded-lg">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm font-medium">{{ feedback.patient }}</span>
+              <div class="flex items-center gap-1">
+                @for (i of [0,1,2,3,4]; track i) {
+                  <i
+                    class="w-4 h-4"
+                    [ngClass]="i < feedback.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'"
+                  ></i>
+                }
+              </div>
             </div>
+            <p class="text-sm text-gray-600">{{ feedback.comment }}</p>
+            <span
+              class="inline-flex mt-2 items-center rounded-full px-2 py-1 text-xs font-medium"
+              [ngClass]="{
+        'bg-green-100 text-green-700': feedback.sentiment === 'positive',
+        'bg-gray-200 text-gray-700': feedback.sentiment !== 'positive'
+      }"
+            >
+      {{ feedback.sentiment === 'positive' ? t.excellent : t.good }}
+    </span>
           </div>
-          <p class="text-sm text-gray-600">{{ feedback.comment }}</p>
-          <span
-            class="inline-flex mt-2 items-center rounded-full px-2 py-1 text-xs font-medium"
-            [ngClass]="{
-              'bg-green-100 text-green-700': feedback.sentiment === 'positive',
-              'bg-gray-200 text-gray-700': feedback.sentiment !== 'positive'
-            }">
-            {{ feedback.sentiment === 'positive' ? t.excellent : t.good }}
-          </span>
-        </div>
+        }
+
         <button class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50">
           {{ t.viewAll }}
         </button>
