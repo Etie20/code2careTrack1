@@ -103,8 +103,22 @@
         <h3 class="font-semibold text-lg">{{ t.recentFeedback }}</h3>
       </div>
       <div class="space-y-4">
-        @for (feedback of recentFeedback; track feedback.id) {
-          <app-feedback-card [feedback]="feedback" [language]="language"> </app-feedback-card>
+        <!-- ⏳ Shimmer Placeholder -->
+        @if (isLoadingFeedback) {
+          @for (i of [0,1,2]; track i) {
+            <div class="flex items-center gap-4">
+              <div class="grid gap-2">
+                <div class="bg-accent animate-pulse rounded-md h-4 w-[150px]"></div>
+                <div class="bg-accent animate-pulse rounded-md h-4 w-[100px]"></div>
+              </div>
+            </div>
+          }
+        }
+
+        @if (!isLoadingFeedback) {
+          @for (feedback of recentFeedback; track feedback.id) {
+            <app-feedback-card [feedback]="feedback" [language]="language"> </app-feedback-card>
+          }
         }
 
         <button class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50">
