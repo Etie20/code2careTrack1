@@ -16,6 +16,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class Feedback {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @org.hibernate.annotations.ColumnDefault("nextval('feedback_id_seq')")
     @Column(name = "id", nullable = false)
     private Integer id;
