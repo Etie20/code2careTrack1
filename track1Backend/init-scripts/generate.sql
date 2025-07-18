@@ -18,7 +18,7 @@ create table if not exists patient
     age                integer                                   not null,
     department         varchar(100)                              not null,
     phone_number       varchar(20)                               not null,
-    preferred_language language_enum default 'FR'::language_enum not null,
+    preferred_language language_enum default 'FR'::language_enum not null,  
     created_at         timestamp     default CURRENT_TIMESTAMP,
     email              email_domain                              not null
 );

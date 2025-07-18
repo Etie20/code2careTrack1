@@ -19,8 +19,6 @@ interface Translations {
   selector: 'app-home',
   imports: [
     LanguageSelector,
-    NgForOf,
-    NgIf,
     LucideAngularModule,
     Feedback
   ],
@@ -29,10 +27,6 @@ interface Translations {
 })
 export class Home {
 
-  protected readonly dashboardIcon = TrendingUp;
-  protected readonly feedbackIcon = MessageSquare;
-  protected readonly reminderIcon = Bell;
-  protected readonly analyticIcon = Users;
 
   activeTab = 'dashboard';
   language : 'en' | 'fr' = 'en';
