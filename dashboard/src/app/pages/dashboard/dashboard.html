@@ -104,30 +104,7 @@
       </div>
       <div class="space-y-4">
         @for (feedback of recentFeedback; track feedback.id) {
-          <div class="p-3 bg-gray-50 rounded-lg">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-sm font-medium">{{ feedback.patient }}</span>
-              <div class="flex items-center gap-1">
-                @for (i of [0,1,2,3,4]; track i) {
-                  <i-lucide
-                    [img]="Star"
-                    class="w-4 h-4"
-                    [ngClass]="i < feedback.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'"
-                  ></i-lucide>
-                }
-              </div>
-            </div>
-            <p class="text-sm text-gray-600">{{ feedback.comment }}</p>
-            <span
-              class="inline-flex mt-2 items-center rounded-full px-2 py-1 text-xs font-medium"
-              [ngClass]="{
-        'bg-green-100 text-green-700': feedback.sentiment === 'positive',
-        'bg-gray-200 text-gray-700': feedback.sentiment !== 'positive'
-      }"
-            >
-      {{ feedback.sentiment === 'positive' ? t.excellent : t.good }}
-    </span>
-          </div>
+          <app-feedback-card [feedback]="feedback" [language]="language"> </app-feedback-card>
         }
 
         <button class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50">

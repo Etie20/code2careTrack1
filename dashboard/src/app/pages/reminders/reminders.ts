@@ -4,21 +4,18 @@ import {
   MessageSquare,
   Clock,
   Plus,
-  Calendar,
-  Pill,
   LucideAngularModule,
-  LucideIconData,
-  Phone
 } from 'lucide-angular';
-import {NgClass} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {ReminderCard} from '../../components/reminder-card/reminder-card';
 
 @Component({
   selector: 'app-reminders',
   imports: [
     LucideAngularModule,
-    NgClass,
-    FormsModule],
+    FormsModule,
+    ReminderCard
+  ],
   templateUrl: './reminders.html',
   standalone: true,
   styleUrl: './reminders.css'
@@ -101,40 +98,6 @@ export class Reminders {
       method: "sms",
     },
   ];
-
-  getStatusColor(status: string): string {
-    switch (status) {
-      case 'scheduled':
-        return 'bg-blue-100 text-blue-800';
-      case 'sent':
-        return 'bg-green-100 text-green-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  }
-
-  getTypeIcon(type: string): LucideIconData {
-    return type === 'appointment' ? Calendar : Pill;
-  }
-
-  getMethodIcon(method: string): LucideIconData {
-    switch (method) {
-      case 'sms':
-        return MessageSquare;
-      case 'voice':
-        return Phone;
-      case 'email':
-      default:
-        return Bell;
-    }
-  }
-
-  getTranslation(key: string): string {
-    return this.t[key as keyof typeof this.t] ?? key;
-  }
-
 
   // These properties bind to your form inputs
   newReminderType: string = '';
