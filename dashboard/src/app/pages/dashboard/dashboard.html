@@ -1,0 +1,121 @@
+<div class="space-y-6">
+  <!-- Welcome Section -->
+  <div class="bg-gradient-to-r from-blue-600 to-green-600 rounded-2xl p-6 text-white">
+    <h2 class="text-2xl font-bold mb-2">{{ t.welcome }}</h2>
+    <p class="opacity-90">Here's what's happening with your patients today</p>
+  </div>
+
+  <!-- Stats Overview -->
+  <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <!-- Card 1 -->
+    <div class="rounded-xl border border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-blue-600 font-medium">Today's Appointments</p>
+          <p class="text-2xl font-bold text-blue-700">12</p>
+        </div>
+        <i class="icon-calendar w-8 h-8 text-blue-500"></i>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="rounded-xl border border-green-200 bg-gradient-to-br from-green-50 to-green-100 p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-green-600 font-medium">Completed</p>
+          <p class="text-2xl font-bold text-green-700">8</p>
+        </div>
+        <i class="icon-check-circle w-8 h-8 text-green-500"></i>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="rounded-xl border border-yellow-200 bg-gradient-to-br from-yellow-50 to-yellow-100 p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-yellow-600 font-medium">Pending</p>
+          <p class="text-2xl font-bold text-yellow-700">4</p>
+        </div>
+        <i class="icon-clock w-8 h-8 text-yellow-500"></i>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="rounded-xl border border-purple-200 bg-gradient-to-br from-purple-50 to-purple-100 p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-purple-600 font-medium">Avg. Rating</p>
+          <p class="text-2xl font-bold text-purple-700">4.8</p>
+        </div>
+        <i class="icon-star w-8 h-8 text-purple-500"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-2">
+    <!-- Upcoming Appointments -->
+    <div class="rounded-xl bg-white/80 backdrop-blur-sm p-4">
+      <div class="flex items-center gap-2 mb-4">
+        <i class="icon-calendar w-5 h-5 text-blue-600"></i>
+        <h3 class="font-semibold text-lg">{{ t.upcomingAppointments }}</h3>
+      </div>
+      <div class="space-y-4">
+        <div *ngFor="let appointment of upcomingAppointments" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+          <div>
+            <p class="font-medium">{{ appointment.patient }}</p>
+            <p class="text-sm text-gray-600">{{ appointment.type }}</p>
+          </div>
+          <div class="text-right">
+            <p class="font-medium">{{ appointment.time }}</p>
+            <span
+              class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium"
+              [ngClass]="{
+                'bg-blue-600 text-white': appointment.status === 'confirmed',
+                'bg-gray-200 text-gray-700': appointment.status !== 'confirmed'
+              }">
+              {{ appointment.status }}
+            </span>
+          </div>
+        </div>
+        <button class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50">
+          {{ t.viewAll }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Recent Feedback -->
+    <div class="rounded-xl bg-white/80 backdrop-blur-sm p-4">
+      <div class="flex items-center gap-2 mb-4">
+        <i class="icon-heart w-5 h-5 text-red-500"></i>
+        <h3 class="font-semibold text-lg">{{ t.recentFeedback }}</h3>
+      </div>
+      <div class="space-y-4">
+        <div *ngFor="let feedback of recentFeedback" class="p-3 bg-gray-50 rounded-lg">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium">{{ feedback.patient }}</span>
+            <div class="flex items-center gap-1">
+              <ng-container *ngFor="let star of [0,1,2,3,4]; let i = index">
+                <i
+                  class="w-4 h-4"
+                  [ngClass]="i < feedback.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'"
+                ></i>
+              </ng-container>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600">{{ feedback.comment }}</p>
+          <span
+            class="inline-flex mt-2 items-center rounded-full px-2 py-1 text-xs font-medium"
+            [ngClass]="{
+              'bg-green-100 text-green-700': feedback.sentiment === 'positive',
+              'bg-gray-200 text-gray-700': feedback.sentiment !== 'positive'
+            }">
+            {{ feedback.sentiment === 'positive' ? t.excellent : t.good }}
+          </span>
+        </div>
+        <button class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50">
+          {{ t.viewAll }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
