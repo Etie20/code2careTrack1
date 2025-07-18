@@ -1,6 +1,6 @@
 <div class="space-y-3">
   <label class="text-base font-medium">{{ label }}</label>
-  <div class="flex justify-center gap-4">
+  <div class="flex justify-center md:gap-4 sm:gap-2 gap-1">
     @for (option of emojiOptions; track $index) {
       <button
         (click)="selectEmoji(option.value)"

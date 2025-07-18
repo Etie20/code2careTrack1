@@ -1,4 +1,4 @@
-<div class="space-y-3">
+<div class="space-y-3 flex flex-col gap-1">
   <label class="text-base font-medium">{{ label }}</label>
   <button
     (click)="toggleRecording()"
@@ -8,16 +8,12 @@
     }"
     class="w-full px-4 py-2 rounded flex items-center justify-center gap-2 transition-colors"
   >
-    <svg
-      class="w-4 h-4"
+    <lucide-angular
+      [img]="mic"
+      [size]="16"
       [ngClass]="{ 'animate-pulse': recording }"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-    >
-      <path d="M12 1v22M5 12h14" />
-    </svg>
+      color="#4a5565"
+    ></lucide-angular>
     {{ recording ? 'Stop Recording' : 'Start Voice Recording' }}
   </button>
 </div>

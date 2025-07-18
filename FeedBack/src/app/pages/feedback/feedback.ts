@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {FeedbackForm} from '../../shared/components/feedback-form/feedback-form';
 import {FeedbackSummaryCard} from '../../shared/components/feedback-summary-card/feedback-summary-card';
 
@@ -12,6 +12,8 @@ import {FeedbackSummaryCard} from '../../shared/components/feedback-summary-card
   styleUrl: './feedback.css'
 })
 export class Feedback {
+  @Input() language: 'en' | 'fr' = 'en';
+
   feedbackCards = [
     {
       emoji: '😊',
@@ -38,6 +40,7 @@ export class Feedback {
       iconColor: 'text-red-600',
     },
   ];
+
 
 
 }

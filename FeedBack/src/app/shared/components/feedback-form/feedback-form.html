@@ -13,11 +13,29 @@
   <section
     class="space-y-6 flex flex-col gap-3"
   >
-    <app-rating-stars/>
-    <app-emoji-picker/>
-    <app-text-feedback/>
-    <app-voice-recorder/>
-    <app-submit-button/>
+    <app-rating-stars
+      [rating]="rating"
+      (ratingChange)="rating = $event"
+      [label]="t.rateExperience"
+    />
+    <app-emoji-picker
+      [selectedEmoji]="selectedEmoji"
+      (emojiSelect)="selectedEmoji = $event"
+      [label]="t.howFeeling"
+    />
+    <app-text-feedback
+      [(text)]="feedbackText"
+      [label]="t.additionalComments"
+      [placeholder]="t.placeholder"
+    />
+    <app-voice-recorder
+      [label]="t.voiceNote"
+      [(recording)]="isRecording"
+    />
+    <app-submit-button
+      [label]="t.submit"
+      (submit)="onSubmit()"
+    />
   </section>
 
 </div>
