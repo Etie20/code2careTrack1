@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="track1@localhost" uuid="9abafdb7-a428-4940-b42b-00f75eeb6a02">
+    <data-source source="LOCAL" name="track1@localhost [2]" uuid="577b85a5-ad44-4da7-b331-675f851b6d5c">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
-      <imported>true</imported>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5500/track1</jdbc-url>
       <jdbc-additional-properties>
