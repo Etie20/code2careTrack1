@@ -1,4 +1,4 @@
-# 🚀 Projet CODE2CARE
+# 🚀 Projet CODE2CARE (Team Enligthen Innovation)
 
 ---
 
