@@ -33,7 +33,7 @@ dependencies {
 	implementation(project(":reminder"))
 	implementation(project(":analytics"))
 	implementation("org.springframework.modulith:spring-modulith-starter-core")
-	implementation("org.springframework.modulith:spring-modulith-starter-jdbc")
+	implementation("org.springframework.modulith:spring-modulith-starter-jpa")
 	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
 
 
