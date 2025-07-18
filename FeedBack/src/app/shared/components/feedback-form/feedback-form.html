@@ -32,6 +32,21 @@
       [label]="t.voiceNote"
       [(recording)]="isRecording"
     />
+
+    <div class=" grid gap-4 md:grid-cols-2">
+      @for (card of feedbackCards; track $index) {
+        <app-feedback-summary-card
+          [emoji]="card.emoji"
+
+          [borderColor]="card.borderColor"
+          [textColor]="card.textColor"
+          [iconColor]="card.iconColor"
+        ></app-feedback-summary-card>
+
+      }
+    </div>
+
+
     <app-submit-button
       [label]="t.submit"
       (submit)="onSubmit()"
