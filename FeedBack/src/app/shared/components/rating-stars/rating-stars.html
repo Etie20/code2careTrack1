@@ -1,0 +1,31 @@
+<div class="space-y-3">
+  <label class="text-base font-medium">{{ label }}</label>
+  <div class="flex justify-center gap-2 ">
+    @for (star of stars; track $index) {
+      <button
+        (mouseenter)="setHovered(star)"
+        (mouseleave)="clearHover()"
+        (click)="selectRating(star)"
+        class="transition-transform hover:scale-110 hover:cursor-pointer"
+      >
+        <svg
+          [ngClass]="{
+          'text-yellow-400 fill-current': star <= (hoveredRating || rating),
+          'text-gray-300': star > (hoveredRating || rating)
+        }"
+          class="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M11.48 3.499a.562.562 0 011.04 0l2.23 5.223 5.666.436c.57.044.801.759.366 1.144l-4.29 3.797
+             1.319 5.59a.563.563 0 01-.84.61L12 17.349l-4.971 2.95a.562.562 0 01-.84-.61l1.319-5.59-4.29-3.797a.563.563
+             0 01.366-1.144l5.666-.436 2.23-5.223z" />
+        </svg>
+      </button>
+
+    }
+  </div>
+</div>
