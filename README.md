@@ -113,7 +113,11 @@ Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un ver
 
 ## 🗃️ **9. Modèle Logique de Données (MLD)**
 
+### MLD
 <img width="536" height="524" alt="Screenshot 2025-07-18 204631" src="https://github.com/user-attachments/assets/d406e913-dfda-48de-9606-36481d6d5d64" />
+
+### MLD (Datamart)
+<img width="597" height="527" alt="Screenshot 2025-07-18 232632" src="https://github.com/user-attachments/assets/028ac562-a3d3-44f9-9b59-fe023c785648" />
 
 ---
 
