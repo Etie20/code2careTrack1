@@ -1,11 +1,14 @@
 package com.code2care.feedback.domain.service;
 
 import com.code2care.common.domain.model.FeedbackDto;
+import com.code2care.feedback.application.dto.SubmitFeedbackRequest;
 import com.code2care.feedback.domain.repository.FeedbackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +23,7 @@ public class FeedbackDomainService {
         return feedbackRepository.findAll(pageable);
     }
 
-    public Iterable<FeedbackDto> findRecentFeedback() {
+    public List<FeedbackDto> findRecentFeedback() {
         return feedbackRepository.findRecentFeedback();
     }
 }

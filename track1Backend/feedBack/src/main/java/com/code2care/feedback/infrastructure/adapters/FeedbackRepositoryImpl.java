@@ -2,6 +2,7 @@ package com.code2care.feedback.infrastructure.adapters;
 
 import com.code2care.common.domain.model.FeedbackDto;
 import com.code2care.common.infrastructure.config.Mapper;
+import com.code2care.common.infrastructure.entites.Feedback;
 import com.code2care.feedback.domain.repository.FeedbackRepository;
 import com.code2care.feedback.infrastructure.repository.JpaFeebackRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,8 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
 
     @Override
     public FeedbackDto save(FeedbackDto feedbackDto) {
-        return null;
+        Feedback feedback = jpaFeebackRepository.save(Mapper.mapFeedback(feedbackDto));
+        return Mapper.mapFeedbackDto(feedback);
     }
 
     @Override
@@ -28,6 +30,6 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
 
     @Override
     public List<FeedbackDto> findRecentFeedback() {
-        return List.of();
+        return Mapper.mapFeedbackDtos(jpaFeebackRepository.findTop3ByOrderBySubmittedAtDesc());
     }
 }

@@ -1,6 +1,7 @@
 package com.code2care.feedback.application.dto;
 
 import com.code2care.common.domain.model.Language;
+import com.code2care.common.domain.model.PatientDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +12,10 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubmitFeedbackRequest {
-    Integer patientId;
+    PatientDto patient;
     String feedbackText;
     String feedbackAudioUrl;
     String emojiRating;
     Integer starRating;
-    Instant submittedAt;
     Language language;
 }
