@@ -1,3 +1,19 @@
+-- Create enum for supported languages
+create type language_enum as enum ('FR', 'EN', 'DL', 'BS', 'EW');
+
+-- Create enum for reminder types
+create type reminder_type_enum as enum ('APPOINTMENT', 'MEDICATION', 'FOLLOW_UP', 'TEST_RESULTS');
+
+-- Create enum for notification channels
+create type channel_enum as enum ('sms', 'email', 'phone');
+
+-- Create enum for reminder statuses
+create type reminder_status_enum as enum ('active', 'completed', 'cancelled', 'pending');
+CREATE DOMAIN email_domain AS VARCHAR(255)
+    CHECK (
+        VALUE ~ '^[a-zA-Z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$'
+    );
+
 create table if not exists patient
 (
     id                 serial,
