@@ -163,20 +163,26 @@ Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un ver
 
 ```bash
 # Cloner le projet
-git clone [<repo_url>](https://github.com/gfriedtod/code2careTrack1)
+git clone https://github.com/gfriedtod/code2careTrack1
 cd code2careTrack1
 
 # Lancer tous les services via docker-compose
 docker-compose up --build
 
-# Pour lancer uniquement Angular en local (développement)
-cd frontend-angular
+# Pour lancer l'application feedback
+cd feedback
+npm install
+ng serve
+
+# Pour lancer l'application dashboard
+cd dashboard
 npm install
 ng serve
 
 # Pour lancer Spring Boot en local
 cd track1Backend
-./gradlew 
+./gradlew build --refresh-dependencies 
+./gradlew bootRun
 
 # Pour lancer FastAPI en local
 cd AnalysisBackend
