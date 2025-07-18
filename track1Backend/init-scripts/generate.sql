@@ -1,3 +1,4 @@
+
 create type language_enum as enum ('FR', 'EN', 'DLA', 'BASSA', 'EWO');
 
 create type reminder_type_enum as enum ('appointment', 'medication');
@@ -8,8 +9,6 @@ create type reminder_status_enum as enum ('active', 'inactive');
 
 create domain email_domain as varchar(255)
     constraint email_domain_check check ((VALUE)::text ~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$'::text);
-
-
 
 
 create table if not exists patient

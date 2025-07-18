@@ -1,0 +1,21 @@
+<div class="p-4 m-4 bg-gray-50 rounded-lg space-y-2">
+  <div class="flex justify-between items-center">
+    <div class="flex items-center gap-2">
+      <lucide-icon [img]="getTypeIcon(reminder.type)" class="w-4 h-4 text-black"></lucide-icon>
+      <span class="font-medium">{{ reminder.title }}</span>
+    </div>
+    <span class="badge" [ngClass]="getStatusColor(reminder.status)">
+          {{ getTranslation(reminder.status) }}
+        </span>
+  </div>
+
+  <div class="flex justify-between text-sm text-gray-600">
+    <span>{{ reminder.patient }}</span>
+    <span>{{ reminder.date }} at {{ reminder.time }}</span>
+  </div>
+
+  <div class="flex items-center gap-2 text-sm">
+    <lucide-icon [img]="getMethodIcon(reminder.method)" class="w-4 h-4 text-black"></lucide-icon>
+    <span>{{getTranslation(reminder.method)}}</span>
+  </div>
+</div>
