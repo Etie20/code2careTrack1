@@ -11,8 +11,8 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class GetRemindersReminderUseCase extends ReminderUseCase {
-    protected GetRemindersReminderUseCase(ReminderRepository reminderRepository, ReminderDomainService reminderDomainService) {
+public class GetRemindersUseCase extends ReminderUseCase {
+    protected GetRemindersUseCase(ReminderRepository reminderRepository, ReminderDomainService reminderDomainService) {
         super(reminderRepository, reminderDomainService);
     }
 

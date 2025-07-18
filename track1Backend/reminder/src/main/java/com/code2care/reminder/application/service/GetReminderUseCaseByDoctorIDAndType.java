@@ -17,13 +17,16 @@ public class GetReminderUseCaseByDoctorIDAndType extends ReminderUseCase{
         super(reminderRepository, reminderDomainService);
     }
 
-    List<ReminderDto> execute(int doctorID, String type, Pageable page ) {
+   public List<ReminderDto> execute(int doctorID, String type, Pageable page ) {
         try{
+            System.out.println(reminderDomainService.reminderTypeExists(type));
             if(reminderDomainService.reminderTypeExists(type)){
               return reminderRepository.findAllByDoctorIDAndType(doctorID,type,page);
+            } else {
+                throw  new ReminderTypeNotExist();
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
             throw  new ReminderTypeNotExist();
         }
     }

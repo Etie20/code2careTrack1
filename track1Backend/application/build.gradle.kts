@@ -27,7 +27,7 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation(project(":common"))
-	implementation(project(":auth"))
+//	implementation(project(":auth"))
 	implementation(project(":feedBack"))
 	implementation(project(":notification"))
 	implementation(project(":reminder"))

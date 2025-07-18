@@ -14,7 +14,7 @@ public class GetRemindersByDoctorIDUseCase extends ReminderUseCase {
         super(reminderRepository, reminderDomainService);
     }
 
-    List<ReminderDto> execute(int doctorId, Pageable pageable) {
+    public List<ReminderDto> execute(int doctorId, Pageable pageable) {
         return reminderRepository.findAllByDoctorID(doctorId,pageable);
     }
 }

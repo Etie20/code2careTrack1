@@ -10,13 +10,13 @@ import java.util.Arrays;
 
 @Slf4j
 @Service
-public class CreateReminderReminderUseCase extends ReminderUseCase {
+public class CreateReminderUseCase extends ReminderUseCase {
 
-    protected CreateReminderReminderUseCase(ReminderRepository reminderRepository, ReminderDomainService reminderDomainService) {
+    protected CreateReminderUseCase(ReminderRepository reminderRepository, ReminderDomainService reminderDomainService) {
         super(reminderRepository,reminderDomainService);
     }
 
-    void execute(ReminderDto reminder) {
+    public void execute(ReminderDto reminder) {
         try {
             this.reminderRepository.saveReminder(reminder);
         } catch (Exception e) {
