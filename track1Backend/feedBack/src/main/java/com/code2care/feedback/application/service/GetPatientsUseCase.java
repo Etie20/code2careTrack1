@@ -13,6 +13,6 @@ public class GetPatientsUseCase {
     private final PatientDomainService patientDomainService;
 
     public List<PatientDto> execute(String fullName) {
-        return patientDomainService.findByFullName(fullName);
+        return patientDomainService.findByPhoneNumber(fullName);
     }
 }

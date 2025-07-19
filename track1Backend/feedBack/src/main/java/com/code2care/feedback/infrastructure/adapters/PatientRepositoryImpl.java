@@ -14,7 +14,7 @@ import java.util.List;
 public class PatientRepositoryImpl implements PatientRepository {
     private final JpaPatientRepository jpaPatientRepository;
     @Override
-    public List<PatientDto> findByFullName(String fullName) {
-        return Mapper.mapPatientDtos(jpaPatientRepository.findByFullNameContainingIgnoreCase(fullName));
+    public List<PatientDto> findByPhoneNumber(String fullName) {
+        return Mapper.mapPatientDtos(jpaPatientRepository.findByPhoneNumberContainingIgnoreCase(fullName));
     }
 }

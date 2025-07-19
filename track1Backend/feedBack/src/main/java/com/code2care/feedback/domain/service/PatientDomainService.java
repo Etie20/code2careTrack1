@@ -12,7 +12,7 @@ import java.util.List;
 public class PatientDomainService {
     private final PatientRepository patientRepository;
 
-    public List<PatientDto> findByFullName(String fullName) {
-        return patientRepository.findByFullName(fullName);
+    public List<PatientDto> findByPhoneNumber(String fullName) {
+        return patientRepository.findByPhoneNumber(fullName);
     }
 }
