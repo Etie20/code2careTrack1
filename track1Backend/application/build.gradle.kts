@@ -33,7 +33,9 @@ dependencies {
 	implementation(project(":reminder"))
 	implementation(project(":analytics"))
 	implementation("org.springframework.modulith:spring-modulith-starter-core")
-	implementation("org.springframework.modulith:spring-modulith-starter-jdbc")
+	implementation("org.springframework.modulith:spring-modulith-starter-jpa")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
 
 

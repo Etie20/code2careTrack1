@@ -12,6 +12,20 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+## Rendering 
+These are project pages 
+
+The Dashboard page
+![img.png](img.png)
+![img_1.png](img_1.png)
+
+The Reminder page
+![img_2.png](img_2.png)
+
+The Login page
+![img_3.png](img_3.png)
+
+
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
