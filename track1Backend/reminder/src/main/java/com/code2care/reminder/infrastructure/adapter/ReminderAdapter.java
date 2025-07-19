@@ -37,7 +37,7 @@ class ReminderAdapter implements ReminderRepository {
     public List<ReminderDto> findAllByDoctorIDAndType(int doctorID, String type,Pageable page ) {
 
         try{
-            return Mapper.mapReminderDtos(jpaFetchReminderRepository.findAllByDoctor_IdAndType(doctorID, ReminderType.fromValue
+            return Mapper.mapReminderDtos(jpaFetchReminderRepository.findAllByDoctor_IdAndType(doctorID,
                     (type), page).stream().toList());
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -76,7 +76,7 @@ class ReminderAdapter implements ReminderRepository {
     @Override
     public List<ReminderDto> findAllByType(String type,Pageable page ) {
         try {
-            return Mapper.mapReminderDtos(this.jpaFetchReminderRepository.findAllByType(ReminderType.fromValue
+            return Mapper.mapReminderDtos(this.jpaFetchReminderRepository.findAllByType(
                     (type), page).stream().toList());
 
         } catch (Exception e) {

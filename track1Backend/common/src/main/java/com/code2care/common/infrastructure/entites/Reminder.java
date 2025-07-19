@@ -39,9 +39,8 @@ public class Reminder {
     @Column(name = "reminder_date", nullable = false)
     private LocalDateTime reminderDate;
 
-    @Convert(converter = ReminderTypeConverter.class)
     @Column(name = "type", nullable = false)
-    private ReminderType type;
+    private String type;
 
 /*
  TODO [Reverse Engineering] create field to map the 'channel' column
