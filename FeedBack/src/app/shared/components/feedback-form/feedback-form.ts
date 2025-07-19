@@ -5,6 +5,9 @@ import {TextFeedback} from '../text-feedback/text-feedback';
 import {VoiceRecorder} from '../voice-recorder/voice-recorder';
 import {SubmitButton} from '../submit-button/submit-button';
 import {FeedbackSummaryCard} from '../feedback-summary-card/feedback-summary-card';
+import {FeedbackService} from "../../../services/feedback.service";
+import {PatientDataService} from "../../../services/patient-data.service";
+import {FeedbackRequestModel} from "../../../models/feedback-request.model";
 
 @Component({
   selector: 'app-feedback-form',
@@ -25,21 +28,23 @@ export class FeedbackForm {
   rating = 0;
   selectedEmoji = '';
   feedbackText = '';
+  feedbackAudioUrl = '';
   isRecording = false;
 
   @Input() label: string = 'Service Quality';
 
   translations = {
     en: {
-      title: 'Patient Feedback',
+      title: 'Patient FeedbackService',
       subtitle: 'Help us improve our healthcare services',
       rateExperience: 'Rate your experience',
       howFeeling: 'How are you feeling about your visit?',
       additionalComments: 'Additional comments',
       placeholder: 'Tell us about your experience...',
       voiceNote: 'Voice Note',
-      submit: 'Submit Feedback',
+      submit: 'Submit FeedbackService',
       thankYou: 'Thank you for your feedback!',
+      label : ['Wait Time', 'Resolution time']
     },
     fr: {
       title: 'Commentaires des Patients',
@@ -51,20 +56,17 @@ export class FeedbackForm {
       voiceNote: 'Note vocale',
       submit: 'Soumettre les commentaires',
       thankYou: 'Merci pour vos commentaires!',
+      label : ["Temps d'attente", 'Temps de résolution']
     },
   };
   feedbackCards = [
     {
-      emoji: '😊',
-
       bgColor: 'from-green-50 to-green-100',
       borderColor: 'border-green-200',
       textColor: 'text-green-700',
       iconColor: 'text-green-600',
     },
     {
-      emoji: '😢',
-
       bgColor: 'from-red-50 to-red-100',
       borderColor: 'border-red-200',
       textColor: 'text-red-700',
@@ -76,13 +78,30 @@ export class FeedbackForm {
     return this.translations[this.language];
   }
 
+  constructor(
+      private feedbackService: FeedbackService,
+      private patientDataService: PatientDataService
+  ) {}
+
   onSubmit() {
-    console.log({
-      rating: this.rating,
-      emoji: this.selectedEmoji,
-      comment: this.feedbackText,
+    const patient = this.patientDataService.getPatientData();
+
+    const payload: FeedbackRequestModel = {
+      patient,
+      feedbackText: this.feedbackText,
+      feedbackAudioUrl: this.feedbackAudioUrl,
+      emojiRating: this.selectedEmoji,
+      starRating: this.rating,
+      language: this.language.toUpperCase(),
+    };
+
+    this.feedbackService.createFeedback(payload).subscribe({
+      next: () => alert(this.t.thankYou),
+      error: (err) => {
+        console.error('Erreur lors de l\'envoi du feedback', err);
+        alert('Erreur lors de l\'envoi');
+      },
     });
-    alert(this.t.thankYou);
   }
 
 }

@@ -4,7 +4,7 @@
   >
     <h2
       class="text-2xl font-semibold leading-none tracking-tight bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent"
-    >Patient Feedback</h2>
+    >Patient FeedbackService</h2>
     <p
       class="text-sm text-muted-foreground"
     >Help us improve our healthcare services</p>
@@ -36,11 +36,8 @@
     <div class=" grid gap-4 md:grid-cols-2">
       @for (card of feedbackCards; track $index) {
         <app-feedback-summary-card
-          [emoji]="card.emoji"
-
+          [label]="t.label[$index]"
           [borderColor]="card.borderColor"
-          [textColor]="card.textColor"
-          [iconColor]="card.iconColor"
         ></app-feedback-summary-card>
 
       }

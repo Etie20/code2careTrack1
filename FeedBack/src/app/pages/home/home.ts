@@ -36,7 +36,7 @@ export class Home {
       title: 'Patient Care System',
       subtitle: 'Comprehensive healthcare feedback and reminder management',
       dashboard: 'Dashboard',
-      feedback: 'Feedback',
+      feedback: 'FeedbackService',
       reminders: 'Reminders',
       analytics: 'Analytics',
     },

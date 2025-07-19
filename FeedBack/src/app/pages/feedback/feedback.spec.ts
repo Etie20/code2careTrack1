@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Feedback } from './feedback';
 
-describe('Feedback', () => {
+describe('FeedbackService', () => {
   let component: Feedback;
   let fixture: ComponentFixture<Feedback>;
 
