@@ -4,3 +4,4 @@
 /.idea/
 /track1Backend/build/
 /code2careTrack1.iml
+*.pyc

@@ -1,8 +1,8 @@
-# 🚀 Projet CODE2CARE (Team Enligthen Innovation)
+#  Projet CODE2CARE (Team Enligthen Innovation)
 
 ---
 
-## 📘 **1. Objectif métier principal**
+##  **1. Objectif métier principal**
 
 > Concevoir un système intégré permettant aux établissements de santé de :
 
@@ -13,7 +13,7 @@
 
 ---
 
-## 🎯 **2. Exigences métier fonctionnelles**
+##  **2. Exigences métier fonctionnelles**
 
 | ID  | Exigence                                                                               |
 | --- | -------------------------------------------------------------------------------------- |
@@ -30,7 +30,7 @@
 
 ---
 
-## ❗ **3. Contraintes techniques (liées au métier)**
+##  **3. Contraintes techniques (liées au métier)**
 
 | ID | Contrainte                                                                                                                   |
 | -- | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -45,7 +45,7 @@
 
 ---
 
-## 📏 **4. Règles de gestion**
+##  **4. Règles de gestion**
 
 | ID | Règle de gestion                                                              |
 | -- | ----------------------------------------------------------------------------- |
@@ -59,7 +59,7 @@
 
 ---
 
-## 🧪 **5. Exigences non fonctionnelles**
+##  **5. Exigences non fonctionnelles**
 
 | ID  | Exigence                                                                                                 |
 | --- | -------------------------------------------------------------------------------------------------------- |
@@ -74,7 +74,7 @@
 
 ---
 
-## ✅ **6. Indicateurs de réussite du projet (KPIs)**
+##  **6. Indicateurs de réussite du projet (KPIs)**
 
 | KPI                           | Objectif cible               |
 | ----------------------------- | ---------------------------- |
@@ -86,7 +86,7 @@
 
 ---
 
-## 📑 **7. Description**
+##  **7. Description**
 
 Ce projet est une application complète regroupant :
 
@@ -98,7 +98,7 @@ Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un ver
 
 ---
 
-## 🛠️**8. Technologies utilisées**
+## **8. Technologies utilisées**
 
 | Technologie | Rôle | Version |
 |-------------|------|---------|
@@ -111,15 +111,15 @@ Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un ver
 | **Node.js & npm** | Build et gestion Angular | 20.x |
 | **Git / GitHub Actions** | Versioning et CI/CD | - |
 
-## 🗃️ **9. Modèle Logique de Données (MLD)**
+##  **9. Modèle Logique de Données (MLD)**
 
 <img width="536" height="524" alt="Screenshot 2025-07-18 204631" src="https://github.com/user-attachments/assets/d406e913-dfda-48de-9606-36481d6d5d64" />
 
 ---
 
-## 🗂️ **10. Structure du monorepo**
+##  **10. Structure du monorepo**
 
-### 🧅 Architecture Onion (Hexagonal / Clean Architecture)
+###  Architecture Onion (Hexagonal / Clean Architecture)
 
 L’architecture **Onion (ou Clean Architecture)** adoptée dans ce projet Spring Boot se base sur les principes suivants :
 
@@ -212,5 +212,27 @@ cd track1Backend
 # Pour lancer FastAPI en local
 cd AnalysisBackend
 pip install -r requirements.txt
-uvicorn main:app --reload --port 8001
 
+# Pour lancer FastAPI en local (rappel multilingue)
+uvicorn AnalysisBackend.scheduler.task:app --reload --port 8001
+
+# Ou depuis la racine du projet :
+
+# Si vous rencontrez une erreur d'import, essayez :
+# PYTHONPATH=. uvicorn AnalysisBackend.scheduler.task:app --reload --port 8001
+
+# Tester l'API REST de rappel (exemple avec curl)
+curl -X POST http://localhost:8001/compose \
+     -H "Content-Type: application/json" \
+     -d '{"reminder_type":"medication","language":"DLA","name":"Mbappe","time":"20:00"}'
+
+### Configuration des variables d’environnement (SMS Twilio)
+
+Pour activer l’envoi de SMS, définissez les variables suivantes :
+
+- `TWILIO_ACCOUNT_SID` : SID du compte Twilio
+- `TWILIO_AUTH_TOKEN` : Token d’authentification Twilio
+- `TWILIO_FROM_NUMBER` : Numéro d’expéditeur Twilio (ex: +237XXXXXXXXX)
+
+Vous pouvez les définir dans un fichier `.env` à la racine du projet ou dans votre environnement système.
+```
