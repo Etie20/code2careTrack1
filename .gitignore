@@ -1,3 +1,4 @@
 /.idea/
 /FeedBack/.vscode/
 /venv/
+.env

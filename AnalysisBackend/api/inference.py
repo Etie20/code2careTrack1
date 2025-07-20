@@ -6,16 +6,16 @@ import asyncpg
 from datetime import date
 import os
 from fastapi import APIRouter
-import AnalysisBackend.models.serve
+import models.serve
 
 router = APIRouter()
 db_config = {
     "user": os.getenv("DB_USER", "postgres"),
-    "password": os.getenv("DB_PASSWORD", "postgres"),
-    "database": os.getenv("DB_NAME", "feedback_db"),
-    "host": os.getenv("DB_HOST", "localhost")
+    "password": os.getenv("DB_PASSWORD", "JaAk"), 
+    "database": os.getenv("DB_NAME", "code2care_datamart"),
+    "host": os.getenv("DB_HOST", "localhost"),
 }
-db_service = AnalysisBackend.models.serve.DatabaseService(db_config)
+db_service = models.serve.DatabaseService(db_config)
 
 # Pydantic models (response models)
 class FeedbackStats(BaseModel):
@@ -42,27 +42,27 @@ class ThemeOccurrences(BaseModel):
     count: int
 
 # Startup and shutdown events
-@app.on_event("startup")
+@router.on_event("startup")
 async def startup():
     await db_service.connect()
 
-@app.on_event("shutdown")
+@router.on_event("shutdown")
 async def shutdown():
     await db_service.close()
 
 # API endpoints
-@app.get("/feedback-stats", response_model=FeedbackStats)
+@router.get("/feedback-stats", response_model=FeedbackStats)
 async def get_feedback_stats():
     return await db_service.get_feedback_stats()
 
-@app.get("/sentiment-distribution", response_model=List[SentimentDistribution])
+@router.get("/sentiment-distribution", response_model=List[SentimentDistribution])
 async def get_sentiment_distribution():
     return await db_service.get_sentiment_distribution()
 
-@app.get("/recent-feedbacks", response_model=List[RecentFeedback])
+@router.get("/recent-feedbacks", response_model=List[RecentFeedback])
 async def get_recent_feedbacks(limit: int = 10):
     return await db_service.get_recent_feedbacks(limit)
 
-@app.get("/theme-occurrences", response_model=List[ThemeOccurrences])
+@router.get("/theme-occurrences", response_model=List[ThemeOccurrences])
 async def get_theme_occurrences():
     return await db_service.get_theme_occurrences()
