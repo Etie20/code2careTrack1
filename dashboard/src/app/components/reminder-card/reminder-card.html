@@ -2,7 +2,7 @@
   <div class="flex justify-between items-center">
     <div class="flex items-center gap-2">
       <lucide-icon [img]="getTypeIcon(reminder.type)" class="w-4 h-4 text-black"></lucide-icon>
-      <span class="font-medium">{{ reminder.title }}</span>
+      <span class="font-medium">{{ reminder.message }}</span>
     </div>
     <span class="badge" [ngClass]="getStatusColor(reminder.status)">
           {{ getTranslation(reminder.status) }}
@@ -10,8 +10,8 @@
   </div>
 
   <div class="flex justify-between text-sm text-gray-600">
-    <span>{{ reminder.patient }}</span>
-    <span>{{ reminder.date }} at {{ reminder.time }}</span>
+    <span>{{ reminder.patient.fullName }}</span>
+    <span>{{ reminder.reminderDate.getDate() }} at {{ reminder.reminderDate.getTimezoneOffset() }}</span>
   </div>
 
   <div class="flex items-center gap-2 text-sm">

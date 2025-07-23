@@ -1,6 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {Bell, Calendar, LucideAngularModule, LucideIconData, MessageSquare, Phone, Pill} from 'lucide-angular';
 import {NgClass} from '@angular/common';
+import {Reminder} from '../../models/reminder';
+import {Doctor} from '../../models/doctor';
 
 @Component({
   selector: 'app-reminder-card',
@@ -13,24 +15,35 @@ import {NgClass} from '@angular/common';
   styleUrl: './reminder-card.css'
 })
 export class ReminderCard {
-  @Input() reminder : {
-    date: string;
-    method: string;
-    patient: string;
-    id: number;
-    time: string;
-    type: string;
-    title: string;
-    status: string
-  } = {
+  @Input() reminder : Reminder = {
     id: 1,
-    type: "",
-    title: "",
-    date: "",
-    time: "",
-    patient: "",
-    status: "",
-    method: "",
+    type: '',
+    doctor: {
+      id: 0,
+      fullName: '',
+      specialty: '',
+      phoneNumber: '',
+      createdAt: null,
+      password: '',
+      email: {
+        value: ''
+      }
+    },
+    message: '',
+    reminderDate: new Date(),
+    language: '',
+    patient: {
+      id: 0,
+      fullName: '',
+      age: 0,
+      department: '',
+      phoneNumber: '',
+      createdAt: new Date(),
+      preferredLanguage: '',
+      email: {
+        value: ''
+      }
+    },
   };
 
   @Input() language: string = 'en';

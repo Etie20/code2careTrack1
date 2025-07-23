@@ -12,6 +12,6 @@ export class PatientService {
   constructor(private http: HttpClient) { }
 
   findAllPatient(): Observable<Patient[]>{
-    return this.http.get<Patient[]>(this.apiUrl+'/search');
+    return this.http.get<Patient[]>(this.apiUrl+'/search/fullname?query=');
   }
 }

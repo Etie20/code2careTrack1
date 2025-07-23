@@ -15,7 +15,30 @@ import {FeedBack} from '../../models/feedback';
 })
 export class FeedbackCard {
 
-  @Input() feedback : FeedBack | undefined ;
+  @Input() feedback : FeedBack = {
+    emojiRating: '',
+    feedbackAudioUrl: '',
+    feedbackText: '',
+    id: 0,
+    language: '',
+    patient: {
+      id: 0,
+      fullName: '',
+      age: 0,
+      department: '',
+      phoneNumber: '',
+      createdAt: new Date("2024-01-18"),
+      preferredLanguage: '',
+      email: {
+        value: ''
+      }
+    },
+    resolutionTimeMin: 0,
+    starRating: 0,
+    submittedAt: new Date("2024-01-18"),
+    waitTimeMin: 0
+
+  } ;
 
   @Input() language: string = 'en';
 
