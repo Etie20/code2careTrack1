@@ -127,6 +127,7 @@ public class Mapper {
                 .type(ReminderType.fromValue(reminder.getType()))
                 .reminderDate(reminder.getReminderDate())
                 .doctor(mapDoctorDto(reminder.getDoctor()))
+                .channel(reminder.getChannel())
                 .build();
     }
 
@@ -138,7 +139,8 @@ public class Mapper {
                 .type(dto.getType().getValue())
                 .patient(mapPatient(dto.getPatient()))
                 .reminderDate(dto.getReminderDate())
-                .doctor(mapDoctor(dto.getDoctor()))
+                .doctor(Doctor.builder().id(dto.getDoctor().getId()).build())
+                .channel(dto.getChannel())
                 .build();
     }
 

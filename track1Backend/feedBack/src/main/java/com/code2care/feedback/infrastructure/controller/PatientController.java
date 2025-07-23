@@ -1,6 +1,7 @@
 package com.code2care.feedback.infrastructure.controller;
 
 import com.code2care.common.domain.model.PatientDto;
+import com.code2care.feedback.application.service.GetPatientByFullNameUseCase;
 import com.code2care.feedback.application.service.GetPatientsUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PatientController {
     private final GetPatientsUseCase getPatientsUseCase;
+    private final GetPatientByFullNameUseCase getPatientByFullNameUseCase;
 
-    @GetMapping("/search")
-    public ResponseEntity<List<PatientDto>> getPatients(@RequestParam String query) {
+    @GetMapping("/search/phone")
+    public ResponseEntity<PatientDto> getPatientsByPhone(@RequestParam String query) {
         return ResponseEntity.ok(getPatientsUseCase.execute(query));
+    }
+
+    @GetMapping("/search/fullName")
+    public ResponseEntity<List<PatientDto>> getPatients(@RequestParam String query) {
+        return ResponseEntity.ok(getPatientByFullNameUseCase.execute(query));
     }
 }
