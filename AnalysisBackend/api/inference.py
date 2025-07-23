@@ -11,7 +11,7 @@ import models.serve
 router = APIRouter()
 db_config = {
     "user": os.getenv("DB_USER", "postgres"),
-    "password": os.getenv("DB_PASSWORD", "password"), 
+    "password": os.getenv("DB_PASSWORD", "JaAk"), 
     "database": os.getenv("DB_NAME", "code2care_datamart"),
     "host": os.getenv("DB_HOST", "localhost"),
 }

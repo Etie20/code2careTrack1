@@ -49,12 +49,18 @@ def analyze_feedback(text: str, input_lang: str) -> dict:
 
     # Theme Classification
     theme_candidates = ["temps d'attente", "attitude du personnel", "hygiène", "consultation", "équipement", "facturation et prix", "disponibilité des médicaments", "infrastructure"]
+    dict_theme_candidates = { "temps d'attente": 1, "attitude du personnel": 2,  "hygiène": 3, "consultation": 4, "équipement": 5, "facturation et prix": 6, "disponibilité des médicaments": 7, "infrastructure": 8, "autre": 9}
     themes = theme_pipe(text, candidate_labels=theme_candidates, multi_label=True)
     top_themes = [theme_candidates[i] for i, score in enumerate(themes["scores"]) if score > 0.5]
 
+    if len(top_themes) == 0:
+        [9]
+    else:
+        theme_ids = [ dict_theme_candidates[t] for t in top_themes ]
+
     return {
         "sentiment": sentiment,
-        "themes": top_themes or ["autre"],
+        "themes": theme_ids,
         "is_urgent": is_urgent,
         "translated_text": text
     }
@@ -63,7 +69,7 @@ if __name__ == "__main__":
     test_cases = [
         ("The doctor was kind and welcoming", "en"),
         ("Les salles d'hospitalisation etaient salles", "fr"),
-        ("Il manque des equipement pour la pediatrie", "fr")  # Urgent case
+        ("Il manque des equipement pour la pediatrie", "fr") 
     ]
     
     for text, lang in test_cases:
