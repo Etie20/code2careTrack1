@@ -45,14 +45,14 @@ public class ReminderJobs {
                     .from("onboarding@resend.dev")
                     .to(reminder.getPatient().getEmail().value())
                     .subject("hospital reminder!")
-                    .html("<strong>"+reminder.getMessage()+"</strong>")
+                    .html("<strong>‍⚕️👩🏾‍⚕️"+reminder.getMessage()+"</strong>")
                     .build();
             try {
                 if (reminder.getChannel() == ChannelType.SMS) {
                     Message.creator(
                                     new PhoneNumber(reminder.getPatient().getPhoneNumber()),
                                     new PhoneNumber("+18145511054"),
-                                    "Hello from Twilio 📞")
+                                    "🧑🏾‍⚕️👩🏾‍⚕️"+reminder.getMessage())
                             .create();
                 }else {
                     CreateEmailResponse data = resend.emails().send(params);
