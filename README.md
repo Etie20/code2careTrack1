@@ -1,11 +1,9 @@
-# 🚀 Projet CODE2CARE (Team Enligthen Innovation)
----
-## Liens vers différentes plateformes
-* (Track1) https://care-dashboard-brown.vercel.app
-* (Track1) https://care-feedback.vercel.app
+#  Projet CODE2CARE (Team Enligthen Innovation)
+# Track1
+
 ---
 
-## 📘 **1. Objectif métier principal**
+##  **1. Objectif métier principal**
 
 > Concevoir un système intégré permettant aux établissements de santé de :
 
@@ -16,7 +14,7 @@
 
 ---
 
-## 🎯 **2. Exigences métier fonctionnelles**
+##  **2. Exigences métier fonctionnelles**
 
 | ID  | Exigence                                                                               |
 | --- | -------------------------------------------------------------------------------------- |
@@ -33,7 +31,7 @@
 
 ---
 
-## ❗ **3. Contraintes techniques (liées au métier)**
+##  **3. Contraintes techniques (liées au métier)**
 
 | ID | Contrainte                                                                                                                   |
 | -- | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -48,7 +46,7 @@
 
 ---
 
-## 📏 **4. Règles de gestion**
+##  **4. Règles de gestion**
 
 | ID | Règle de gestion                                                              |
 | -- | ----------------------------------------------------------------------------- |
@@ -62,7 +60,7 @@
 
 ---
 
-## 🧪 **5. Exigences non fonctionnelles**
+##  **5. Exigences non fonctionnelles**
 
 | ID  | Exigence                                                                                                 |
 | --- | -------------------------------------------------------------------------------------------------------- |
@@ -77,7 +75,7 @@
 
 ---
 
-## ✅ **6. Indicateurs de réussite du projet (KPIs)**
+##  **6. Indicateurs de réussite du projet (KPIs)**
 
 | KPI                           | Objectif cible               |
 | ----------------------------- | ---------------------------- |
@@ -89,7 +87,7 @@
 
 ---
 
-## 📑 **7. Description**
+##  **7. Description**
 
 Ce projet est une application complète regroupant :
 
@@ -101,7 +99,7 @@ Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un ver
 
 ---
 
-## 🛠️**8. Technologies utilisées**
+## **8. Technologies utilisées**
 
 | Technologie | Rôle | Version |
 |-------------|------|---------|
@@ -114,19 +112,15 @@ Le tout est organisé dans un **monorepo** pour une meilleure cohérence, un ver
 | **Node.js & npm** | Build et gestion Angular | 20.x |
 | **Git / GitHub Actions** | Versioning et CI/CD | - |
 
-## 🗃️ **9. Modèle Logique de Données (MLD)**
+##  **9. Modèle Logique de Données (MLD)**
 
-### MLD
 <img width="536" height="524" alt="Screenshot 2025-07-18 204631" src="https://github.com/user-attachments/assets/d406e913-dfda-48de-9606-36481d6d5d64" />
-
-### MLD (Datamart)
-<img width="597" height="527" alt="Screenshot 2025-07-18 232632" src="https://github.com/user-attachments/assets/028ac562-a3d3-44f9-9b59-fe023c785648" />
 
 ---
 
-## 🗂️ **10. Structure du monorepo**
+##  **10. Structure du monorepo**
 
-### 🧅 Architecture Onion (Hexagonal / Clean Architecture)
+###  Architecture Onion (Hexagonal / Clean Architecture)
 
 L’architecture **Onion (ou Clean Architecture)** adoptée dans ce projet Spring Boot se base sur les principes suivants :
 
@@ -173,7 +167,7 @@ L’architecture **Onion (ou Clean Architecture)** adoptée dans ce projet Sprin
 ```
 ---
 
-## 🖼️ **11. Aperçu du frontend**
+## 🖼 **11. Aperçu du frontend**
 
 ![Capture d’écran 2025-07-18 203854](https://github.com/user-attachments/assets/28df3d22-aeae-49ef-a986-5fe0f0f3127c)
 ![Capture d’écran 2025-07-18 203846](https://github.com/user-attachments/assets/9c7c6f54-31c4-4715-9a1f-3fe7a41cd696)
@@ -182,7 +176,7 @@ L’architecture **Onion (ou Clean Architecture)** adoptée dans ce projet Sprin
 
 
 ---
-## 🔧 **12. Lancer le projet**
+##  **12. Lancer le projet**
 
 ### Prérequis
 
@@ -219,5 +213,58 @@ cd track1Backend
 # Pour lancer FastAPI en local
 cd AnalysisBackend
 pip install -r requirements.txt
-uvicorn main:app --reload --port 8001
+
+# Pour lancer FastAPI en local (rappel multilingue)
+uvicorn AnalysisBackend.scheduler.task:app --reload --port 8001
+
+# Ou depuis la racine du projet :
+
+# Si vous rencontrez une erreur d'import, essayez :
+# PYTHONPATH=. uvicorn AnalysisBackend.scheduler.task:app --reload --port 8001
+
+# Tester l'API REST de rappel (exemple avec curl)
+curl -X POST http://localhost:8001/compose \
+     -H "Content-Type: application/json" \
+     -d '{"reminder_type":"medication","language":"DLA","name":"Mbappe","time":"20:00"}'
+
+### Configuration des variables d’environnement (SMS Twilio)
+
+Pour activer l’envoi de SMS, définissez les variables suivantes :
+
+- `TWILIO_ACCOUNT_SID` : SID du compte Twilio
+- `TWILIO_AUTH_TOKEN` : Token d’authentification Twilio
+- `TWILIO_FROM_NUMBER` : Numéro d’expéditeur Twilio (ex: +237XXXXXXXXX)
+
+Vous pouvez les définir dans un fichier `.env` à la racine du projet ou dans votre environnement système.
 ```
+
+
+---
+
+# Chat Backend avec FastAPI et LangChain [Track2]
+
+Un service de conversation minimal est disponible dans `chat_backend/`.
+Il s'appuie sur LangChain pour conserver le contexte de la conversation en
+mémoire volatile et interroge un module RAG interne avant d'utiliser le modèle
+Mistral pour générer la réponse.
+Les communications doivent être sécurisées via TLS/SSL (par ex. au niveau du
+proxy) pour respecter la confidentialité des échanges.
+
+### Lancer en local
+
+```bash
+pip install -r requirements.txt
+uvicorn chat_backend.main:app --reload --port 8000
+```
+
+### Déploiement Docker
+
+```bash
+docker build -t chat-backend .
+#docker run -e API_KEY=mysecret -p 8000:8000 chat-backend
+docker run -e API_KEY=mysecret -e RAG_API_URL=http://rag:9000/query \
+  -p 8000:8000 chat-backend
+
+```
+
+Consultez `docs/api.md` pour la documentation des endpoints.
