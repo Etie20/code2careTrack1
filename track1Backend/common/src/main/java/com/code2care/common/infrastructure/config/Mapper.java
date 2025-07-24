@@ -1,9 +1,6 @@
 package com.code2care.common.infrastructure.config;
 
-import com.code2care.common.domain.model.DoctorDto;
-import com.code2care.common.domain.model.FeedbackDto;
-import com.code2care.common.domain.model.PatientDto;
-import com.code2care.common.domain.model.ReminderDto;
+import com.code2care.common.domain.model.*;
 import com.code2care.common.infrastructure.entites.Doctor;
 import com.code2care.common.infrastructure.entites.Feedback;
 import com.code2care.common.infrastructure.entites.Patient;
@@ -19,6 +16,9 @@ public class Mapper {
                 .phoneNumber(patient.getPhoneNumber())
                 .email(patient.getEmail())
                 .fullName(patient.getFullName())
+                .age(patient.getAge())
+                .department(patient.getDepartment())
+                .preferredLanguage(patient.getPreferredLanguage())
                 .build();
     }
 
@@ -28,6 +28,9 @@ public class Mapper {
                 .phoneNumber(dto.getPhoneNumber())
                 .email(dto.getEmail())
                 .fullName(dto.getFullName())
+                .department(dto.getDepartment())
+                .age(dto.getAge())
+                .preferredLanguage(dto.getPreferredLanguage())
                 .build();
     }
 
@@ -50,6 +53,7 @@ public class Mapper {
                 .password(doctor.getPassword())
                 .specialty(doctor.getSpecialty())
                 .fullName(doctor.getFullName())
+                .id(doctor.getId())
                 .build();
     }
     public  static Doctor mapDoctor(DoctorDto dto) {
@@ -120,8 +124,9 @@ public class Mapper {
                 .message(reminder.getMessage())
                 .patient(mapPatientDto(reminder.getPatient()))
                 .language(reminder.getLanguage())
-                .type(reminder.getType())
+                .type(ReminderType.fromValue(reminder.getType()))
                 .reminderDate(reminder.getReminderDate())
+                .doctor(mapDoctorDto(reminder.getDoctor()))
                 .build();
     }
 
@@ -130,9 +135,10 @@ public class Mapper {
                 .id(dto.getId())
                 .message(dto.getMessage())
                 .language(dto.getLanguage())
-                .type(dto.getType())
+                .type(dto.getType().getValue())
                 .patient(mapPatient(dto.getPatient()))
                 .reminderDate(dto.getReminderDate())
+                .doctor(mapDoctor(dto.getDoctor()))
                 .build();
     }
 
