@@ -30,6 +30,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.modulith:spring-modulith-starter-core")
     implementation("org.springframework.modulith:spring-modulith-starter-jpa")
+    implementation("com.resend:resend-java:3.1.0")
+    implementation("com.twilio.sdk:twilio:8.10.0")
     implementation(project(":common"))
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")

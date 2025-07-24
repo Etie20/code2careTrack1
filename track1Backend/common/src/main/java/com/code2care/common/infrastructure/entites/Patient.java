@@ -30,7 +30,7 @@ public class Patient {
     @Column(name = "department", nullable = false, length = 100)
     private String department;
 
-    @Column(name = "phone_number", nullable = false, length = 20)
+    @Column(name = "phone_number", nullable = false, length = 20,unique = true)
     private String phoneNumber;
 
     @org.hibernate.annotations.ColumnDefault("CURRENT_TIMESTAMP")
