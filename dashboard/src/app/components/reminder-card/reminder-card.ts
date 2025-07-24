@@ -2,7 +2,6 @@ import {Component, Input} from '@angular/core';
 import {Bell, Calendar, LucideAngularModule, LucideIconData, MessageSquare, Phone, Pill} from 'lucide-angular';
 import {NgClass} from '@angular/common';
 import {Reminder} from '../../models/reminder';
-import {Doctor} from '../../models/doctor';
 
 @Component({
   selector: 'app-reminder-card',

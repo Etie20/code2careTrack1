@@ -8,8 +8,6 @@ import {
 } from 'lucide-angular';
 import {FormsModule} from '@angular/forms';
 import {ReminderCard} from '../../components/reminder-card/reminder-card';
-import {FeedBack} from '../../models/feedback';
-import {FeedbackService} from '../../services/feedback/feedback-service';
 import {RemindersService} from '../../services/reminders/reminders-service';
 import {Reminder} from '../../models/reminder';
 
