@@ -2,6 +2,7 @@ package com.code2care.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication(scanBasePackages = {
 		"com.code2care.auth",
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 		"com.code2care.common",
 		"com.code2care.notification"
 })
+@EnableScheduling
 public class Application {
 
 	public static void main(String[] args) {
