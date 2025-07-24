@@ -1,0 +1,56 @@
+<div class="card bg-white/80 backdrop-blur-sm">
+  <header
+    class="flex flex-col items-center space-y-1.5"
+  >
+    <h2
+      class="text-2xl font-semibold leading-none tracking-tight bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent"
+    >Patient Feedback</h2>
+    <p
+      class="text-sm text-muted-foreground"
+    >Help us improve our healthcare services</p>
+  </header>
+
+  <section
+    class="space-y-6 flex flex-col gap-3"
+  >
+    <app-rating-stars
+      [rating]="rating"
+      (ratingChange)="rating = $event"
+      [label]="t.rateExperience"
+    />
+    <app-emoji-picker
+      [selectedEmoji]="selectedEmoji"
+      (emojiSelect)="selectedEmoji = $event"
+      [label]="t.howFeeling"
+    />
+    <app-text-feedback
+      [(text)]="feedbackText"
+      [label]="t.additionalComments"
+      [placeholder]="t.placeholder"
+    />
+    <app-voice-recorder
+      [label]="t.voiceNote"
+      [(recording)]="isRecording"
+    />
+
+    <div class=" grid gap-4 md:grid-cols-2">
+      @for (card of feedbackCards; track $index) {
+        <app-feedback-summary-card
+          [emoji]="card.emoji"
+
+          [borderColor]="card.borderColor"
+          [textColor]="card.textColor"
+          [iconColor]="card.iconColor"
+        ></app-feedback-summary-card>
+
+      }
+    </div>
+
+
+    <app-submit-button
+      [label]="t.submit"
+      (submit)="onSubmit()"
+    />
+  </section>
+
+</div>

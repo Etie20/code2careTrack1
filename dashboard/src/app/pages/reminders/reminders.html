@@ -1,0 +1,121 @@
+<div class="space-y-6">
+  <!-- Stats Cards -->
+  <div class="grid gap-4 md:grid-cols-3">
+    <div class="card border border-blue-200 bg-blue-50 p-4 rounded-lg shadow">
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="text-sm text-blue-600 font-medium">Total Reminders</p>
+          <p class="text-2xl font-bold text-blue-700">24</p>
+        </div>
+        <lucide-icon [img]="Bell" class="w-8 h-8 text-blue-500"></lucide-icon>
+      </div>
+    </div>
+
+    <div class="card border border-green-200 bg-green-50 p-4 rounded-lg shadow">
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="text-sm text-green-600 font-medium">Delivered</p>
+          <p class="text-2xl font-bold text-green-700">18</p>
+        </div>
+        <lucide-icon [img]="MessageSquare" class="w-8 h-8 text-green-500"></lucide-icon>
+      </div>
+    </div>
+
+    <div class="card border border-yellow-200 bg-yellow-50 p-4 rounded-lg shadow">
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="text-sm text-yellow-600 font-medium">Pending</p>
+          <p class="text-2xl font-bold text-yellow-700">6</p>
+        </div>
+        <lucide-icon [img]="Clock" class="w-8 h-8 text-yellow-500"></lucide-icon>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="grid gap-6 lg:grid-cols-2">
+    <!-- Active Reminders -->
+    <div class="card bg-white p-6 rounded-lg shadow backdrop-blur-sm bg-opacity-80">
+      <div class="card-header flex items-center gap-2 mb-4">
+        <lucide-icon [img]="Bell" class="w-6 h-6 text-blue-600"></lucide-icon>
+        <h3 class="text-lg font-semibold">{{ t.activeReminders }}</h3>
+      </div>
+      <div class="space-y-4">
+        <div>
+          @for (reminder of reminders; track reminder.id) {
+            <app-reminder-card [reminder]="reminder" [language]="language"></app-reminder-card>
+          }
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Create New Reminder -->
+    <div class="card bg-white p-6 rounded-lg shadow backdrop-blur-sm bg-opacity-80">
+      <div class="card-header flex items-center gap-2 mb-4">
+        <lucide-icon [img]="Plus" class="w-6 h-6 text-green-600"></lucide-icon>
+        <h3 class="text-lg font-semibold">{{ t.createReminder }}</h3>
+      </div>
+
+      <form (ngSubmit)="createReminder()" class="space-y-4">
+        <div>
+          <label for="reminderType" class="block mb-1">{{ t.reminderType }}</label>
+          <select id="reminderType" [(ngModel)]="newReminderType" name="type" class="select w-full">
+            <option value="appointment">{{ t.appointment }}</option>
+            <option value="medication">{{ t.medication }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="patientName" class="block mb-1">{{ t.patientName }}</label>
+          <input
+            id="patientName"
+            name="patientName"
+            [(ngModel)]="newPatientName"
+            type="text"
+            placeholder="Enter patient name"
+            class="input w-full"
+          />
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="date" class="block mb-1">Date</label>
+            <input
+              id="date"
+              name="date"
+              [(ngModel)]="newDate"
+              type="date"
+              class="input w-full"
+            />
+          </div>
+          <div>
+            <label for="time" class="block mb-1">Time</label>
+            <input
+              id="time"
+              name="time"
+              [(ngModel)]="newTime"
+              type="time"
+              class="input w-full"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="method" class="block mb-1">{{ t.method }}</label>
+          <select id="method" [(ngModel)]="newMethod" name="method" class="select w-full">
+            <option value="sms">{{ t.sms }}</option>
+            <option value="voice">{{ t.voice }}</option>
+            <option value="email">{{ t.email }}</option>
+          </select>
+        </div>
+
+        <button type="submit" class="rounded-sm p-1 bg-gradient-to-r from-blue-600 to-green-600 text-white w-full flex items-center justify-center gap-2">
+          <lucide-icon [img]="Plus" class="w-4 h-4 text-white"></lucide-icon>
+          {{ t.create }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -34,6 +34,7 @@ dependencies {
 	implementation(project(":analytics"))
 	implementation("org.springframework.modulith:spring-modulith-starter-core")
 	implementation("org.springframework.modulith:spring-modulith-starter-jpa")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
 	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
 
 

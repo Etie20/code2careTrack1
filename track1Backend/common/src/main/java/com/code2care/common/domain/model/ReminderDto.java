@@ -5,6 +5,7 @@ import lombok.Value;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 /**
  * DTO for {@link com.code2care.common.infrastructure.entites.Reminder}
@@ -16,7 +17,7 @@ public class ReminderDto implements Serializable {
     PatientDto patient;
     DoctorDto doctor;
     String message;
-    Instant reminderDate;
+    LocalDateTime reminderDate;
     ReminderType type;
     Language language;
 }
