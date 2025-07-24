@@ -4,13 +4,11 @@ FROM eclipse-temurin:21-jdk-jammy AS builder
 WORKDIR /app
 
 # Copier uniquement les fichiers nécessaires pour la construction
-COPY ./gradlew .
-COPY ./gradle ./gradle
-COPY ./build.gradle.kts ./
+COPY . .
 
 
 # Rendre gradlew exécutable et construire l'application
-RUN chmod +x ./gradlew && ./gradlew build --no-daemon
+RUN cd application/ && chmod +x ./gradlew && ./gradlew build --no-daemon
 
 # Étape finale avec une image plus légère
 FROM eclipse-temurin:21-jre-jammy
