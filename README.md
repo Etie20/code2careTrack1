@@ -1,5 +1,8 @@
 # 🚀 Projet CODE2CARE (Team Enligthen Innovation)
-
+---
+## Liens vers différentes plateformes
+https://care-dashboard-brown.vercel.app
+https://care-feedback.vercel.app
 ---
 
 ## 📘 **1. Objectif métier principal**
