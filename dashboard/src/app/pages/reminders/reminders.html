@@ -33,6 +33,7 @@
   </div>
 
 
+
   <div class="grid gap-6 lg:grid-cols-2">
     <!-- Active Reminders -->
     <div class="card bg-white p-6 rounded-lg shadow backdrop-blur-sm bg-opacity-80">
@@ -42,7 +43,7 @@
       </div>
       <div class="space-y-4">
         <div>
-          @for (reminder of activeReminders; track reminder.id) {
+          @for (reminder of reminders; track reminder.id) {
             <app-reminder-card [reminder]="reminder" [language]="language"></app-reminder-card>
           }
         </div>

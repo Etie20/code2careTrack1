@@ -8,6 +8,8 @@ import {
 } from 'lucide-angular';
 import {FormsModule} from '@angular/forms';
 import {ReminderCard} from '../../components/reminder-card/reminder-card';
+import {RemindersService} from '../../services/reminders/reminders-service';
+import {Reminder} from '../../models/reminder';
 
 @Component({
   selector: 'app-reminders',
@@ -119,6 +121,30 @@ export class Reminders {
   };
 
    */
+
+  isLoadingReminders = true;
+  reminders: Reminder[] = [];
+
+  constructor(private remindersService: RemindersService) {}
+
+  ngOnInit() {
+    this.fetchReminders();
+  }
+
+  fetchReminders() {
+    this.isLoadingReminders = true;
+    this.remindersService.findAllReminders().subscribe({
+      next: (reminders) => {
+        console.log('waiting');
+        this.reminders = reminders;
+        this.isLoadingReminders = false;
+      },
+      error: () => {
+        console.log('error');
+        this.isLoadingReminders = false;
+      },
+    });
+  }
 
   createReminder() {
     if (!this.newReminderType || !this.newPatientName || !this.newDate || !this.newTime || !this.newMethod) {
