@@ -17,7 +17,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("reminder")
+@RequestMapping("api/reminder")
 @CrossOrigin("*")
 class ReminderController {
     private final GetRemindersByDoctorIDUseCase getRemindersByDoctorIDUseCase;
