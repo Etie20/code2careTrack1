@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project: [ { project: 'track1Backend/application' , image: 'track1-backend' }]
+        project: [ { project: 'track1Backend' , image: 'track1-backend' }]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -43,7 +43,7 @@ jobs:
         run: ls
       - name : allow access to gradlew
         working-directory: ${{ matrix.project.project }}
-        if: ${{ matrix.project.project == 'track1Backend/application' }}
+        if: ${{ matrix.project.project == 'track1Backend' }}
         run: chmod +x gradlew
       - name: Build and push
         uses: docker/build-push-action@v4
