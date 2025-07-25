@@ -2,6 +2,7 @@
   <div class="w-full max-w-md">
     <div class="text-center mb-8">
       <button
+        (click)="navigateToLanding()"
         class="btn-ghost absolute top-4 left-4 text-gray-600 hover:text-gray-900"
       >
         <lucide-icon [img]="ArrowLeft" class="w-4 h-4 mr-2"></lucide-icon>
@@ -67,11 +68,20 @@
                 </div>
               </div>
 
-              <button
-                class="btn w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700"
-              >
-                Sign In
-              </button>
+              @if (loading()) {
+                <button class="btn-outline w-full" disabled>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin"><path d="M12 2v4" /><path d="m16.2 7.8 2.9-2.9" /><path d="M18 12h4" /><path d="m16.2 16.2 2.9 2.9" /><path d="M12 18v4" /><path d="m4.9 19.1 2.9-2.9" /><path d="M2 12h4" /><path d="m4.9 4.9 2.9 2.9" /></svg>
+                  Loading
+                </button>
+              } @else {
+                <button
+                  (click)="onSubmit()"
+                  [disabled]="this.loginForm.invalid"
+                  class="btn w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700"
+                >
+                  Sign In
+                </button>
+              }
             </form>
 
             <div class="mt-6">

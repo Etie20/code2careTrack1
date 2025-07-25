@@ -1,6 +1,7 @@
 package com.code2care.auth.application.service;
 
 import com.code2care.auth.application.dto.AuthenticationRequest;
+import com.code2care.auth.application.dto.AuthenticationResponse;
 import com.code2care.auth.application.dto.RegisterRequest;
 import com.code2care.auth.domain.service.AuthenticationDomainservice;
 import com.code2care.common.domain.model.DoctorDto;
@@ -19,17 +20,17 @@ public class AuthenticateUseCase {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
-    public String authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var user = authenticationDomainservice.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + request.getEmail()));
         boolean passwordMatches = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!passwordMatches) {
             throw new IllegalArgumentException("Incorrect password");
         }
-        return jwtService.generateToken(user.getFullName());
+        return AuthenticationResponse.builder().token(jwtService.generateToken(user.getFullName())).build();
     }
 
-    public String register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) {
         var user = DoctorDto.builder()
                 .fullName(request.getFullName())
                 .email(new Email(request.getEmail()))
@@ -39,6 +40,6 @@ public class AuthenticateUseCase {
                 .createdAt(Instant.now())
                 .build();
         authenticationDomainservice.save(user);
-        return jwtService.generateToken(user.getFullName());
+        return AuthenticationResponse.builder().token(jwtService.generateToken(user.getFullName())).build();
     }
 }

@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth/auth-service';
 import { Router } from '@angular/router';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ArrowLeft, ArrowRight, Eye, EyeOff, Heart, LockIcon, LucideAngularModule, Mail, User} from 'lucide-angular';
+import {TokenService} from '../../services/token/token-service';
 
 @Component({
   selector: 'app-login',
@@ -31,16 +32,39 @@ export class Login {
     if(this.loginForm.valid) {
       this.loading.set(true);
       this.authService.login(this.loginForm.value).subscribe({
-      next: (res) => {
+      complete: () => {
         this.loading.set(false);
         this.router.navigate(['/home']).then();
       }
     ,
       error: (err)=> {
-        this.loading.set(false);
-        this.error.set(err.error.message);
+        document.dispatchEvent(new CustomEvent('basecoat:toast', {
+          detail: {
+            config: {
+              category: 'error',
+              title: 'Error',
+              description: err,
+              cancel: {
+                label: 'Dismiss'
+              }
+            }
+          }
+        }))
       }
     })
+    } else {
+        document.dispatchEvent(new CustomEvent('basecoat:toast', {
+          detail: {
+            config: {
+              category: 'error',
+              title: 'Error',
+              description: 'Please, fill all the form correctly',
+              cancel: {
+                label: 'Dismiss'
+              }
+            }
+          }
+        }))
     }
   }
 
@@ -57,6 +81,10 @@ export class Login {
     } else {
       this.showPassword.set(true);
     }
+  }
+
+  navigateToLanding() {
+    this.router.navigate(['/landing']).then();
   }
 
   protected readonly ArrowRight = ArrowRight;
