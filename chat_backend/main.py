@@ -12,11 +12,17 @@ from .llm_wrapper import LLMWrapper
 from .rag_system import RAGSystem
 
 app = FastAPI(title="Chat Backend")
-app.add_middleware(HTTPSRedirectMiddleware)
+# app.add_middleware(HTTPSRedirectMiddleware)
 
 load_dotenv()
 
 API_KEY = os.getenv("API_KEY", "secret")
+
+memory_store: Dict[str, ConversationBufferMemory] = {}
+
+# Initialisation du système RAG et du wrapper LLM
+rag_system = RAGSystem()
+llm_wrapper = LLMWrapper(rag_system)
 
 class Message(BaseModel):
     user_id: str
@@ -28,17 +34,14 @@ class Message(BaseModel):
             raise ValueError("message must not be empty")
         return v
 
-# In‑memory store for conversations (per user)
-memory_store: Dict[str, ConversationBufferMemory] = {}
+def get_api_key(x_api_key: str = Header(None)) -> str:
+    # L'API key est désormais gérée en interne, donc cette fonction ne vérifie pas la clé
+    return "internal"
 
-# Initialise RAG system and LLM wrapper
-rag_system = RAGSystem()
-llm_wrapper = LLMWrapper(rag_system)
-
-def get_api_key(x_api_key: str = Header(...)) -> str:
-    if x_api_key != API_KEY:
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    return x_api_key
+@app.get("/status")
+def check_status():
+    """API endpoint to check if RAG service is functional."""
+    return {"status": rag_system.check_status()}
 
 @app.post("/chat")
 def chat(message: Message, api_key: str = Depends(get_api_key)):

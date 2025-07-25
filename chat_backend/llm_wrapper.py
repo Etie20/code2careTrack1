@@ -18,10 +18,6 @@ def detect_language(text):
     return "en"
 
 class LLMWrapper:
-    """
-    Wrapper around a Hugging Face inference endpoint.
-    """
-
     def __init__(self, rag_system):
         self.rag_system = rag_system
         self.hf_endpoint = os.environ.get(
@@ -31,30 +27,30 @@ class LLMWrapper:
         self.hf_api_key = os.environ.get("HF_API_KEY")
 
     def generate_response(self, user_message, context, intent, history=None):
-        """
-        Build a prompt and call the Hugging Face endpoint.  If no endpoint or
-        API key is configured, fall back to a heuristic response.
-        """
         language = detect_language(user_message)
-        if language == "fr":
-            instructions = (
-                "Explique en termes simples, empathiques et rassurants, sans jargon médical. "
-                "Adapte la réponse à un patient (niveau grand public)."
-            )
-        else:
-            instructions = (
-                "Explain in simple, empathetic and reassuring terms, without medical jargon. "
-                "Adapt the answer to a patient (general public level)."
-            )
+
+        # New instructions to ensure clarity and empathy in the responses
+        instructions = """
+        Clinical Mode. Communicate with clarity, empathy, and accessibility for all literacy levels. 
+        Use simple, straightforward language without medical jargon. Provide tailored explanations with examples or analogies as needed. 
+        Adopt a compassionate and understanding tone. Include a brief check-in for comprehension after delivering information. 
+        Avoid engagement tactics, sentiment uplift, or continuation bias. Provide only well-established medical information; do not diagnose or prescribe. 
+        For statements with confidence below 8 (on a 1-10 scale), append: "Based on general knowledge; confirm with your doctor." 
+        Terminate replies immediately after the information and check-in. 
+        Goal: enable patient understanding of diagnoses, treatments, and medications.
+        """
+
         prompt_parts = [instructions, f"Intent: {intent}."]
+
         if context:
             prompt_parts.append(f"Context: {context}")
         if history:
             prompt_parts.append(f"Conversation history: {history}")
+
         prompt_parts.append(f"User: {user_message}")
         prompt = "\n".join(prompt_parts)
 
-        # If the HuggingFace endpoint and token are configured, call it
+        # API call to Hugging Face's endpoint
         if self.hf_endpoint and self.hf_api_key:
             try:
                 resp = requests.post(
@@ -64,12 +60,11 @@ class LLMWrapper:
                     timeout=10,
                 )
                 resp.raise_for_status()
-                return resp.json().get("generated_text", "")
+                return resp.json()["generated_text"]
             except Exception:
-                # Fall back if the request fails
                 pass
 
-        # Fallback (heuristic) if no endpoint/key or request failed
+        # Fallback heuristic if no endpoint is available
         if context:
             if language == "fr":
                 return (

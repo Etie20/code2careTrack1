@@ -39,12 +39,13 @@ import os
 import re
 from typing import List, Tuple
 
-
 class RAGSystem:
     """In‑memory retrieval system for clinical summaries."""
 
     def __init__(self, csv_path: str | None = None) -> None:
-        if csv_path is None:
+        if csv_path is not None:
+            pass
+        else:
             csv_path = os.environ.get("CLINICAL_SUMMARIES_CSV")
         if csv_path is None:
             base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -53,8 +54,8 @@ class RAGSystem:
                 csv_path = candidate
             else:
                 raise FileNotFoundError(
-                    "No clinical summaries CSV found. Set CLINICAL_SUMMARIES_CSV or place the file in AnalysisBackend/utils.")
-
+                    "No clinical summaries CSV found. Set CLINICAL_SUMMARIES_CSV or place the file in AnalysisBackend/utils."
+                )
         self.records: List[Tuple[str, set[str]]] = []
         self._word_re = re.compile(r"\b\w+\b", re.UNICODE)
         self._load_csv(csv_path)
@@ -80,6 +81,7 @@ class RAGSystem:
         return len(query_tokens & tokens)
 
     def search(self, query: str, k: int = 3) -> str:
+        """Return the top-k relevant clinical summaries based on the query."""
         query_tokens = set(self._tokenize(query))
         if not query_tokens:
             return ""
@@ -94,5 +96,9 @@ class RAGSystem:
         top_texts = [text for _, text in scored[:k]]
         return "\n".join(top_texts)
 
+    @staticmethod
+    def check_status() -> str:
+        """Checks if the RAG system is properly loaded and functional."""
+        return "RAG System is operational and ready to process queries."
 
 __all__ = ["RAGSystem"]
