@@ -63,21 +63,31 @@
         <h3 class="text-lg font-semibold">{{ t.createReminder }}</h3>
       </header>
       <section>
-        <form (ngSubmit)="createReminder()" class="space-y-4">
+        <form [formGroup]="reminderForm" class="space-y-4">
+          <div class="grid gap-3">
+            <div class="label">{{ t.message }}</div>
+            <input
+              id="patientName"
+              name="patientName"
+              formControlName="message"
+              type="text"
+              placeholder="Enter patient name"
+              class="input w-full"
+            />
+          </div>
           <div>
             <label for="reminderType" class="block mb-1">{{ t.reminderType }}</label>
-            <select id="reminderType" [(ngModel)]="newReminderType" name="type" class="select w-full">
+            <select id="reminderType" formControlName="reminderType" class="select w-full">
               <option value="appointment">{{ t.appointment }}</option>
               <option value="medication">{{ t.medication }}</option>
             </select>
           </div>
-
           <div>
             <label for="patientName" class="block mb-1">{{ t.patientName }}</label>
             <input
               id="patientName"
               name="patientName"
-              [(ngModel)]="newPatientName"
+              formControlName="patient"
               type="text"
               placeholder="Enter patient name"
               class="input w-full"
@@ -90,18 +100,8 @@
               <input
                 id="date"
                 name="date"
-                [(ngModel)]="newDate"
+                formControlName="reminderDate"
                 type="date"
-                class="input w-full"
-              />
-            </div>
-            <div>
-              <label for="time" class="block mb-1">Time</label>
-              <input
-                id="time"
-                name="time"
-                [(ngModel)]="newTime"
-                type="time"
                 class="input w-full"
               />
             </div>
@@ -109,14 +109,14 @@
 
           <div>
             <label for="method" class="block mb-1">{{ t.method }}</label>
-            <select id="method" [(ngModel)]="newMethod" name="method" class="select w-full">
+            <select id="method" formControlName="channel" class="select w-full">
               <option value="sms">{{ t.sms }}</option>
               <option value="voice">{{ t.voice }}</option>
               <option value="email">{{ t.email }}</option>
             </select>
           </div>
 
-          <button type="submit" class="btn w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
+          <button (click)="onSubmit()" class="btn w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
             <lucide-icon [img]="Plus" class="w-4 h-4 text-white mr-2"></lucide-icon>
             {{ t.create }}
           </button>

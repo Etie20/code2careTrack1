@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, signal} from '@angular/core';
 import {
   Bell,
   MessageSquare,
@@ -7,18 +7,20 @@ import {
   Loader2,
   LucideAngularModule,
 } from 'lucide-angular';
-import {FormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ReminderCard} from '../../components/reminder-card/reminder-card';
 import {RemindersService} from '../../services/reminders/reminders-service';
 import {Reminder} from '../../models/reminder';
 import {rxResource} from '@angular/core/rxjs-interop';
+import {PatientService} from '../../services/patient/patient-service';
 
 @Component({
   selector: 'app-reminders',
   imports: [
     LucideAngularModule,
     FormsModule,
-    ReminderCard
+    ReminderCard,
+    ReactiveFormsModule
   ],
   templateUrl: './reminders.html',
   standalone: true,
@@ -42,6 +44,7 @@ export class Reminders {
       voice: "Voice Call",
       email: "Email",
       reminderType: "Reminder Type",
+      message: 'Message',
       patientName: "Patient Name",
       dateTime: "Date & Time",
       method: "Notification Method",
@@ -55,6 +58,7 @@ export class Reminders {
       appointment: "Rendez-vous",
       medication: "Médicament",
       scheduled: "Programmé",
+      message: 'Message',
       sent: "Envoyé",
       pending: "En attente",
       sms: "SMS",
@@ -70,99 +74,70 @@ export class Reminders {
 
   t = this.translations[this.language as keyof typeof this.translations] || this.translations.en;
 
-  activeReminders = [
-    {
-      id: 1,
-      type: "appointment",
-      title: "Dr. Appointment - Cardiology",
-      date: "2024-01-20",
-      time: "10:00",
-      patient: "Marie Dubois",
-      status: "scheduled",
-      method: "sms",
-    },
-    {
-      id: 2,
-      type: "medication",
-      title: "Take Blood Pressure Medication",
-      date: "2024-01-18",
-      time: "08:00",
-      patient: "Jean Kamga",
-      status: "sent",
-      method: "voice",
-    },
-    {
-      id: 3,
-      type: "appointment",
-      title: "Follow-up Visit",
-      date: "2024-01-22",
-      time: "14:30",
-      patient: "Fatima Nkomo",
-      status: "pending",
-      method: "sms",
-    },
-  ];
-
-  // These properties bind to your form inputs
-  newReminderType: string = '';
-  newPatientName: string = '';
-  newDate: string = '';
-  newTime: string = '';
-  newMethod: string = '';
-
-  /*
-  newReminder = {
-    id: '',
-    type: '',
-    title: '',
-    date: '',
-    time: '',
-    patient: '',
-    status: 'pending',
-    method: '',
-  };
-
-   */
-
-  constructor(private remindersService: RemindersService) {}
+  reminderForm: FormGroup;
+  loading = signal(false);
+  error = signal('');
 
   reminders = rxResource({
     defaultValue: [],
-    stream: () => this.remindersService.findAllReminders(),
+    stream: () => this.remindersService.findAllReminders()
   });
 
-  createReminder() {
-    if (!this.newReminderType || !this.newPatientName || !this.newDate || !this.newTime || !this.newMethod) {
-      alert('Please fill all fields'); // basic validation
-      return;
-    }
+  patients = rxResource({
+    defaultValue: [],
+    stream: () => this.patientService.findAllPatient(),
+  });
 
-    const newId = this.activeReminders.length > 0
-      ? Math.max(...this.activeReminders.map(r => r.id)) + 1
-      : 1;
-
-    const newReminder = {
-      id: newId,
-      type: this.newReminderType,
-      title: this.newReminderType === 'appointment'
-        ? `Dr. Appointment - ${this.newPatientName}`
-        : `Take Medication - ${this.newPatientName}`,
-      date: this.newDate,
-      time: this.newTime,
-      patient: this.newPatientName,
-      status: 'pending',
-      method: this.newMethod,
-    };
-
-    this.activeReminders = [...this.activeReminders, newReminder];
-
-    // Reset form inputs
-    this.newReminderType = '';
-    this.newPatientName = '';
-    this.newDate = '';
-    this.newTime = '';
-    this.newMethod = '';
+  constructor(private remindersService: RemindersService, private patientService: PatientService, private fb: FormBuilder) {
+    this.reminderForm = this.fb.group({
+      reminderType: ['', Validators.required],
+      patient: [null, Validators.required],
+      channel: ['', Validators.required],
+      message: ['', Validators.required],
+      reminderDate: ['', Validators.required],
+      language: ['', Validators.required],
+    });
   }
+
+  onSubmit() {
+    document.dispatchEvent(new CustomEvent('basecoat:toast', {
+      detail: {
+        config: {
+          category: 'success',
+          title: 'Success',
+          description: 'A success toast called from the front-end.',
+          cancel: {
+            label: 'Dismiss'
+          }
+        }
+      }
+    }))
+    // document.dispatchEvent(new CustomEvent('basecoat:toast', {
+    //   detail: {
+    //     config: {
+    //       category: 'error',
+    //       title: 'Error',
+    //       description: this.reminderForm.value.toString(),
+    //       cancel: {
+    //         label: 'Dismiss'
+    //       }
+    //     }
+    //   }
+    // }))
+    // if(this.reminderForm.valid) {
+    //   this.loading.set(true);
+    //   this.remindersService.createReminder(this.reminderForm.value).subscribe({
+    //     complete: () => {
+    //       this.loading.set(false);
+    //       this.reminderForm.reset();
+    //     },
+    //     error: (err) => {
+    //       this.error.set(err);
+    //     }
+    //   })
+    // }
+  }
+
 
   protected readonly Bell = Bell;
   protected readonly MessageSquare = MessageSquare;
