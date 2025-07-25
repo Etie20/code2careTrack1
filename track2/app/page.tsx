@@ -523,7 +523,7 @@ export default function AdvancedMedicalChatbot() {
                     ? "💬 Décrivez vos symptômes ou posez votre question médicale..."
                     : "💬 Describe your symptoms or ask your medical question..."
                 }
-                className="flex-1 max-h-[200px] resize-none border-white border-0 bg-transparent p-4 text-base focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400"
+                className="flex-1 min-h-[52px] max-h-[200px] resize-none border-0 bg-transparent p-4 text-base focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400"
                 rows={1}
                 disabled={isLoading}
               />

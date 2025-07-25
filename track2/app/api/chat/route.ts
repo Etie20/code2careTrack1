@@ -1,5 +1,5 @@
 import { streamText } from "ai"
-import { openai } from "@ai-sdk/openai"
+import {createMistral} from "@ai-sdk/mistral";
 
 export async function POST(req: Request) {
   try {
@@ -58,14 +58,21 @@ CONTEXTE MÉDICAL CAMEROUNAIS:
 
 Réponds toujours avec une grande empathie, en utilisant des émojis appropriés et en adaptant ton langage au profil détecté.`
 
+    const mistral = createMistral({
+      apiKey: process.env.MISTRAL_API_KEY,
+    });
+
     const result = await streamText({
-      model: openai("gpt-4o"),
+      model: mistral('mistral-small-latest'),
       system: systemPrompt,
       messages,
-      temperature: 0.8,
-      maxTokens: 600,
-      frequencyPenalty: 0.3,
-      presencePenalty: 0.3,
+      // optional settings:
+      providerOptions: {
+        mistral: {
+          documentImageLimit: 8,
+          documentPageLimit: 64,
+        },
+      },
     })
 
     return result.toDataStreamResponse()
