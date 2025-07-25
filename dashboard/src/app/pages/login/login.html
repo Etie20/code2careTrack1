@@ -1,27 +1,99 @@
-<!-- login-card.component.html -->
-<div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-  <div class="card w-2/5">
-    <header>
-      <h2>Login to your account</h2>
-      <p>Enter your details below to login to your account</p>
-    </header>
-    <section>
-      <form class="form grid gap-6">
-        <div class="grid gap-2">
-          <label for="demo-card-form-email">Email</label>
-          <input type="email" id="demo-card-form-email">
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center p-4">
+  <div class="w-full max-w-md">
+    <div class="text-center mb-8">
+      <button
+        class="btn-ghost absolute top-4 left-4 text-gray-600 hover:text-gray-900"
+      >
+        <lucide-icon [img]="ArrowLeft" class="w-4 h-4 mr-2"></lucide-icon>
+        Back
+      </button>
+
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-green-600 rounded-xl flex items-center justify-center">
+          <lucide-icon [img]="Heart" class="w-7 h-7 text-white"></lucide-icon>
         </div>
-        <div class="grid gap-2">
-          <div class="flex items-center gap-2">
-            <label for="demo-card-form-password">Password</label>
-            <a href="#" class="ml-auto inline-block text-sm underline-offset-4 hover:underline">Forgot your password?</a>
-          </div>
-          <input type="password" id="demo-card-form-password">
+        <div>
+          <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+            HealthCare Pro
+          </h1>
         </div>
-      </form>
-    </section>
-    <footer class="flex flex-col items-center gap-2">
-      <button type="button" class="btn w-full">Login</button>
-    </footer>
+      </div>
+      <p class="text-gray-600 font-medium">Welcome to your patient care management system</p>
+    </div>
+
+    <div class="card bg-white/80 backdrop-blur-sm shadow-xl border-0">
+          <header class="text-center pb-4">
+            <h1 class="text-2xl">Welcome Back</h1>
+            <p>Sign in to access your healthcare dashboard</p>
+          </header>
+          <section>
+            <form [formGroup]="loginForm" class="space-y-4">
+              <div class="space-y-2">
+                <div class="label">Email Address</div>
+                <div class="relative">
+                  <lucide-icon [img]="Mail" class="absolute left-1.5 top-1.5 h-4 w-4 text-gray-400"></lucide-icon>
+                  <input
+                    formControlName="email"
+                    id="email"
+                    type="email"
+                    placeholder="doctor@hospital.com"
+                    class="input pl-10"
+                  >
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <div class="label">Password</div>
+                <div class="relative">
+                  <lucide-icon [img]="LockIcon" class="absolute left-1.5 top-1.5 h-4 w-4 text-gray-400"></lucide-icon>
+                  <input
+                    formControlName="password"
+                    id="password"
+                    [type]="showPassword()?'text':'password'"
+                    placeholder="Enter your password"
+                    class="input pl-10 pr-10"
+                  >
+                  <button
+                    (click)="showPasswordToggle()"
+                    type="button"
+                    class="absolute right-12 -top-3 h-full hover:bg-transparent cursor-pointer"
+                  >
+                    @if (showPassword()){
+                      <lucide-icon [img]="Eye" class="absolute left-3 top-3 h-4 w-4 text-gray-400"></lucide-icon>
+                    } @else {
+                      <lucide-icon [img]="EyeOff" class="absolute left-3 top-3 h-4 w-4 text-gray-400"></lucide-icon>
+                    }
+                  </button>
+                </div>
+              </div>
+
+              <button
+                class="btn w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700"
+              >
+                Sign In
+              </button>
+            </form>
+
+            <div class="mt-6">
+              <div class="relative">
+                <div class="absolute inset-0 flex items-center">
+                  <span class="w-full border-t"></span>
+                </div>
+                <div class="relative flex justify-center text-xs uppercase">
+                  <span class="bg-white px-2 text-gray-500">Demo Accounts</span>
+                </div>
+              </div>
+              <div class="mt-4 space-y-2">
+                <button
+                  (click)="setDefaultAccount()"
+                  class="btn-outline w-full bg-transparent"
+                >
+                  <lucide-icon [img]="User" class="w-4 h-4 mr-2"></lucide-icon>
+                Demo Doctor Account
+                </button>
+              </div>
+            </div>
+          </section>
+    </div>
   </div>
 </div>
