@@ -1,6 +1,8 @@
+from dotenv import load_dotenv
 from locust import HttpUser, task, between
 import os
 
+load_dotenv()
 API_KEY = os.getenv("API_KEY", "secret")
 
 class ChatUser(HttpUser):
