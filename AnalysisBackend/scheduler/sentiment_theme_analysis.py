@@ -4,26 +4,26 @@ import spacy
 from spacy.matcher import Matcher
 import torch
 
-translator = Translator(service_urls=['translate.google.com'])
-
-# French Sentiment Analysis
-sentiment_pipe = pipeline(
-    "text-classification",
-    model="nlptown/bert-base-multilingual-uncased-sentiment", 
-    device="cpu" 
-)
-
-theme_pipe = pipeline(
-    "zero-shot-classification",
-    model="MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
-    device="cpu"
-)
-
-nlp_fr = spacy.load("fr_core_news_sm")
-matcher = Matcher(nlp_fr.vocab)
-matcher.add("URGENT", [[{"LEMMA": "sang"}, {"LEMMA": "manque"}]])
-
 def analyze_feedback(text: str, input_lang: str) -> dict:
+    translator = Translator(service_urls=['translate.google.com'])
+
+    # French Sentiment Analysis
+    sentiment_pipe = pipeline(
+        "text-classification",
+        model="nlptown/bert-base-multilingual-uncased-sentiment", 
+        device="cpu" 
+    )
+
+    theme_pipe = pipeline(
+        "zero-shot-classification",
+        model="MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+        device="cpu"
+    )
+
+    nlp_fr = spacy.load("fr_core_news_sm")
+    matcher = Matcher(nlp_fr.vocab)
+    matcher.add("URGENT", [[{"LEMMA": "sang"}, {"LEMMA": "manque"}]])
+
     """Returns sentiment, themes, and urgency flag."""
     # Translate to French
     if input_lang != "fr":

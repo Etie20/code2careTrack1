@@ -1,7 +1,7 @@
 import asyncpg
 from datetime import datetime
 from typing import List, Dict, Optional
-from .sentiment_theme_analysis import analyze_feedback
+from scheduler.sentiment_theme_analysis import analyze_feedback
 
 class DBSynchronizer:
     def __init__(self):

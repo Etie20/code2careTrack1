@@ -1,20 +1,20 @@
-from .celery_app import app
-from .database_service import DBSynchronizer
+from  scheduler.celery_app import app
+from scheduler.database_service import DBSynchronizer
 import asyncio
 
 # Database configurations
 SOURCE_DB = {
-    "user": "postgres",
-    "password": "..",
-    "database": "code2care",
-    "host": "localhost"
+    "user": "postgres.ypcufzbpbqywbmwskqew",
+    "password": "zqNj2KxAgrrMwyUU",
+    "database": "postgres",
+    "host": "aws-0-eu-north-1.pooler.supabase.com"
 }
 
 TARGET_DB = {
-    "user": "postgres",
-    "password": "..",
-    "database": "code2care_datamart",
-    "host": "localhost"
+    "user": "postgres.ihnkhvimonixivwphgnt",
+    "password": "VaIC1Hgvm2kCxZYY",
+    "database": "postgres",
+    "host": "aws-0-eu-north-1.pooler.supabase.com"
 }
 
 @app.task(bind=True)

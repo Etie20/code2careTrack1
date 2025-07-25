@@ -7,13 +7,18 @@ from datetime import date
 import os
 from fastapi import APIRouter
 import models.serve
+from dotenv import load_dotenv
+import logging 
+
+logger = logging.getLogger(__name__)
+load_dotenv()
 
 router = APIRouter()
 db_config = {
-    "user": os.getenv("DB_USER", "postgres"),
-    "password": os.getenv("DB_PASSWORD", "JaAk"), 
-    "database": os.getenv("DB_NAME", "code2care_datamart"),
-    "host": os.getenv("DB_HOST", "localhost"),
+    "user": os.getenv("DB_USER", "postgres.ihnkhvimonixivwphgnt"),
+    "password": os.getenv("DB_PASSWORD", "VaIC1Hgvm2kCxZYY"), 
+    "database": os.getenv("DB_NAME", "postgres"),
+    "host": os.getenv("DB_HOST", "aws-0-eu-north-1.pooler.supabase.com"), 
 }
 db_service = models.serve.DatabaseService(db_config)
 
@@ -43,8 +48,14 @@ class ThemeOccurrences(BaseModel):
 
 # Startup and shutdown events
 @router.on_event("startup")
+@router.on_event("startup")
 async def startup():
-    await db_service.connect()
+    try:
+        await db_service.connect()
+        logger.info("Database connection established")
+    except Exception as e:
+        logger.error(f"Database connection failed: {str(e)}")
+        raise
 
 @router.on_event("shutdown")
 async def shutdown():

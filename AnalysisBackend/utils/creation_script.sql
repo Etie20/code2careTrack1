@@ -43,7 +43,7 @@ CREATE TABLE D_Patient (
 );
 
 CREATE TABLE F_Analysis_Feedback (
-    id INTEGER serial PRIMARY KEY,
+    id serial PRIMARY KEY,
     fact_id INTEGER,
     date_id DATE,
     patient_id INTEGER,

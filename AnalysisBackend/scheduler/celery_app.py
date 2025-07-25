@@ -13,7 +13,7 @@ if os.name == 'nt':
 app.conf.beat_schedule = {
     'sync-feedbacks-every-1-minutes': {
         'task': 'scheduler.task.periodic_sync',
-        'schedule': 30.0,  # 1 minutes in seconds
+        'schedule': 60.0,  # 1 minutes in seconds
     },
 }
 app.conf.timezone = 'UTC'
