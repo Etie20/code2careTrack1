@@ -4,6 +4,7 @@ import {environment} from '../../environment/environment';
 import {Observable} from 'rxjs';
 import {Reminder} from '../../models/reminder';
 import {ReminderRequest} from '../../dto/request/reminderRequest';
+import {rxResource} from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class RemindersService {
   constructor(private http: HttpClient) {}
 
   findAllReminders(): Observable<Reminder[]> {
-    return this.http.get<Reminder[]>(`${this.apiUrl}/201`)
+    return this.http.get<Reminder[]>(`${this.apiUrl}/1`)
   }
 
   findReminderByType(ReminderId: string): Observable<Reminder[]> {
