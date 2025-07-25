@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import {NgClass} from '@angular/common';
-import { LucideAngularModule, MessageSquare, BarChart3, Heart, TrendingUp, Star,  } from 'lucide-angular';
+import {LucideAngularModule, MessageSquare, BarChart3, Heart, TrendingUp, Star, Bell, Clock,} from 'lucide-angular';
 import {FeedbackCard} from '../../components/feedback-card/feedback-card';
 import {FeedBack} from '../../models/feedback';
 import {FeedbackService} from '../../services/feedback/feedback-service';
@@ -182,4 +182,6 @@ export class Dashboard {
   protected readonly TrendingUp = TrendingUp;
   protected readonly Star = Star;
   protected readonly MessageSquare = MessageSquare;
+  protected readonly Bell = Bell;
+  protected readonly Clock = Clock;
 }

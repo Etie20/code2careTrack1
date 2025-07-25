@@ -27,7 +27,7 @@ public class AuthenticateUseCase {
         if (!passwordMatches) {
             throw new IllegalArgumentException("Incorrect password");
         }
-        return AuthenticationResponse.builder().token(jwtService.generateToken(user.getFullName())).build();
+        return AuthenticationResponse.builder().token(jwtService.generateToken(user.getFullName(), user.getId())).build();
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -40,6 +40,6 @@ public class AuthenticateUseCase {
                 .createdAt(Instant.now())
                 .build();
         authenticationDomainservice.save(user);
-        return AuthenticationResponse.builder().token(jwtService.generateToken(user.getFullName())).build();
+        return AuthenticationResponse.builder().token(jwtService.generateToken(user.getFullName(), user.getId())).build();
     }
 }

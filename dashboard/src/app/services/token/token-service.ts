@@ -44,4 +44,16 @@ export class TokenService {
       return null;
     }
   }
+
+  getUserId(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.jti ?? null;
+    } catch (e) {
+      return null;
+    }
+  }
 }

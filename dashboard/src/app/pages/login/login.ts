@@ -38,12 +38,13 @@ export class Login {
       }
     ,
       error: (err)=> {
+        this.loading.set(false);
         document.dispatchEvent(new CustomEvent('basecoat:toast', {
           detail: {
             config: {
-              category: 'error',
-              title: 'Error',
-              description: err,
+              category: 'success',
+              title: 'Success',
+              description: 'A success toast called from the front-end.',
               cancel: {
                 label: 'Dismiss'
               }
