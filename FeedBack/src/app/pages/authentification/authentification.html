@@ -11,10 +11,9 @@
                 <label for="phone">Phone Number</label>
                 <input type="text" id="phone" [(ngModel)]="phone" name="phone" />
                 @if (error) {
-                    <span class="text-red-400 text-sm"
-                    >
-                    Incorrect phone number
-                </span>
+                  <span class="text-red-400 text-sm">
+                    {{ errorMessage }}
+                  </span>
 
                 }
             </div>

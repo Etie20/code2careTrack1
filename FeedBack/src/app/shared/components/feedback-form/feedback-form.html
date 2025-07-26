@@ -20,25 +20,50 @@
     />
     <app-emoji-picker
       [selectedEmoji]="selectedEmoji"
-      (emojiSelect)="selectedEmoji = $event"
+      (emojiSelect)="feedEmoji($event)"
       [label]="t.howFeeling"
     />
-    <app-text-feedback
-      [(text)]="feedbackText"
-      [label]="t.additionalComments"
-      [placeholder]="t.placeholder"
-    />
+    <div class="space-y-3 flex flex-col gap-1">
+      <label for="feedback" class="text-base font-medium">{{ t.additionalComments }}</label>
+
+      <textarea
+        class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-base
+           ring-offset-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none
+           focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed
+           disabled:opacity-50 md:text-sm resize-none p-2 "
+
+        placeholder="Tell us about your experience..."
+        [(ngModel)]="feedbackText"
+      ></textarea>
+    </div>
+
     <app-voice-recorder
       [label]="t.voiceNote"
       [(recording)]="isRecording"
     />
 
     <div class=" grid gap-4 md:grid-cols-2">
-      @for (card of feedbackCards; track $index) {
-        <app-feedback-summary-card
-          [label]="t.label[$index]"
-          [borderColor]="card.borderColor"
-        ></app-feedback-summary-card>
+      @for (card of feedbackCards; track $index; let i = $index) {
+        <div
+          class="bg-gradient-to-br "
+        >
+          <div class="space-y-3 flex flex-col gap-1">
+            <label for="feedback" class="text-base font-medium">{{ t.label[i] }}</label>
+
+            <input
+              type="number"
+              class="cursor-pointer hover:shadow-md transition-shadow rounded-lg w-full rounded-md border border-input bg-background px-3 py-2 text-base
+             ring-offset-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none
+             focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed
+             disabled:opacity-50 md:text-sm resize-none p-2 border-gray-200"
+              placeholder="Evaluate your experience on 5"
+              [(ngModel)]="feedbackSummaryTexts[i]"
+            />
+          </div>
+
+        </div>
+
+
 
       }
     </div>

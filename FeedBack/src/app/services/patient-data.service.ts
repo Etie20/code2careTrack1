@@ -14,6 +14,6 @@ export class PatientDataService {
   }
 
   getPatientData(): PatientModel {
-    return this.patientData;
+    return JSON.parse(<string>localStorage.getItem('patient'))
   }
 }
