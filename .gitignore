@@ -9,4 +9,4 @@
 /track1Backend/build/
 /code2careTrack1.iml
 __pycache__/
-.env
+track1Backend/application/src/main/resources/.env
