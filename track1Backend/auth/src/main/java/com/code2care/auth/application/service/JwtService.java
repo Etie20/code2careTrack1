@@ -27,15 +27,16 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String generateToken(String fullName) {
-        return generateToken(new HashMap<>(), fullName);
+    public String generateToken(String fullName, Integer doctorId) {
+        return generateToken(new HashMap<>(), fullName, doctorId);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, String fullName) {
+    public String generateToken(Map<String, Object> extraClaims, String fullName, Integer doctorId) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(fullName)
+                .setId(doctorId.toString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
