@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum ChannelType {
 
     SMS("sms"),
-    MAIL("app");
+    MAIL("mail");
     private final String value;
     private ChannelType(String value) {
         this.value = value;

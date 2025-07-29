@@ -24,6 +24,7 @@ repositories {
 }
 
 extra["springModulithVersion"] = "1.4.1"
+val springAiVersion by extra("1.0.0")
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -33,6 +34,8 @@ dependencies {
     implementation("com.resend:resend-java:3.1.0")
     implementation("com.twilio.sdk:twilio:8.10.0")
     implementation(project(":common"))
+    implementation("org.springframework.ai:spring-ai-starter-model-mistral-ai")
+    implementation("org.springframework.ai:spring-ai-starter-model-anthropic")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
@@ -44,6 +47,7 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom("org.springframework.modulith:spring-modulith-bom:${property("springModulithVersion")}")
+        mavenBom("org.springframework.ai:spring-ai-bom:$springAiVersion")
     }
 }
 
