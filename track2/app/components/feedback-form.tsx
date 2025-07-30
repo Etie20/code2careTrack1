@@ -1,10 +1,24 @@
 "use client"
 
-import { useState } from "react"
+import {useEffect, useRef, useState} from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Mic, Send, Star, Smile, Meh, Frown, Heart, ThumbsUp, ThumbsDown } from "lucide-react"
+import AudioRecorder from "@/app/components/AudioRecorder";
+
+// Declare a global interface to add the webkitSpeechRecognition property to the Window object
+declare global {
+  interface Window {
+    webkitSpeechRecognition: any;
+  }
+}
+
+// Define the type for the commands object
+type CommandFunction = () => void;
+type Commands = {
+  [key: string]: CommandFunction;
+};
 
 const feedbackTranslations = {
   en: {
@@ -29,39 +43,6 @@ const feedbackTranslations = {
     thankYou: "Merci pour vos commentaires!",
     placeholder: "Parlez-nous de votre expérience...",
   },
-  douala: {
-    title: "Shɛa Ɛkspiriɛns Na Yɔ",
-    description: "Hɛlɛp bísɔ impruv hɛlɛt sɛvis",
-    rateExperience: "Rɛt ɛkspiriɛns na yɔ",
-    howFeeling: "Haw yɔ di fil?",
-    writeReview: "Rayt rivyu na yɔ",
-    voiceNote: "Vɔys Not",
-    submit: "Sɛn Fídbak",
-    thankYou: "Tɛnki fɔ fídbak na yɔ!",
-    placeholder: "Tɔk bísɔ abawt ɛkspiriɛns na yɔ...",
-  },
-  bassa: {
-    title: "Shɛ̀à Ɛ̀kspìryɛ̀ns Ì Wɔ̀",
-    description: "Hɛ̀lɛ̀p ɓísɔ̀ ìmpròv hɛ̀lɛ̀t sɛ̀vìs",
-    rateExperience: "Rɛ̀t ɛ̀kspìryɛ̀ns ì wɔ̀",
-    howFeeling: "Ndáp wɔ̀ ì kɛ̀?",
-    writeReview: "Ràyt rìvyù ì wɔ̀",
-    voiceNote: "Vɔ̀ys Nòt",
-    submit: "Sɛ̀n Fídbàk",
-    thankYou: "Tɛ̀nkì fɔ̀ fídbàk ì wɔ̀!",
-    placeholder: "Tɔ̀k ɓísɔ̀ àbàwt ɛ̀kspìryɛ̀ns ì wɔ̀...",
-  },
-  ewondo: {
-    title: "Tɔ́b Mɛ́lɔ́ Wɔ́",
-    description: "Dɔ́m ɓísɔ́ tɔ́b akɔ́s ayɔ́s",
-    rateExperience: "Kɔ́b mɛ́lɔ́ wɔ́",
-    howFeeling: "Ndé wɔ́ à kɛ́?",
-    writeReview: "Ŋwál mɛ́lɔ́ wɔ́",
-    voiceNote: "Ŋwál Ńlɔ́m",
-    submit: "Tɔ́m Mɛ́lɔ́",
-    thankYou: "Akíbá mɛ́lɔ́ wɔ́!",
-    placeholder: "Tɔ́b ɓísɔ́ mɛ́lɔ́ wɔ́...",
-  },
 }
 
 const emotions = [
@@ -83,13 +64,73 @@ export default function FeedbackForm({ language }: FeedbackFormProps) {
   const [feedback, setFeedback] = useState("")
   const [isRecording, setIsRecording] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const t = feedbackTranslations[language]
 
+  // State variables to manage transcription status and text
+  const [isTranscribing, setIsTranscribing] = useState(false);
+  const [transcriptionComplete, setTranscriptionComplete] = useState(false);
+  const [transcriptionText, setTranscriptionText] = useState("");
+
+  // Reference to store the SpeechRecognition instance
+  const recognitionRef = useRef<any>(null);
+
+  // Function to start transcription
+  const startTranscription = () => {
+    setIsTranscribing(true);
+    // Create a new SpeechRecognition instance and configure it
+    recognitionRef.current = new window.webkitSpeechRecognition();
+    recognitionRef.current.continuous = true;
+    recognitionRef.current.interimResults = true;
+
+    // Event handler for speech recognition results
+    recognitionRef.current.onresult = (event: any) => {
+      const { transcript } = event.results[event.results.length - 1][0];
+
+      console.log(event.results);
+      setFeedback(transcript);
+    };
+
+    // Start the speech recognition
+    recognitionRef.current.start();
+
+    // Cleanup effect when the component unmounts
+    useEffect(() => {
+      return () => {
+        // Stop the speech recognition if it's active
+        if (recognitionRef.current) {
+          recognitionRef.current.stop();
+        }
+      };
+    }, []);
+
+    const stopTranscription = () => {
+      if (recognitionRef.current) {
+        // Stop the speech recognition and mark transcription as complete
+        recognitionRef.current.stop();
+        setTranscriptionComplete(true);
+      }
+    };
+
+    // Toggle transcription state and manage transcription actions
+    const handleToggleTranscription = () => {
+      setIsTranscribing(!isTranscribing);
+      if (!isTranscribing) {
+        startTranscription();
+      } else {
+        stopTranscription();
+      }
+    };
+
   const handleSubmit = () => {
+    setIsLoading(true)
     // Simulate feedback submission
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
+    setTimeout(() => {
+      setSubmitted(true)
+      setIsLoading(false)
+      setTimeout(() => setSubmitted(false), 3000)
+    }, 1000)
   }
 
   const toggleRecording = () => {
@@ -173,14 +214,17 @@ export default function FeedbackForm({ language }: FeedbackFormProps) {
           />
 
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={toggleRecording}
-              className={`flex items-center gap-2 ${isRecording ? "bg-red-50 text-red-600 border-red-200" : ""}`}
-            >
-              <Mic className={`h-4 w-4 ${isRecording ? "animate-pulse" : ""}`} />
-              {isRecording ? "Recording..." : t.voiceNote}
-            </Button>
+            <AudioRecorder
+                handleToogleTranscription={handleToggleTranscription}
+                isTranscribing={isTranscribing}
+                transcriptionComplete={transcriptionComplete}
+                transcriptionText={transcriptionText}
+                onTranscriptionComplete={(text) => {
+                  setFeedback(prev => prev + (prev ? ' ' : '') + text)
+                }}
+                language={language === 'fr' ? 'fr' : 'en'}
+                disabled={isLoading}
+            />
 
             <Button onClick={handleSubmit} className="flex items-center gap-2 ml-auto">
               <Send className="h-4 w-4" />
@@ -191,4 +235,4 @@ export default function FeedbackForm({ language }: FeedbackFormProps) {
       </Card>
     </div>
   )
-}
+}}

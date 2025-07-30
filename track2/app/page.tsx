@@ -381,28 +381,28 @@ export default function PremiumMedicalChatbot() {
 
                 {/* Control Buttons */}
                 <div className="flex gap-1">
-                  <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={toggleSpeech}
-                      className="h-9 w-9 p-0 rounded-xl bg-white/60 backdrop-blur-sm border border-white/40 hover:bg-white/80 transition-all duration-200 shadow-sm"
-                      title={language === "fr" ? "Écouter la réponse" : "Listen to response"}
-                  >
-                    {isSpeaking ? (
-                        <VolumeX className="h-4 w-4 text-red-600" />
-                    ) : (
-                        <Volume2 className="h-4 w-4 text-blue-600" />
-                    )}
-                  </Button>
                   {/*<Button*/}
                   {/*    variant="ghost"*/}
                   {/*    size="sm"*/}
-                  {/*    onClick={clearChat}*/}
+                  {/*    onClick={toggleSpeech}*/}
                   {/*    className="h-9 w-9 p-0 rounded-xl bg-white/60 backdrop-blur-sm border border-white/40 hover:bg-white/80 transition-all duration-200 shadow-sm"*/}
-                  {/*    title={language === "fr" ? "Nouvelle conversation" : "New conversation"}*/}
+                  {/*    title={language === "fr" ? "Écouter la réponse" : "Listen to response"}*/}
                   {/*>*/}
-                  {/*  <RotateCcw className="h-4 w-4 text-gray-600" />*/}
+                  {/*  {isSpeaking ? (*/}
+                  {/*      <VolumeX className="h-4 w-4 text-red-600" />*/}
+                  {/*  ) : (*/}
+                  {/*      <Volume2 className="h-4 w-4 text-blue-600" />*/}
+                  {/*  )}*/}
                   {/*</Button>*/}
+                  <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={clearChat}
+                      className="cursor-pointer hover:h-10 hover:w-10 h-9 w-9 p-0 rounded-xl bg-white/60 backdrop-blur-sm border border-white/40 hover:bg-white/80 transition-all duration-200 shadow-sm"
+                      title={language === "fr" ? "Nouvelle conversation" : "New conversation"}
+                  >
+                    <RotateCcw className="h-4 w-4 text-gray-600" />
+                  </Button>
                   {/*<Button*/}
                   {/*    variant="ghost"*/}
                   {/*    size="sm"*/}

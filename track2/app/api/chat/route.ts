@@ -1,5 +1,6 @@
-import { streamText } from "ai"
-import {createMistral} from "@ai-sdk/mistral";
+import {generateText, streamText} from "ai"
+import {AnthropicProviderOptions, createAnthropic} from '@ai-sdk/anthropic';
+import {NextResponse} from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -58,20 +59,18 @@ CONTEXTE MÉDICAL CAMEROUNAIS:
 
 Réponds toujours avec une grande empathie, en utilisant des émojis appropriés et en adaptant ton langage au profil détecté.`
 
-    const mistral = createMistral({
-      apiKey: process.env.MISTRAL_API_KEY,
+    const anthropic = createAnthropic({
+      apiKey: process.env.ANTHROPIC_AI_KEY,
     });
 
     const result = await streamText({
-      model: mistral('mistral-small-latest'),
+      model: anthropic('claude-4-opus-20250514'),
       system: systemPrompt,
       messages,
-      // optional settings:
       providerOptions: {
-        mistral: {
-          documentImageLimit: 8,
-          documentPageLimit: 64,
-        },
+        anthropic: {
+          thinking: { type: 'enabled', budgetTokens: 12000 },
+        } satisfies AnthropicProviderOptions,
       },
     })
 
