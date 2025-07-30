@@ -2,11 +2,14 @@ package com.code2care.common.infrastructure.entites;
 
 import com.code2care.common.domain.model.ChannelType;
 import com.code2care.common.domain.model.Language;
+import com.code2care.common.domain.model.ReminderType;
 import com.code2care.common.infrastructure.config.ChannelTypeConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.OnDelete;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 
@@ -40,12 +43,15 @@ public class Reminder {
     private LocalDateTime reminderDate;
 
     @Column(name = "type", nullable = false)
-    private String type;
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    private ReminderType type;
 
 
     @org.hibernate.annotations.ColumnDefault("'sms'")
     @jakarta.persistence.Column(name = "channel", columnDefinition = "channel_enum not null")
-    @Convert(converter = ChannelTypeConverter.class)
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private ChannelType channel;
 
 /*
@@ -58,6 +64,7 @@ public class Reminder {
     @org.hibernate.annotations.ColumnDefault("'FR'")
     @jakarta.persistence.Column(name = "language", columnDefinition = "language_enum", nullable = false)
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private Language language;
 }
 

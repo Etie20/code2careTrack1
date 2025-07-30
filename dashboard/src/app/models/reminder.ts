@@ -9,4 +9,5 @@ export interface Reminder {
   reminderDate: Date;
   type:         string;
   language:     string;
+  channel: string;
 }
