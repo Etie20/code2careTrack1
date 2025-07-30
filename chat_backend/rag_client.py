@@ -1,8 +1,9 @@
 import os
 import requests
+from dotenv import load_dotenv
 
+load_dotenv()
 RAG_API_URL = os.getenv("RAG_API_URL", "http://localhost:9000/query")
-
 
 def query_rag(query: str) -> str:
     """Return additional context from the RAG module."""
@@ -12,5 +13,4 @@ def query_rag(query: str) -> str:
         data = response.json()
         return data.get("content", "")
     except Exception:
-        # Fail silently and return empty context
         return ""
