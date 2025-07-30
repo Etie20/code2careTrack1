@@ -1,16 +1,20 @@
-"""
-HuggingFace-backed language model integration for the medical chatbot.
-
-Uses a remote HuggingFace endpoint if configured, otherwise uses a fallback.
-"""
-
 import os
-import requests
+import time
+from huggingface_hub import InferenceClient
+from deep_translator import GoogleTranslator
+# from .intent_classifier import IntentClassifier
+import logging
 
+from chat_backend.intent_classifier import IntentClassifier
+
+# Configuration du logging
+logger = logging.getLogger(__name__)
+
+
+"""
+ Simple heuristic for language detection (French vs English).
+ """
 def detect_language(text):
-    """
-    Simple heuristic for language detection (French vs English).
-    """
     fr = ["é", "è", "à", "ô", "quoi", "diagnostic", "traitement", "maladie"]
     for f in fr:
         if f in text.lower():
@@ -20,64 +24,153 @@ def detect_language(text):
 class LLMWrapper:
     def __init__(self, rag_system):
         self.rag_system = rag_system
-        self.hf_endpoint = os.environ.get(
-            "HF_LLM_ENDPOINT",
-            "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2",
-        )
         self.hf_api_key = os.environ.get("HF_API_KEY")
 
-    def generate_response(self, user_message, context, intent, history=None):
-        language = detect_language(user_message)
+        # Use environment variable if set, otherwise default
+        self.model_name = os.environ.get("HF_MODEL_NAME", "distilbert/distilgpt2")
 
-        # New instructions to ensure clarity and empathy in the responses
-        instructions = """
-        Clinical Mode. Communicate with clarity, empathy, and accessibility for all literacy levels. 
-        Use simple, straightforward language without medical jargon. Provide tailored explanations with examples or analogies as needed. 
-        Adopt a compassionate and understanding tone. Include a brief check-in for comprehension after delivering information. 
-        Avoid engagement tactics, sentiment uplift, or continuation bias. Provide only well-established medical information; do not diagnose or prescribe. 
-        For statements with confidence below 8 (on a 1-10 scale), append: "Based on general knowledge; confirm with your doctor." 
-        Terminate replies immediately after the information and check-in. 
-        Goal: enable patient understanding of diagnoses, treatments, and medications.
-        """
+        logger.info(f"Initializing InferenceClient with model: {self.model_name}")
+        self.inference_client = InferenceClient(
+            model=self.model_name,
+            token=self.hf_api_key
+        )
+        self.classifier = IntentClassifier()
 
-        prompt_parts = [instructions, f"Intent: {intent}."]
+        logger.info(f"Initialisation de l'InferenceClient avec le modèle : {self.model_name}")
 
-        if context:
-            prompt_parts.append(f"Context: {context}")
-        if history:
-            prompt_parts.append(f"Conversation history: {history}")
+        if not self.hf_api_key:
+            logger.warning("Clé API Hugging Face (HF_API_KEY) non trouvée. L'accès aux modèles privés ou soumis à des quotas peut échouer.")
 
-        prompt_parts.append(f"User: {user_message}")
-        prompt = "\n".join(prompt_parts)
+        self.inference_client = InferenceClient(
+            model=self.model_name,
+            token=self.hf_api_key
+        )
 
-        # API call to Hugging Face's endpoint
-        if self.hf_endpoint and self.hf_api_key:
+        # self.inference_client = InferenceClient(
+        #     # model="HuggingFaceH4/zephyr-7b-beta",
+        #     model="distilbert/distilgpt2", # Modèle plus petit et fiable pour le test
+        #     token=self.hf_api_key
+        # )
+        self.performance_stats = {
+            'total_requests': 0,
+            'average_response_time': 0.000,
+            'cache_hits': 0,
+            'cache_misses': 0
+        }
+        self.response_cache = {}
+
+    def _generate_raw_response(self, prompt: str, max_tokens: int = 256) -> str:
+        start_time = time.time()
+        self.performance_stats['total_requests'] += 1
+
+        cache_key = hash(prompt + str(max_tokens))
+        if cache_key in self.response_cache:
+            self.performance_stats['cache_hits'] += 1
+            return self.response_cache[cache_key]
+
+        self.performance_stats['cache_misses'] += 1
+
+        try:
+            outputs = self.inference_client.text_generation(
+                prompt,
+                max_new_tokens=max_tokens
+            )
+            # outputs = self.inference_client.text_generation(prompt, max_new_tokens=max_tokens)
+            if isinstance(outputs, list) and "generated_text" in outputs[0]:
+                response_text = outputs[0]["generated_text"]
+                self.response_cache[cache_key] = response_text
+                response_time = time.time() - start_time
+                self.performance_stats['average_response_time'] = round(
+                        (self.performance_stats['average_response_time'] * (self.performance_stats['total_requests'] - 1) + response_time)
+                        / self.performance_stats['total_requests']
+                )
+                return outputs
+            # if outputs:
+            #     response_text = outputs[0]["generated_text"]
+            #     self.response_cache[cache_key] = response_text
+            #     response_time = time.time() - start_time
+            #     self.performance_stats['average_response_time'] = (
+            #             (self.performance_stats['average_response_time'] * (self.performance_stats['total_requests'] - 1) + response_time)
+            #             / self.performance_stats['total_requests']
+            #     )
+            #    return response_text
+            return ""
+
+        except Exception as e:
+            logger.error(f"Error generating response: {e}")
+            return ""
+
+    # def classify_intent(self, user_message: str) -> str:
+    #     prompt = """
+    #     Classify the following message into one of these categories: diagnostic, treatment, medication, general.
+    #
+    #     Examples:
+    #     - Message: 'What is malaria?' Category: diagnostic
+    #     - Message: 'How is hypertension treated?' Category: treatment
+    #     - Message: 'What is aspirin for?' Category: medication
+    #     - Message: 'Can you help me?' Category: general
+    #
+    #     Now classify this message: '{}'
+    #     Category:
+    #     """.format(user_message)
+    #
+    #     response = self._generate_raw_response(prompt, max_tokens=50)
+    #     try:
+    #         category = response.split("Category: ")[1].strip().lower()
+    #         if category in ["diagnostic", "treatment", "medication", "general"]:
+    #             return category
+    #         return "general"
+    #     except:
+    #         return "general"
+
+    def classify_intent(self, user_message: str) -> str:
+        return self.classifier.classify_intent(user_message)
+
+    def translate_to_english(self, text: str) -> str:
+        if self.hf_api_key:
+            prompt = f"Translate the following text to English: {text}"
             try:
-                resp = requests.post(
-                    self.hf_endpoint,
-                    headers={"Authorization": f"Bearer {self.hf_api_key}"},
-                    json={"inputs": prompt, "parameters": {"max_new_tokens": 256}},
-                    timeout=10,
-                )
-                resp.raise_for_status()
-                return resp.json()["generated_text"]
-            except Exception:
-                pass
+                outputs = self.inference_client.text_generation(prompt, max_new_tokens=100)
+                if outputs:
+                    return outputs[0]["generated_text"].strip()
+                return text
+            except:
+                return text
+        return text
 
-        # Fallback heuristic if no endpoint is available
-        if context:
-            if language == "fr":
-                return (
-                    f"Je comprends votre question. Voici des informations générales : {context}. "
-                    f"Ces informations sont données à titre indicatif. Consultez un professionnel de santé pour un avis personnalisé."
-                )
-            else:
-                return (
-                    f"I understand your question. Here is some general information: {context}. "
-                    f"This is for informational purposes only. Consult a healthcare professional for personalized advice."
-                )
-        else:
-            if language == "fr":
-                return "Je suis désolé, je ne trouve pas d'informations spécifiques à ce sujet. Consultez un professionnel de santé."
-            else:
-                return "I'm sorry, I don't have specific information on this topic. Please consult a healthcare professional."
+    def generate_response(self, user_message: str, context: str, intent: str, history: str, explanation_level: str):
+
+        prompt = f"""
+            <s>[INST] Vous êtes un assistant médical expert. Utilisez le contexte fourni et l'historique de la conversation pour répondre à la question de l'utilisateur de manière concise et précise.
+            Niveau d'explication demandé : {explanation_level}.
+    
+            Contexte des documents (RAG) :
+            {context}
+    
+            Historique de la conversation :
+            {history}
+    
+            Question de l'utilisateur :
+            {user_message} [/INST]
+            """
+
+        try:
+            logger.info(f"Génération de la réponse pour l'intention : {intent}")
+
+            # Utilisation de la méthode text_generation avec les bons paramètres
+            response_text = self.inference_client.text_generation(
+                prompt,
+                max_new_tokens=512,
+                do_sample=True,
+                temperature=0.7,
+                top_p=0.95,
+                top_k=50,
+                repetition_penalty=1.2
+            )
+
+            return response_text
+
+        except Exception as e:
+            logger.error(f"Erreur lors de la génération de la réponse du LLM : {e}", exc_info=True)
+            # Fournir une réponse de secours informative en cas d'échec de l'API
+            return "Je suis désolé, je n'ai pas pu générer de réponse pour le moment. Veuillez réessayer plus tard."

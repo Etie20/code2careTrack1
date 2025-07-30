@@ -1,16 +1,55 @@
-fastapi
-uvicorn[standard]
-langchain
-pytest
-httpx
-locust
-pydantic
-torch
-transformers
-requests
+# Enhanced Medical Chatbot Requirements
 
+# Core FastAPI and web framework
+
+fastapi
 python-dotenv
-faiss-cpu
+
+# LangChain and AI/ML dependencies
+
+langchain
+
+langchain-community
+
+langchain-huggingface
 sentence-transformers
-langdetect
+transformers
+peft==0.10.0 # Pinned to the compatible version
+torch
+requests
+faiss-cpu==1.11.0
+huggingface_hub
+# Data processing and validation
+
+pydantic
+
+# Security and validation
+
+# Performance testing
+
+locust
+
+# Development and testing
+
+pytest
+
+# Logging and monitoring
+
+# Medical and healthcare specific
+
+spacy
+
+# Additional utilities
+
 nltk
+
+pytesseract
+pillow
+langsmith
+numpy
+deep-translator
+huggingface-hub
+pandas
+scikit-learn
+googletrans
+starlette

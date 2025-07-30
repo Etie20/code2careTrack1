@@ -243,23 +243,43 @@ Vous pouvez les définir dans un fichier `.env` à la racine du projet ou dans v
 
 ---
 
-# Chatbot Track 2 – LLM Integration and RAG Pipeline
+# Chatbot Track 2 – Enhanced LLM Integration and RAG Pipeline
+
+##  Features Overview
+
+### Core Improvements
+- **Advanced Prompt Engineering**: Adaptive prompts based on user literacy level and language
+- **Vector-based RAG System**: Enhanced semantic search using FAISS and LangChain
+- **Multilingual Support**: French and English with automatic language detection
+- **Literacy Level Adaptation**: Responses tailored to basic, intermediate, and advanced literacy levels
+- **Performance Monitoring**: Real-time performance tracking and optimization
+- **Security Middleware**: Input validation, rate limiting, and medical safety checks
+- **GDPR Compliance**: Volatile memory management with automatic cleanup
+
+### Technical Enhancements
+- **LangChain Integration**: Advanced conversation management and context handling
+- **Enhanced LLM Wrapper**: Improved Mistral integration with safety validation
+- **Vector Database**: FAISS-based similarity search for medical information
+- **Caching System**: Performance optimization with document caching
+- **Comprehensive Testing**: Enhanced test suite with performance and security tests
 
 ## 1. Architecture et Flux général
 
-- **Backend** : FastAPI (`chat_backend/`)
-- **Gestion contexte** : ConversationBufferMemory (LangChain si dispo, fallback maison sinon)
-- **RAG** : TF-IDF sur clinical_summaries.csv (diagnosis + summary_text, pas d’info nominative)
+- **Backend** : FastAPI (`chat_backend/`) avec améliorations
+- **Gestion contexte** : ConversationBufferMemory avec LangChain
+- **RAG** : Vector-based search sur clinical_summaries.csv avec FAISS
 - **LLM** :
-  - Appel d’un endpoint Hugging Face (`HF_LLM_ENDPOINT`) pour un modèle type Mistral (local ou distant)
+  - Appel d'un endpoint Hugging Face (`HF_LLM_ENDPOINT`) pour un modèle type Mistral (local ou distant)
   - Fallback heuristique si non dispo
+  - Prompt engineering adaptatif selon le niveau de littératie
 
 - **Sécurité** :
   - RGPD : historique uniquement en mémoire volatile, suppression possible à tout moment
   - Authentification : header X-API-Key obligatoire
   - Middleware HTTPSRedirect
+  - Validation des entrées et rate limiting
 
-## 2. Variables d’environnement
+## 2. Variables d'environnement
 
 ```API_KEY=your_api_key  
 CLINICAL_SUMMARIES_CSV=../AnalysisBackend/utils/clinical_summaries.csv  
@@ -273,14 +293,14 @@ HF_API_KEY=hf_xxxxx (optionnel)
 - Message texte (FR/EN), éventuellement transcrit depuis la voix
 - Détection de la langue (heuristique)
 
-### b) Classification d’intention
+### b) Classification d'intention
 - Utilisation de `intent_classifier.py` pour détecter : diagnosis, treatment, medication, general
 
 ### c) Récupération de contexte
 - Récupération via RAG (`rag.py`): top-3 extraits du corpus cliniques (TF-IDF cosine similarity)
 
 ### d) Génération de la réponse
-- Construction d’un prompt :  
+- Construction d'un prompt :  
     - instructions (simple/clair/empathique, sans jargon, adapté à la langue)  
     - intention détectée  
     - contexte RAG  
@@ -314,8 +334,8 @@ User: Dois-je prendre des médicaments ?
 
 ## 5. Tests et Évaluations
 
-- Tests unitaires dans `tests/test_chat.py` : vérifient l’enchaînement des messages, la génération de réponse, la gestion/suppression de l’historique  
-- Pour une vraie évaluation médicale, comparer des réponses générées à celles d’un clinicien (structure type : grille d’évaluation, checklist, questionnaire patient)  
+- Tests unitaires dans `tests/test_chat.py` : vérifient l'enchaînement des messages, la génération de réponse, la gestion/suppression de l'historique  
+- Pour une vraie évaluation médicale, comparer des réponses générées à celles d'un clinicien (structure type : grille d'évaluation, checklist, questionnaire patient)  
 - Mesures : clarté, empathie, absence de jargon, adéquation médicale  
 - Possibilité de calcul de métriques textuelles type BLEU/ROUGE. Un  
   exemple de script se trouve dans `tests/metrics/evaluate_bleu_rouge.py`.  
@@ -432,7 +452,11 @@ Lancer le Chat Backend avec FastAPI et LangChain
 ```bash
 pip install -r requirements.txt
 cp .env.example .env  # puis renseignez vos clés dans ce fichier
-uvicorn chat_backend.main:app --reload --port 8000
+#Train intent classifier
+cd chat_backend
+> python -c "from intent_classifier import train_intent_classifier; train_intent_classifier()"
+> cd ..
+uvicorn chat_backend.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 ### Déploiement Docker
