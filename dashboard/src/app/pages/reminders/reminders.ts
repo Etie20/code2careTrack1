@@ -1,4 +1,4 @@
-import {Component, Input, signal} from '@angular/core';
+import {Component, Input, signal, WritableSignal} from '@angular/core';
 import {
   Bell,
   MessageSquare,
@@ -13,6 +13,8 @@ import {RemindersService} from '../../services/reminders/reminders-service';
 import {Reminder} from '../../models/reminder';
 import {rxResource} from '@angular/core/rxjs-interop';
 import {PatientService} from '../../services/patient/patient-service';
+import {Patient} from '../../models/patient';
+import {TokenService} from '../../services/token/token-service';
 
 @Component({
   selector: 'app-reminders',
@@ -27,7 +29,7 @@ import {PatientService} from '../../services/patient/patient-service';
   styleUrl: './reminders.css'
 })
 export class Reminders {
-  @Input() language: string = 'en';
+  @Input() language: string = 'EN';
 
   translations = {
     en: {
@@ -74,68 +76,81 @@ export class Reminders {
 
   t = this.translations[this.language as keyof typeof this.translations] || this.translations.en;
 
-  reminderForm: FormGroup;
+  reminderForm!: FormGroup;
   loading = signal(false);
   error = signal('');
 
   reminders = rxResource({
     defaultValue: [],
-    stream: () => this.remindersService.findAllReminders()
+    stream: () => this.remindersService.findAllReminders(),
   });
 
-  patients = rxResource({
-    defaultValue: [],
-    stream: () => this.patientService.findAllPatient(),
-  });
+  patients: WritableSignal<Patient[]> = signal([]);
 
-  constructor(private remindersService: RemindersService, private patientService: PatientService, private fb: FormBuilder) {
+  constructor(private remindersService: RemindersService, private patientService: PatientService, private fb: FormBuilder, private tokenService: TokenService) {
     this.reminderForm = this.fb.group({
-      reminderType: ['', Validators.required],
+      type: ['', Validators.required],
       patient: [null, Validators.required],
+      doctor: [null, Validators.required],
       channel: ['', Validators.required],
       message: ['', Validators.required],
-      reminderDate: ['', Validators.required],
-      language: ['', Validators.required],
+      reminderDate: [new Date(Date.now()), Validators.required],
+      reminderTime: [new Date(Date.now()), Validators.required],
+      language: [this.language, Validators.required],
     });
   }
 
+  ngOnInit() {
+    this.patientService.findAllPatient().subscribe({
+      next: (patients) => {
+        this.patients.set(patients);
+      }
+    })
+  }
+
   onSubmit() {
-    document.dispatchEvent(new CustomEvent('basecoat:toast', {
-      detail: {
-        config: {
-          category: 'success',
-          title: 'Success',
-          description: 'A success toast called from the front-end.',
-          cancel: {
-            label: 'Dismiss'
+    this.reminderForm.patchValue({
+      'doctor': {'id': Number(this.tokenService.getUserId())},
+      'patient': this.patients().find(p => p.fullName == this.reminderForm.value['patient']) ?? this.reminderForm.value['patient'],
+      'reminderDate': new Date(`${this.reminderForm.value['reminderDate']}T${this.reminderForm.value['reminderTime']}`).toISOString(),
+    });
+    if(this.reminderForm.valid) {
+      this.loading.set(true);
+      this.remindersService.createReminder(this.reminderForm.value).subscribe({
+        complete: () => {
+          document.dispatchEvent(new CustomEvent('basecoat:toast', {
+            detail: {
+              config: {
+                category: 'success',
+                title: 'success',
+                description: 'Reminder created successfully.',
+                cancel: {
+                  label: 'Dismiss'
+                }
+              }
+            }
+          }))
+          this.loading.set(false);
+          location.reload();
+        },
+        error: (err) => {
+          this.error.set(err);
+        }
+      })
+    } else {
+      document.dispatchEvent(new CustomEvent('basecoat:toast', {
+        detail: {
+          config: {
+            category: 'info',
+            title: 'info',
+            description: 'Please fill all the form correctly.',
+            cancel: {
+              label: 'Dismiss'
+            }
           }
         }
-      }
-    }))
-    // document.dispatchEvent(new CustomEvent('basecoat:toast', {
-    //   detail: {
-    //     config: {
-    //       category: 'error',
-    //       title: 'Error',
-    //       description: this.reminderForm.value.toString(),
-    //       cancel: {
-    //         label: 'Dismiss'
-    //       }
-    //     }
-    //   }
-    // }))
-    // if(this.reminderForm.valid) {
-    //   this.loading.set(true);
-    //   this.remindersService.createReminder(this.reminderForm.value).subscribe({
-    //     complete: () => {
-    //       this.loading.set(false);
-    //       this.reminderForm.reset();
-    //     },
-    //     error: (err) => {
-    //       this.error.set(err);
-    //     }
-    //   })
-    // }
+      }))
+    }
   }
 
 

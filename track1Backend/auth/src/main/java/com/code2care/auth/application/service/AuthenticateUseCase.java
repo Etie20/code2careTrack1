@@ -39,7 +39,7 @@ public class AuthenticateUseCase {
                 .phoneNumber(request.getPhoneNumber())
                 .createdAt(Instant.now())
                 .build();
-        authenticationDomainservice.save(user);
-        return AuthenticationResponse.builder().token(jwtService.generateToken(user.getFullName(), user.getId())).build();
+        DoctorDto savedUser = authenticationDomainservice.save(user);
+        return AuthenticationResponse.builder().token(jwtService.generateToken(savedUser.getFullName(), savedUser.getId())).build();
     }
 }
