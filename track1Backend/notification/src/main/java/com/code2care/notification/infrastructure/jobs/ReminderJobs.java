@@ -48,7 +48,7 @@ public class ReminderJobs {
                     .html("<strong>‍⚕️👩🏾‍⚕️"+reminder.getMessage()+"</strong>")
                     .build();
             try {
-                if (reminder.getChannel() == ChannelType.SMS) {
+                if (reminder.getChannel() == ChannelType.sms) {
                     Message.creator(
                                     new PhoneNumber(reminder.getPatient().getPhoneNumber()),
                                     new PhoneNumber("+18145511054"),

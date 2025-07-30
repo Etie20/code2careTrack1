@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum ReminderType{
 
-    APP("appointment"),
-    MED("medication");
+    appointment("appointment"),
+    medication("medication");
     
     private final String value;
     

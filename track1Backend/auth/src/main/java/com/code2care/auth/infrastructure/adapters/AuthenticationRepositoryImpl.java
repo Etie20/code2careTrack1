@@ -16,8 +16,8 @@ public class AuthenticationRepositoryImpl implements AuthenticationRepository {
     private final JpaDoctorRepository jpaDoctorRepository;
 
     @Override
-    public void save(DoctorDto doctorDto) {
-        jpaDoctorRepository.save(Mapper.mapDoctor(doctorDto));
+    public DoctorDto save(DoctorDto doctorDto) {
+        return Mapper.mapDoctorDto(jpaDoctorRepository.save(Mapper.mapDoctor(doctorDto)));
     }
 
     @Override

@@ -13,8 +13,8 @@ import java.util.Optional;
 public class AuthenticationDomainservice {
     private final AuthenticationRepository authenticationRepository;
 
-    public void save(DoctorDto doctorDto) {
-        authenticationRepository.save(doctorDto);
+    public DoctorDto save(DoctorDto doctorDto) {
+        return authenticationRepository.save(doctorDto);
     }
 
     public Optional<DoctorDto> findByEmail(String email) {

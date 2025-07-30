@@ -112,6 +112,7 @@ export class Dashboard {
       appointments: "appointments",
       pending: "pending",
       completed: "completed",
+      noFeedBack: "No Feedback Yet",
     },
     fr: {
       welcome: "Bienvenue chez votre compagnon de santé",
@@ -127,6 +128,7 @@ export class Dashboard {
       appointments: "rendez-vous",
       pending: "en attente",
       completed: "terminé",
+      noFeedBack: "Aucun commentaire pour l'instant",
     },
   }
   t = this.translations[this.language as keyof typeof this.translations] || this.translations.en;

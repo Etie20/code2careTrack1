@@ -48,6 +48,11 @@
           </div>
         }
         <div>
+          @if (reminders.value().length === 0 && !reminders.isLoading()) {
+            <div class="flex w-full justify-center">
+              <p class="text-gray-600">No active reminders</p>
+            </div>
+          }
           @for (reminder of reminders.value(); track $index) {
             <app-reminder-card [reminder]="reminder" [language]="language"></app-reminder-card>
           }
@@ -63,64 +68,75 @@
         <h3 class="text-lg font-semibold">{{ t.createReminder }}</h3>
       </header>
       <section>
-        <form [formGroup]="reminderForm" class="space-y-4">
-          <div class="grid gap-3">
-            <div class="label">{{ t.message }}</div>
-            <input
-              id="patientName"
-              name="patientName"
-              formControlName="message"
-              type="text"
-              placeholder="Enter patient name"
-              class="input w-full"
-            />
-          </div>
-          <div>
-            <label for="reminderType" class="block mb-1">{{ t.reminderType }}</label>
-            <select id="reminderType" formControlName="reminderType" class="select w-full">
-              <option value="appointment">{{ t.appointment }}</option>
-              <option value="medication">{{ t.medication }}</option>
-            </select>
-          </div>
-          <div>
-            <label for="patientName" class="block mb-1">{{ t.patientName }}</label>
-            <input
-              id="patientName"
-              name="patientName"
-              formControlName="patient"
-              type="text"
-              placeholder="Enter patient name"
-              class="input w-full"
-            />
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label for="date" class="block mb-1">Date</label>
+          <form [formGroup]="reminderForm" class="space-y-4">
+            <div class="grid gap-3">
+              <div class="label">{{ t.message }}</div>
               <input
-                id="date"
-                name="date"
-                formControlName="reminderDate"
-                type="date"
+                id="patientName"
+                name="patientName"
+                formControlName="message"
+                type="text"
+                placeholder="Enter message"
                 class="input w-full"
               />
             </div>
-          </div>
+            <div>
+              <label for="reminderType" class="block mb-1">{{ t.reminderType }}</label>
+              <select id="reminderType" formControlName="type" class="select w-full">
+                <option value="appointment">{{ t.appointment }}</option>
+                <option value="medication">{{ t.medication }}</option>
+              </select>
+            </div>
+            <div>
+              <label for="patientName" class="block mb-1">{{ t.patientName }}</label>
+              <input type="text" list="patients" formControlName="patient" class="input">
+              <datalist id="patients">
+                @for (patient of patients(); track patient.id) {
+                  <option value="{{patient.fullName}}">{{patient.fullName}}</option>
+                }
+              </datalist>
+            </div>
 
-          <div>
-            <label for="method" class="block mb-1">{{ t.method }}</label>
-            <select id="method" formControlName="channel" class="select w-full">
-              <option value="sms">{{ t.sms }}</option>
-              <option value="voice">{{ t.voice }}</option>
-              <option value="email">{{ t.email }}</option>
-            </select>
-          </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="date" class="block mb-1">Date</label>
+                <input
+                  id="date"
+                  name="date"
+                  formControlName="reminderDate"
+                  type="date"
+                  class="input"
+                />
+              </div>
+              <div>
+                <label for="time" class="block mb-1">Time</label>
+                <input
+                  id="time"
+                  name="time"
+                  formControlName="reminderTime"
+                  type="time"
+                  class="input"
+                />
+              </div>
+            </div>
 
-          <button (click)="onSubmit()" class="btn w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
-            <lucide-icon [img]="Plus" class="w-4 h-4 text-white mr-2"></lucide-icon>
-            {{ t.create }}
-          </button>
-        </form>
+            <div>
+              <label for="method" class="block mb-1">{{ t.method }}</label>
+              <select id="method" formControlName="channel" class="select w-full">
+                <option value="sms">{{ t.sms }}</option>
+                <option value="mail">{{ t.email }}</option>
+              </select>
+            </div>
+
+            <button (click)="onSubmit()" class="btn w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
+              @if (loading()){
+                <lucide-icon [img]="Loader2" class="w-4 h-4 text-white mr-2 animate-spin"></lucide-icon>
+              } @else {
+              <lucide-icon [img]="Plus" class="w-4 h-4 text-white mr-2"></lucide-icon>
+              {{ t.create }}
+              }
+            </button>
+          </form>
       </section>
     </div>
   </div>
