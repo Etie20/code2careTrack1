@@ -28,4 +28,15 @@ public class PatientController {
     public ResponseEntity<List<PatientDto>> getPatients(@RequestParam String query) {
         return ResponseEntity.ok(getPatientByFullNameUseCase.execute(query));
     }
+
+    @PostMapping("")
+    public ResponseEntity<PatientDto> savePatient(@RequestBody PatientDto patientDto) {
+        try {
+            return ResponseEntity.ok(getPatientsUseCase.execute(patientDto.getPhoneNumber()));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }
