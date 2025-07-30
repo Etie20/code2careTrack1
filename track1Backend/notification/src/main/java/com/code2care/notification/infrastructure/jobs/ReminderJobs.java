@@ -11,11 +11,19 @@ import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.anthropic.AnthropicChatModel;
+import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -28,33 +36,58 @@ public class ReminderJobs {
     private String SID;
     @Value("${reminder.authToken}")
     private String TOKEN;
-    public ReminderJobs(JpaReminderNotificationRepository jpaReminderNotificationRepository) {
+    private final AnthropicChatModel aiChatModel;
+    public ReminderJobs(JpaReminderNotificationRepository jpaReminderNotificationRepository, AnthropicChatModel aiChatModel) {
         this.jpaReminderNotificationRepository = jpaReminderNotificationRepository;
+        this.aiChatModel = aiChatModel;
+
+//                MistralAiChatModel.builder()
+//                        .mistralAiApi(new MistralAiApi(this.mistralAiApi))
+//                .defaultOptions(MistralAiChatOptions.builder()
+//                        .model(MistralAiApi.ChatModel.LARGE.getValue())
+//                        .temperature(0.4)
+//                        .maxTokens(200)
+//                        .build())
+//                .build();
     }
 
     // second, minute, hour, day, month, weekday
     @Scheduled(cron = "0 * * * * *")
     void   sendEmail(){
-        List<Reminder> reminders = jpaReminderNotificationRepository.findRemindersForCurrentDateAndTime();
+        ZonedDateTime nowInGmtPlus1 = ZonedDateTime.now(ZoneId.of("Africa/Douala"));
+        String hourMinute = nowInGmtPlus1.format(DateTimeFormatter.ofPattern("HH:mm"));
+        LocalDate todayInGmtPlus1 = nowInGmtPlus1.toLocalDate();
+        System.out.println("hourMinute: " + hourMinute+" day: "+todayInGmtPlus1.toString());
+        List<Reminder> reminders = jpaReminderNotificationRepository.findRemindersByDateAndTime(todayInGmtPlus1,hourMinute);
+
         Twilio.init(
                 SID,
                 TOKEN);
         for (Reminder reminder : reminders) {
             log.info("Sending reminder to patient {}: {}", reminder.getPatient().getEmail(), reminder.getMessage());
-            CreateEmailOptions params = CreateEmailOptions.builder()
-                    .from("onboarding@resend.dev")
-                    .to(reminder.getPatient().getEmail().value())
-                    .subject("hospital reminder!")
-                    .html("<strong>‍⚕️👩🏾‍⚕️"+reminder.getMessage()+"</strong>")
-                    .build();
+
             try {
-                if (reminder.getChannel() == ChannelType.sms) {
+                    ChatResponse response = aiChatModel.call(
+                            new Prompt(
+                                    "Traduis uniquement le texte ci-dessous en dialecte camerounais " + reminder.getPatient().getPreferredLanguage() + ". " +
+                                            "Si un mot n'existe pas dans ce dialecte, laisse-le tel quel (en français ou anglais). " +
+                                            "Renvoie uniquement le texte traduit, sans explication ni commentaire. " +
+                                            "Voici le texte : " + reminder.getMessage()));
+                String  message = Objects.requireNonNull(response.getResult().getOutput().getText());
+
+                if (reminder.getChannel() == ChannelType.SMS) {
                     Message.creator(
                                     new PhoneNumber(reminder.getPatient().getPhoneNumber()),
                                     new PhoneNumber("+18145511054"),
-                                    "🧑🏾‍⚕️👩🏾‍⚕️"+reminder.getMessage())
+                                    "🧑🏾‍⚕️👩🏾‍⚕️"+message)
                             .create();
                 }else {
+                    CreateEmailOptions params = CreateEmailOptions.builder()
+                            .from("onboarding@resend.dev")
+                            .to(reminder.getPatient().getEmail().value())
+                            .subject("hospital reminder!")
+                            .html("<strong>‍⚕️👩🏾‍⚕️"+message+"</strong>")
+                            .build();
                     CreateEmailResponse data = resend.emails().send(params);
                     System.out.println(data.getId());
                 }
