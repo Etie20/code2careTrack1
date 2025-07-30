@@ -330,7 +330,7 @@ export default function PremiumMedicalChatbot() {
                   <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full border-2 border-white animate-pulse shadow-lg"></div>
                 </div>
 
-                <div className="space-y-1">
+                <div className="sm:block hidden space-y-1">
                   <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent flex items-center gap-2">
                     Dr. Assistant
                     <Sparkles className="h-5 w-5 text-blue-600 animate-pulse" />

@@ -38,8 +38,8 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
         isRecording,
         recordingDuration,
         error,
-        startRecording,
         stopRecording,
+        startRecording,
         cancelRecording,
         formatDuration,
     } = useAudioRecorder({ onTranscriptionComplete, language })
@@ -67,7 +67,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
 
     const t = translations[language]
 
-    const maxDuration = 60 // 60 secondes max
+    const maxDuration = 120 // 60 secondes max
     const progress = (recordingDuration / maxDuration) * 100
 
     // Auto-stop à 60 secondes
@@ -185,7 +185,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
             type="button"
             variant="ghost"
             size="sm"
-            onClick={startRecording}
+            onClick={handleToogleTranscription}
             disabled={disabled}
             className="h-12 w-12 p-0 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl bg-gradient-to-r from-gray-100 to-gray-200 text-gray-600 hover:from-blue-500 hover:to-purple-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
             title={t.startRecording}
