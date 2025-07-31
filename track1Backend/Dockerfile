@@ -4,13 +4,11 @@ FROM eclipse-temurin:21-jdk-jammy AS builder
 WORKDIR /app
 
 # Copier uniquement les fichiers nécessaires pour la construction
-COPY ./gradlew .
-COPY ./gradle ./gradle
-COPY ./build.gradle.kts ./
+COPY . .
 
 
 # Rendre gradlew exécutable et construire l'application
-RUN chmod +x ./gradlew && ./gradlew build --no-daemon
+RUN cd application/ && chmod +x ./gradlew && ./gradlew build -x test --no-daemon
 
 # Étape finale avec une image plus légère
 FROM eclipse-temurin:21-jre-jammy
@@ -18,7 +16,7 @@ FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
 # Copier uniquement le JAR construit de l'étape précédente
-COPY --from=builder /app/build/libs/application-0.0.1-SNAPSHOT-plain.jar app.jar
+COPY --from=builder /app/application/build/libs/application-0.0.1-SNAPSHOT.jar app.jar
 
 # Créer un utilisateur non-root pour des raisons de sécurité
 RUN addgroup --system springuser && \

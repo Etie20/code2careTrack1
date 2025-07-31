@@ -4,16 +4,17 @@ import {environment} from '../../environment/environment';
 import {Observable} from 'rxjs';
 import {Reminder} from '../../models/reminder';
 import {ReminderRequest} from '../../dto/request/reminderRequest';
+import {TokenService} from '../token/token-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RemindersService {
   apiUrl = environment.apiUrl + '/reminder'
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private tokenService: TokenService) {}
 
   findAllReminders(): Observable<Reminder[]> {
-    return this.http.get<Reminder[]>(`${this.apiUrl}/201`)
+    return this.http.get<Reminder[]>(`${this.apiUrl}/${this.tokenService.getUserId()}`)
   }
 
   findReminderByType(ReminderId: string): Observable<Reminder[]> {
