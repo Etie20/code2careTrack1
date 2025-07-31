@@ -26,6 +26,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+      - name: Make gradlew executable
+        run: chmod +x ./track1Backend/gradlew
       - name: Build Java modules
         run: |
           cd track1Backend && ./gradlew build -x test --no-daemon
