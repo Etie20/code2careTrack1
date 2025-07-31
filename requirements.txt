@@ -5,8 +5,8 @@ fastapi==0.116.0
 python-dotenv==1.1.0
 
 # LangChain and AI/ML dependencies
-langchain==0.3.27
-langchain-community==0.3.12
+langchain
+langchain-community
 langchain-huggingface
 sentence-transformers==5.0.0
 transformers==4.41.0
