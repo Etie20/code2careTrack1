@@ -25,6 +25,19 @@ All endpoints require an API key passed in the `X-API-Key` header:
 X-API-Key: your_api_key_here
 ```
 
+## Modèle LLM utilisé
+
+Le backend utilise le modèle **Qwen/Qwen3-Coder-480B-A35B-Instruct** via l'API Hugging Face.
+
+### Pourquoi ce modèle ?
+- Excellente prise en charge du **français** et d'autres langues
+- Réponses **pertinentes et concises** dans un contexte médical
+- Capacité à suivre des instructions complexes (ton, niveau d'explication, etc.)
+
+### Configuration (dans `.env`)
+```env
+HF_MODEL_NAME=Qwen/Qwen3-Coder-480B-A35B-Instruct
+
 ## Endpoints
 
 ### 1. Health Check

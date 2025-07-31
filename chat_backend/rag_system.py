@@ -40,7 +40,7 @@ import time
 from typing import Dict, List, Optional, Tuple, Any
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import FakeEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter

@@ -118,7 +118,10 @@ def _initialize_state(app: FastAPI) -> None:
     logger.info("Système RAG initialisé.")
 
     logger.info("Initialisation du LLMWrapper...")
-    app.state.llm_wrapper = LLMWrapper(app.state.rag_system)
+    HF_API_KEY = os.getenv("HF_API_KEY")
+    if not HF_API_KEY:
+        logger.error("HUGGINGFACE_API_KEY environment variable is not set!")
+    app.state.llm_wrapper = LLMWrapper(api_key=HF_API_KEY)
     logger.info("LLMWrapper initialisé.")
 
     logger.info("Initialisation de l'IntentClassifier...")
@@ -290,14 +293,15 @@ async def chat(request: Request, message: Message):
         if not user_message.strip():
             raise HTTPException(status_code=400, detail="No valid text provided")
 
-        memory = memory_store.setdefault(message.user_id, ConversationBufferMemory())
+        memory = memory_store.setdefault(message.user_id, ConversationBufferMemory(memory_key="chat_history", return_messages=True))
         memory.chat_memory.add_user_message(user_message)
 
-        # intent = intent_classifier.classify_intent(message.text)
-        intent = llm_wrapper.classify_intent(user_message)
+        intent = intent_classifier.classify_intent(user_message)
+        # intent = llm_wrapper.classify_intent(user_message)
         # intent = classify_intent(user_message)
         print(f"Intent detected: {intent}")
         rag_context = rag_system.search(user_message, k=3)
+        # rag_context, detected_lang = rag_system.search(user_message, k=3)
 
         history_messages = [m.content for m in memory.chat_memory.messages]
         history_str = "\n".join(history_messages[:-1]) if len(history_messages) > 1 else ""
@@ -306,11 +310,11 @@ async def chat(request: Request, message: Message):
         logger.info(f"generate_response existe : {hasattr(llm_wrapper, 'generate_response')}")
 
         try:
-            response = await llm_wrapper.generate_response(
+            response = llm_wrapper.generate_response(
                 user_message,
                 rag_context,
                 intent,
-                history_str if history_str else None,
+                history_str or None,
                 message.explanation_level
             )
         except TypeError as e:
