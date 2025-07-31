@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
   title: 'HealthCare Companion',
-  apiUrl: 'https://b291049ec0bd.ngrok-free.app/api/',
+  apiUrl: 'https://code2caretrack1.onrender.com/api',
 };

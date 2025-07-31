@@ -1,13 +1,13 @@
 import {Component, Input} from '@angular/core';
 import {Bell, Calendar, LucideAngularModule, LucideIconData, MessageSquare, Phone, Pill} from 'lucide-angular';
-import {NgClass} from '@angular/common';
 import {Reminder} from '../../models/reminder';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-reminder-card',
   imports: [
-    NgClass,
-    LucideAngularModule
+    LucideAngularModule,
+    NgClass
   ],
   templateUrl: './reminder-card.html',
   standalone: true,
@@ -43,6 +43,7 @@ export class ReminderCard {
         value: ''
       }
     },
+    channel: ''
   };
 
   @Input() language: string = 'en';
@@ -109,7 +110,7 @@ export class ReminderCard {
 
   getMethodIcon(method: string): LucideIconData {
     switch (method) {
-      case 'sms':
+      case 'SMS':
         return MessageSquare;
       case 'voice':
         return Phone;

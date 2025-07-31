@@ -3,7 +3,7 @@ create type language_enum as enum ('FR', 'EN', 'DLA', 'BASSA', 'EWO');
 
 create type reminder_type_enum as enum ('appointment', 'medication');
 
-create type channel_enum as enum ('sms', 'app', 'voice');
+create type channel_enum as enum ('sms', 'app');
 
 create type reminder_status_enum as enum ('active', 'inactive');
 

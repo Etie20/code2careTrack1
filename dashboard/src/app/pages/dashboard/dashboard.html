@@ -1,57 +1,55 @@
 <div class="space-y-6">
   <!-- Welcome Section -->
   <div class="bg-gradient-to-r from-blue-600 to-green-600 rounded-2xl p-6 text-white">
-    <h2 class="text-2xl font-bold mb-2">{{ t.welcome }}</h2>
+    <h2 class="text-2xl font-bold mb-2">{{ t.welcome }}{{tokenService.getUserName()}}</h2>
     <p class="opacity-90">Here's what's happening with your patients today</p>
   </div>
 
   <!-- Key Metrics -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-    <div class="card shadow-lg border-0">
-      <div class="card-content p-6">
-        <div class="flex justify-between items-center">
+  <div class="grid gap-4 md:grid-cols-3">
+    <div class="card bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 p-4 rounded-lg shadow">
+      <header class="p-4">
+        <div class="flex items-center justify-between">
           <div>
-            <p class="text-sm text-gray-600">{{ tb.totalFeedback }}</p>
-            <p class="text-3xl font-bold text-blue-600">{{ mockAnalytics.totalFeedback }}</p>
+            <p class="text-sm text-blue-600 font-medium">{{ tb.totalFeedback }}</p>
+            <p class="text-2xl font-bold text-blue-700">{{ mockAnalytics.totalFeedback }}</p>
           </div>
           <i-lucide [img]="MessageSquare" class="w-8 h-8 text-blue-500"></i-lucide>
         </div>
-      </div>
+      </header>
     </div>
-
-    <div class="card shadow-lg border-0">
-      <div class="card-content p-6">
-        <div class="flex justify-between items-center">
+    <div class="card bg-gradient-to-br border-yellow-200 from-yellow-50 to-yellow-100 p-4 rounded-lg shadow">
+      <header class="p-4">
+        <div class="flex items-center justify-between">
           <div>
-            <p class="text-sm text-gray-600">{{ tb.avgRating }}</p>
-            <p class="text-3xl font-bold text-yellow-600">{{ mockAnalytics.avgRating }}</p>
+            <p class="text-sm text-yellow-600 font-medium">{{ tb.avgRating }}</p>
+            <p class="text-2xl font-bold text-yellow-700">{{ mockAnalytics.avgRating }}</p>
           </div>
           <i-lucide [img]="Star" class="w-8 h-8 text-yellow-500"></i-lucide>
         </div>
-      </div>
+      </header>
     </div>
-
-    <div class="card shadow-lg border-0">
-      <div class="card-content p-6">
-        <div class="flex justify-between items-center">
+    <div class="card bg-gradient-to-br from-green-50 to-green-100 border-green-200 p-4 rounded-lg shadow">
+      <header class="p-4">
+        <div class="flex items-center justify-between">
           <div>
-            <p class="text-sm text-gray-600">{{ tb.responseRate }}</p>
-            <p class="text-3xl font-bold text-green-600">{{ mockAnalytics.responseRate }}%</p>
+            <p class="text-sm text-green-600 font-medium">{{ tb.responseRate }}</p>
+            <p class="text-2xl font-bold text-green-700">{{ mockAnalytics.responseRate }}%</p>
           </div>
           <i-lucide [img]="TrendingUp" class="w-8 h-8 text-green-500"></i-lucide>
         </div>
-      </div>
+      </header>
     </div>
   </div>
 
   <div class="grid gap-6 lg:grid-cols-2">
     <!-- Sentiment Analysis -->
-    <div class="rounded-xl bg-white/80 backdrop-blur-sm p-4">
-      <div class="flex items-center gap-2 mb-4">
+    <div class="card bg-white/80 backdrop-blur-sm">
+      <header class="flex items-center gap-2">
         <i-lucide [img]="Heart" class="w-5 h-5 text-pink-600"></i-lucide>
         <h3 class="font-semibold text-lg">{{ tb.sentimentAnalysis }}</h3>
-      </div>
-      <div class="space-y-4">
+      </header>
+      <section class="space-y-4">
         <!-- Positive -->
         <div class="space-y-3">
           <div class="flex justify-between items-center">
@@ -93,16 +91,16 @@
             ></div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
 
     <!-- Recent Feedback -->
-    <div class="rounded-xl bg-white/80 backdrop-blur-sm p-4">
-      <div class="flex items-center gap-2 mb-4">
+    <div class="card bg-white/80 backdrop-blur-sm">
+      <header class="flex items-center gap-2">
         <i-lucide [img]="Heart" class="w-5 h-5 text-red-500"></i-lucide>
         <h3 class="font-semibold text-lg">{{ t.recentFeedback }}</h3>
-      </div>
-      <div class="space-y-4">
+      </header>
+      <section class="space-y-4">
         <!-- ⏳ Shimmer Placeholder -->
         @if (isLoadingFeedback) {
           @for (i of [0,1,2]; track i) {
@@ -116,25 +114,31 @@
         }
 
         @if (!isLoadingFeedback) {
+          @if (recentFeedBack.length == 0) {
+            <div class="flex w-full justify-center">
+              <p class="text-gray-600">{{ t.recentFeedback }}</p>
+            </div>
+          }
           @for (feedback of recentFeedBack; track feedback.id) {
             <app-feedback-card [feedback]="feedback" [language]="language"> </app-feedback-card>
           }
         }
-
-        <button class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50">
-          {{ t.viewAll }}
-        </button>
-      </div>
+        <footer>
+          <button class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50">
+            {{ t.viewAll }}
+          </button>
+        </footer>
+      </section>
     </div>
   </div>
 
   <!-- Common Themes -->
-  <div class="rounded-xl bg-white/80 backdrop-blur-sm p-4">
-    <div class="flex items-center gap-2 mb-4">
+  <div class="card bg-white/80 backdrop-blur-sm">
+    <header class="flex items-center gap-2">
       <i-lucide [img]="BarChart3" class="w-5 h-5 text-purple-500"></i-lucide>
       <h2 class="font-semibold text-lg">{{ tb.commonThemes }}</h2>
-    </div>
-    <div class="space-y-4">
+    </header>
+    <section class="space-y-4">
       <div>
         @for (theme of mockAnalytics.themes; track theme.theme) {
           <div class="flex justify-between items-center p-3 m-3 bg-gray-50 rounded-lg">
@@ -162,7 +166,7 @@
         }
       </div>
 
-    </div>
+    </section>
   </div>
 
 </div>
