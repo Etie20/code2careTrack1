@@ -28,7 +28,7 @@ class LLMWrapper:
         self.hf_api_key = os.environ.get("HF_API_KEY")
 
         # Use environment variable if set, otherwise default
-        self.model_name = os.environ.get("HF_MODEL_NAME", "distilbert/distilgpt2")
+        self.model_name = os.environ.get("HF_MODEL_NAME", "meta-llama/Meta-Llama-3-8B")
 
         logger.info(f"Initializing InferenceClient with model: {self.model_name}")
         self.inference_client = InferenceClient(
