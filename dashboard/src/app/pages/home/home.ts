@@ -3,7 +3,7 @@ import {NgClass} from '@angular/common';
 import {Dashboard} from '../dashboard/dashboard';
 import {Reminders} from '../reminders/reminders';
 import {LanguageSelector} from '../../components/language-selector/language-selector';
-import {BellIcon, HomeIcon, LucideAngularModule} from 'lucide-angular';
+import {BellIcon, Heart, HomeIcon, LucideAngularModule} from 'lucide-angular';
 
 @Component({
   selector: 'app-home',
@@ -77,4 +77,5 @@ export class Home {
     this.language = lang;
   }
 
+  protected readonly Heart = Heart;
 }

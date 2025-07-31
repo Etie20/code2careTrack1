@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final JpaDoctorRepository repository;
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        DoctorDto doctor = Mapper.mapDoctorDto(repository.findByEmail(new Email(email)).orElseThrow(() -> new IllegalArgumentException("User not found")));
+    public UserDetails loadUserByUsername(String fullName) throws UsernameNotFoundException {
+        DoctorDto doctor = Mapper.mapDoctorDto(repository.findByFullName(fullName).orElseThrow(() -> new IllegalArgumentException("User not found")));
         return org.springframework.security.core.userdetails.User.builder().username(doctor.getEmail().value()).password(doctor.getPassword()).build();
     }
 }

@@ -10,8 +10,19 @@ class DatabaseService:
         self.pool = None
 
     async def connect(self):
-        """Create a connection pool"""
-        self.pool = await asyncpg.create_pool(**self.db_config)
+        try:
+            self.pool = await asyncpg.create_pool(
+                **self.db_config,
+                min_size=1,  # Minimum connections
+                max_size=2,  # Maximum connections
+                command_timeout=30,  # 30 seconds timeout
+                server_settings={
+                    'application_name': 'your_app_name'
+                }
+            )
+        except asyncpg.PostgresError as e:
+            print(f"PostgreSQL connection error: {e}")
+            raise
 
     async def close(self):
         """Close the connection pool"""
@@ -69,7 +80,7 @@ class DatabaseService:
                 query = """
                     SELECT 
                         f.fact_id as feedback_id,
-                        p.first_name || ' ' || p.last_name as patient_name,
+                        p.full_name as patient_name,
                         d.full_name as doctor_name,
                         s.sentiment,
                         f.sentiment_score as score,

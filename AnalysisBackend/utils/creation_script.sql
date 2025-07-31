@@ -37,14 +37,14 @@ CREATE TABLE D_Sentiment (
 
 CREATE TABLE D_Patient (
     patient_id INTEGER PRIMARY KEY,
-    last_name VARCHAR(50),
-    first_name VARCHAR(50),
+    full_name VARCHAR(255),
     language VARCHAR(50),
     region VARCHAR(50)
 );
 
 CREATE TABLE F_Analysis_Feedback (
-    fact_id INTEGER PRIMARY KEY,
+    id serial PRIMARY KEY,
+    fact_id INTEGER,
     date_id DATE,
     patient_id INTEGER,
     doctor_id INTEGER,

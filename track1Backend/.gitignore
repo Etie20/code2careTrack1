@@ -1,3 +1,4 @@
 .gradle
 gradlew.bat
 gradlew
+application/src/main/resources/application.properties
