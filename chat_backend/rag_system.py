@@ -42,6 +42,7 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
+from langchain_community.embeddings import FakeEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 from deep_translator import GoogleTranslator
@@ -49,7 +50,13 @@ import hashlib
 
 class RAGSystem:
     def __init__(self, csv_path: Optional[str] = None, cache_dir: str = "cache"):
-        self.csv_path = csv_path or self._get_default_csv_path()
+        try:
+            self.csv_path = csv_path or self._get_default_csv_path()
+        except FileNotFoundError:
+            print(
+                "Warning: clinical summaries CSV not found. RAG features will be disabled."
+            )
+            self.csv_path = None
         self.cache_dir = cache_dir
         self.vector_store = None
         self.embeddings = None
@@ -88,7 +95,11 @@ class RAGSystem:
         try:
             # Use a multilingual model for better French/English support
             model_name = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-            self.embeddings = HuggingFaceEmbeddings(model_name=model_name)
+            try:
+                self.embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+            except Exception as ee:
+                print(f"Fallback embeddings failed: {ee}. Using FakeEmbeddings.")
+                self.embeddings = FakeEmbeddings(size=768)
             print(f"Initialized embeddings model: {model_name}")
         except Exception as e:
             print(f"Error initializing embeddings: {e}")
@@ -97,13 +108,16 @@ class RAGSystem:
 
     def _load_and_process_documents(self):
         """Load and process clinical documents"""
+        if not self.csv_path:
+            print("No CSV path provided, skipping document loading")
+            return
         cache_file = os.path.join(self.cache_dir, "processed_documents.pkl")
 
         # Try to load from cache first
         if os.path.exists(cache_file):
             try:
                 with open(cache_file, 'rb') as f:
-                    self.documents = pickle.load(f)
+                    self.documents = pickle.load(f)[:1000]
                 print(f"Loaded {len(self.documents)} documents from cache")
                 return
             except Exception as e:

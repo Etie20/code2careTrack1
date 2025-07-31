@@ -1,6 +1,7 @@
 import os
 import time
 from huggingface_hub import InferenceClient
+import asyncio
 from deep_translator import GoogleTranslator
 # from .intent_classifier import IntentClassifier
 import logging
@@ -37,6 +38,7 @@ class LLMWrapper:
         self.classifier = IntentClassifier()
 
         logger.info(f"Initialisation de l'InferenceClient avec le modèle : {self.model_name}")
+        logger.info("Initialisation de LLMWrapper avec la version du 2025-07-30")
 
         if not self.hf_api_key:
             logger.warning("Clé API Hugging Face (HF_API_KEY) non trouvée. L'accès aux modèles privés ou soumis à des quotas peut échouer.")
@@ -58,6 +60,24 @@ class LLMWrapper:
             'cache_misses': 0
         }
         self.response_cache = {}
+
+    def _blocking_generate(self, prompt: str) -> str:
+        """
+        Cette fonction privée contient l'appel bloquant à l'API.
+        Elle sera exécutée dans un thread séparé.
+        """
+        try:
+            response_text = self.inference_client.text_generation(
+                prompt,
+                max_new_tokens=512,
+                do_sample=True,
+                temperature=0.7,
+                top_p=0.95,
+            )
+            return response_text
+        except Exception as e:
+            logger.error(f"Erreur interne lors de l'appel à l'InferenceClient : {e}", exc_info=True)
+            return "Je suis désolé, une erreur technique est survenue lors de la génération de la réponse."
 
     def _generate_raw_response(self, prompt: str, max_tokens: int = 256) -> str:
         start_time = time.time()
@@ -138,10 +158,13 @@ class LLMWrapper:
                 return text
         return text
 
-    def generate_response(self, user_message: str, context: str, intent: str, history: str, explanation_level: str):
-
+    async def generate_response(self, user_message: str, context: str, intent: str, history: str, explanation_level: str):
+        logger.info("Version de generate_response exécutée : 2025-07-30, arguments reçus : user_message=%s, context=%s, intent=%s, history=%s, explanation_level=%s",
+                    user_message, context, intent, history, explanation_level)
+        logger.info("Appel de generate_response avec les arguments : user_message=%s, context=%s, intent=%s, history=%s, explanation_level=%s",
+                    user_message, context, intent, history, explanation_level)
         prompt = f"""
-            <s>[INST] Vous êtes un assistant médical expert. Utilisez le contexte fourni et l'historique de la conversation pour répondre à la question de l'utilisateur de manière concise et précise.
+            <s>[INST] Vous êtes un assistant médical expert. Répondre à la question de l'utilisateur de manière concise et précise.
             Niveau d'explication demandé : {explanation_level}.
     
             Contexte des documents (RAG) :
@@ -158,15 +181,16 @@ class LLMWrapper:
             logger.info(f"Génération de la réponse pour l'intention : {intent}")
 
             # Utilisation de la méthode text_generation avec les bons paramètres
-            response_text = self.inference_client.text_generation(
-                prompt,
-                max_new_tokens=512,
-                do_sample=True,
-                temperature=0.7,
-                top_p=0.95,
-                top_k=50,
-                repetition_penalty=1.2
-            )
+            response_text = await asyncio.to_thread(self._blocking_generate, prompt)
+            # response_text = self.inference_client.text_generation(
+            #     prompt,
+            #     max_new_tokens=512,
+            #     do_sample=True,
+            #     temperature=0.7,
+            #     top_p=0.95,
+            #     top_k=50,
+            #     repetition_penalty=1.2
+            # )
 
             return response_text
 

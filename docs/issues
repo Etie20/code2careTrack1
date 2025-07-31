@@ -1,0 +1,4 @@
+ Get-ChildItem -Path . -Recurse -Directory -Name "__pycache__" | ForEach-Object { Remove-Item -Path $_ -Recurse -Force }
+taskkill /PID 43216 /F
+cls
+netstat -aon | findstr :8000

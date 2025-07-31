@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from starlette.requests import Request
 
 from langsmith.utils import get_api_key
-from pydantic import BaseModel, field_validator, FieldValidationInfo
+from pydantic import BaseModel, field_validator, FieldValidationInfo, Field
 from typing import Dict, Optional
 import os
 import time
@@ -62,7 +62,7 @@ performance_stats = {
 
 class Message(BaseModel):
     user_id: str
-    text: Optional[str] = None
+    text: Optional[str] = Field(None, alias="message")
     image: Optional[UploadFile] = File(None)
     explanation_level: Optional[str] = "simple"
 
@@ -85,6 +85,7 @@ class Message(BaseModel):
 # --- Lifespan Manager pour une initialisation unique ---
 
 class AppState:
+    """Container for application state objects."""
     rag_system: RAGSystem
     llm_wrapper: LLMWrapper
     intent_classifier: IntentClassifier
@@ -94,10 +95,23 @@ class AppState:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Ce code s'exécute une seule fois au démarrage
-    logger.info("--- Démarrage de l'application ---")
+    """Handle application shutdown cleanup."""
+    yield
+    print("Arrêt de l'application...")
+    if hasattr(app.state, "memory_store"):
+        app.state.memory_store.clear()
+    # if hasattr(app.state, "rag_system"):
+    #     app.state.rag_system.clear_cache()
+    print("Ressources nettoyées.")
 
-    app.state = AppState()
+app: FastAPI = FastAPI(
+    title="Code2Care Chat API",
+    version="1.1",
+    description="Advanced medical chatbot with RAG, multilingual support, and performance optimization.",
+    lifespan=lifespan,
+)
+def _initialize_state(app: FastAPI) -> None:
+    """Populate ``app.state`` with core components."""
 
     logger.info("Initialisation du système RAG...")
     app.state.rag_system = RAGSystem()
@@ -115,36 +129,24 @@ async def lifespan(app: FastAPI):
     logger.info("Magasin de mémoire en mémoire initialisé.")
 
     app.state.performance_stats = {
-        'total_requests': 0, 'average_response_time': 0, 'error_count': 0,
+        'total_requests': 0, 'average_response_time': 0.0, 'error_count': 0,
         'ocr_requests': 0, 'text_requests': 0
     }
     logger.info("Statistiques de performance initialisées.")
-
-    logger.info("--- Application prête ---")
-    yield
-
-    # Ce code s'exécute à l'arrêt
-    print("Arrêt de l'application...")
-    app.state.memory_store.clear()
-    app.state.rag_system.clear_cache()
-    print("Ressources nettoyées.")
+# Initialize state immediately for test environments that do not run startup
+_initialize_state(app)
 
 
-app: FastAPI = FastAPI(
-    title="Code2Care Chat API",
-    version="1.1",
-    description="Advanced medical chatbot with RAG, multilingual support, and performance optimization.",
-    lifespan=lifespan # On attache le gestionnaire de cycle de vie ici
-)
+@app.on_event("startup")
+async def startup_event() -> None:
+    """Initialize application state once on startup."""
+    logger.info("--- Démarrage de l'application ---")
+    _initialize_state(app)
 
-# ...
 
-# app = FastAPI(
-#     title="Code2Care Chat API",
-#     version="1.1",
-#     description="Advanced medical chatbot with RAG, multilingual support, and performance optimization.",
-#     lifespan=lifespan # On attache le gestionnaire de cycle de vie ici
-# )
+
+
+
 
 # Add to FastAPI app
 @app.exception_handler(Exception)
@@ -205,14 +207,20 @@ async def verify_api_key(x_api_key: Optional[str] = Header(None)):
 async def performance_middleware(request: Request, call_next):
     """Performance monitoring middleware"""
     start_time = time.time()
+    performance_stats['total_requests'] += 1
 
     response = await call_next(request)
 
     process_time = time.time() - start_time
-    performance_stats['average_response_time'] = round((
-        (performance_stats['average_response_time'] * (performance_stats['total_requests'] - 1) + process_time)
-        / performance_stats['total_requests']
-    ),4)
+    total = performance_stats['total_requests']
+    performance_stats['average_response_time'] = round(
+        (
+                performance_stats['average_response_time'] * (total - 1)
+                + process_time
+        )
+        / total,
+        4,
+        )
 
     response.headers["X-Process-Time"] = str(process_time)
     return response
@@ -294,13 +302,20 @@ async def chat(request: Request, message: Message):
         history_messages = [m.content for m in memory.chat_memory.messages]
         history_str = "\n".join(history_messages[:-1]) if len(history_messages) > 1 else ""
 
-        response = llm_wrapper.generate_response(
-            user_message,
-            rag_context,
-            intent,
-            history_str if history_str else None,
-            message.explanation_level
-        )
+        logger.info(f"Type de llm_wrapper : {type(llm_wrapper)}")
+        logger.info(f"generate_response existe : {hasattr(llm_wrapper, 'generate_response')}")
+
+        try:
+            response = await llm_wrapper.generate_response(
+                user_message,
+                rag_context,
+                intent,
+                history_str if history_str else None,
+                message.explanation_level
+            )
+        except TypeError as e:
+            logger.error(f"Erreur dans generate_response : {e}", exc_info=True)
+            raise
 
         memory.chat_memory.add_ai_message(response)
         history = [m.content for m in memory.chat_memory.messages]
@@ -313,9 +328,11 @@ async def chat(request: Request, message: Message):
             "intent": intent,
             "processing_time": time.time() - start_time
         }
-
+    except HTTPException as e:
+        performance_stats['error_count'] += 1
+        raise e
     except Exception as e:
-        logging.error(f"Erreur dans /chat: {str(e)}", exc_info=True)
+        logging.error(f"Erreur dans /chat at {e.__traceback__.tb_lineno}: {str(e)}", exc_info=True)
         performance_stats['error_count'] += 1
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
@@ -331,8 +348,8 @@ async def cleanup_old_conversations(request: Request):
     for user_id in expired_users:
         del request.app.state.memory_store[user_id]
 
-@app.get("/history/{user_id}")
-def get_history(request: Request, user_id: str, api_key: str = Depends(get_api_key)):
+@app.get("/history/{user_id}", dependencies=[Depends(verify_api_key)])
+def get_history(request: Request, user_id: str):
     memory = request.app.state.memory_store.get(user_id)
     if not memory:
         raise HTTPException(status_code=404, detail="Conversation not found")
@@ -345,8 +362,8 @@ def get_history(request: Request, user_id: str, api_key: str = Depends(get_api_k
         "conversation_active": True
     }
 
-@app.delete("/history/{user_id}")
-def delete_history(request: Request, user_id: str, api_key: str = Depends(get_api_key)):
+@app.delete("/history/{user_id}", dependencies=[Depends(verify_api_key)])
+def delete_history(request: Request, user_id: str):
     if user_id in request.app.state.memory_store:
         del request.app.state.memory_store[user_id]
         return {"status": "deleted", "user_id": user_id, "message": "Conversation successfully deleted"}

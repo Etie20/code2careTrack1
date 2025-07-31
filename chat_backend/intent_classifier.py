@@ -94,13 +94,17 @@ class IntentClassifier:
             logger.info("Modèle et vectoriseur chargés avec succès depuis les fichiers .pkl.")
         except FileNotFoundError:
             logger.warning("Fichiers .pkl non trouvés. Lancement de l'entraînement du modèle.")
-            train_intent_classifier()
-            # On ré-essaie de charger après l'entraînement
-            with open(MODEL_PATH, 'rb') as f:
-                self.model = pickle.load(f)
-            with open(VECTORIZER_PATH, 'rb') as f:
-                self.vectorizer = pickle.load(f)
-            logger.info("Modèle et vectoriseur chargés après entraînement.")
+            try:
+                train_intent_classifier()
+                with open(MODEL_PATH, 'rb') as f:
+                    self.model = pickle.load(f)
+                with open(VECTORIZER_PATH, 'rb') as f:
+                    self.vectorizer = pickle.load(f)
+                logger.info("Modèle et vectoriseur chargés après entraînement.")
+            except FileNotFoundError as e:
+                logger.error(f"Training data missing: {e}. Falling back to default intent.")
+                self.model = None
+                self.vectorizer = None
 
     def classify_intent(self, text: str) -> str:
         if not self.model or not self.vectorizer:
