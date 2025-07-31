@@ -95,7 +95,7 @@ class AppState:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-     """Initialize and clean up resources."""
+    """Initialize and clean up resources."""
     logger.info("--- Démarrage de l'application ---")
     _initialize_state(app)
     yield
