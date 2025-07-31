@@ -17,17 +17,13 @@ import {
   User,
   Bot,
   Stethoscope,
-  Volume2,
-  VolumeX,
   RotateCcw,
   Sparkles,
   Heart,
   Shield,
-  Globe,
   Zap,
   Brain,
   Activity,
-  Settings,
   Star,
   Headphones,
 } from "lucide-react"
@@ -52,12 +48,10 @@ export default function PremiumMedicalChatbot() {
   const [language, setLanguage] = useState<"fr" | "en">("fr")
   const [userProfile, setUserProfile] = useState<UserProfile>({ language: "fr" })
   const [isTyping, setIsTyping] = useState(false)
-  const [connectionStatus, setConnectionStatus] = useState<"online" | "offline" | "connecting">("online")
-  const [showSettings, setShowSettings] = useState(false)
 
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
-  const recognitionRef = useRef<any>(null)
+  const recognitionRef = useRef<SpeechRecognition | null>(null)
   const synthRef = useRef<SpeechSynthesis | null>(null)
 
   const { messages, input, handleInputChange, handleSubmit, isLoading, setMessages } = useChat({
@@ -180,27 +174,25 @@ export default function PremiumMedicalChatbot() {
         recognition.maxAlternatives = 3
 
         recognition.onstart = () => {
-          setConnectionStatus("connecting")
         }
 
         recognition.onresult = (event) => {
           const transcript = event.results[event.results.length - 1][0].transcript
 
           if (event.results[event.results.length - 1].isFinal) {
-            handleInputChange({ target: { value: transcript } } as any)
-            setIsRecording(false)
-            setConnectionStatus("online")
+          handleInputChange({
+            target: { value: transcript }
+          } as unknown as React.ChangeEvent<HTMLTextAreaElement>)
+              setIsRecording(false)
           }
         }
 
         recognition.onerror = () => {
           setIsRecording(false)
-          setConnectionStatus("offline")
         }
 
         recognition.onend = () => {
           setIsRecording(false)
-          setConnectionStatus("online")
         }
 
         recognitionRef.current = recognition
@@ -227,7 +219,9 @@ export default function PremiumMedicalChatbot() {
         const randomExample = medicalExamples[Math.floor(Math.random() * medicalExamples.length)]
 
         setTimeout(() => {
-          handleInputChange({ target: { value: randomExample } } as any)
+          handleInputChange({
+            target: { value: randomExample }
+          } as unknown as React.ChangeEvent<HTMLTextAreaElement>)
           setIsRecording(false)
         }, 2500)
       }
@@ -263,24 +257,13 @@ export default function PremiumMedicalChatbot() {
       [language],
   )
 
-  const toggleSpeech = useCallback(() => {
-    if (isSpeaking && synthRef.current) {
-      synthRef.current.cancel()
-      setIsSpeaking(false)
-    } else {
-      const lastAssistantMessage = messages.filter((m) => m.role === "assistant").pop()
-      if (lastAssistantMessage) {
-        speakMessage(lastAssistantMessage.content)
-      }
-    }
-  }, [isSpeaking, messages, speakMessage])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault()
       if (input.trim()) {
         setIsTyping(true)
-        handleSubmit(e as any)
+          handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)
       }
     }
   }
@@ -583,7 +566,10 @@ export default function PremiumMedicalChatbot() {
                         <Button
                             key={index}
                             variant="outline"
-                            onClick={() => handleInputChange({ target: { value: action.text } } as any)}
+                              onClick={() =>
+                                handleInputChange({
+                                  target: { value: action.text }
+                                } as unknown as React.ChangeEvent<HTMLTextAreaElement>)}
                             className="group relative h-auto p-4 bg-white/60 backdrop-blur-sm border border-white/40 hover:bg-white/80 transition-all duration-300 hover:shadow-lg hover:scale-105 rounded-2xl overflow-hidden"
                             disabled={isLoading}
                         >

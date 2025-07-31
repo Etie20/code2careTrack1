@@ -148,13 +148,41 @@ const commonQueries = [
   "Hypertension diet",
 ]
 
+interface Condition {
+  name: string
+  category: string
+  description: string
+  symptoms: string[]
+  prevalence: string
+}
+
+interface Medication {
+  name: string
+  type: string
+  indication: string
+  dosage: string
+  sideEffects: string[]
+}
+
+interface Treatment {
+  name: string
+  conditions: string[]
+  description: string
+  effectiveness: string
+}
+
+type SearchResult =
+  | (Condition & { type: "condition" })
+  | (Medication & { type: "medication" })
+  | (Treatment & { type: "treatment" })
+
 interface MedicalKnowledgeBaseProps {
   language: keyof typeof knowledgeTranslations
 }
 
 export default function MedicalKnowledgeBase({ language }: MedicalKnowledgeBaseProps) {
   const [searchQuery, setSearchQuery] = useState("")
-  const [searchResults, setSearchResults] = useState<any[]>([])
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([])
   const [activeTab, setActiveTab] = useState("conditions")
 
   const t = knowledgeTranslations[language]
@@ -166,7 +194,7 @@ export default function MedicalKnowledgeBase({ language }: MedicalKnowledgeBaseP
     }
 
     const query = searchQuery.toLowerCase()
-    const results: any[] = []
+    const results: SearchResult[] = []
 
     // Search conditions
     medicalData.conditions.forEach((condition) => {
