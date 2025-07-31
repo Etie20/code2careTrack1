@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from starlette.requests import Request
 
 from langsmith.utils import get_api_key
-from pydantic import BaseModel, field_validator, FieldValidationInfo, Field
+from pydantic import BaseModel, field_validator, ValidationInfo, Field
 from typing import Dict, Optional
 import os
 import time
@@ -68,7 +68,7 @@ class Message(BaseModel):
 
     @field_validator("text", "image", mode="before")
     @classmethod
-    def check_inputs(cls, value, info: FieldValidationInfo):
+    def check_inputs(cls, value, info: ValidationInfo):
         values = info.data
         field_name = info.field_name
         if field_name == "image" and value is not None and (values is None or values.get("text") is None):
@@ -95,7 +95,9 @@ class AppState:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Handle application shutdown cleanup."""
+     """Initialize and clean up resources."""
+    logger.info("--- Démarrage de l'application ---")
+    _initialize_state(app)
     yield
     print("Arrêt de l'application...")
     if hasattr(app.state, "memory_store"):
@@ -136,15 +138,7 @@ def _initialize_state(app: FastAPI) -> None:
         'ocr_requests': 0, 'text_requests': 0
     }
     logger.info("Statistiques de performance initialisées.")
-# Initialize state immediately for test environments that do not run startup
-_initialize_state(app)
 
-
-@app.on_event("startup")
-async def startup_event() -> None:
-    """Initialize application state once on startup."""
-    logger.info("--- Démarrage de l'application ---")
-    _initialize_state(app)
 
 
 
