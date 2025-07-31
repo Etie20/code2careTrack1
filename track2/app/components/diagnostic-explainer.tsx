@@ -101,12 +101,6 @@ const commonConditions = [
   { name: "Migraine", icon: "🧠", severity: "episodic" },
 ]
 
-const commonMedications = [
-  { name: "Metformin", condition: "Diabetes", dosage: "500mg twice daily" },
-  { name: "Lisinopril", condition: "Hypertension", dosage: "10mg once daily" },
-  { name: "Albuterol", condition: "Asthma", dosage: "2 puffs as needed" },
-  { name: "Omeprazole", condition: "Gastritis", dosage: "20mg once daily" },
-]
 
 interface DiagnosticExplainerProps {
   language: keyof typeof diagnosticTranslations
@@ -114,7 +108,21 @@ interface DiagnosticExplainerProps {
 
 export default function DiagnosticExplainer({ language }: DiagnosticExplainerProps) {
   const [input, setInput] = useState("")
-  const [explanation, setExplanation] = useState<any>(null)
+  interface Explanation {
+    condition: string
+    description: string
+    causes: string[]
+    symptoms: string[]
+    treatment: {
+      medications: { name: string; purpose: string; dosage: string }[]
+      lifestyle: string[]
+      followUp: string[]
+    }
+    sideEffects: string[]
+    precautions: string[]
+  }
+
+  const [explanation, setExplanation] = useState<Explanation | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
   const t = diagnosticTranslations[language]
@@ -255,7 +263,7 @@ export default function DiagnosticExplainer({ language }: DiagnosticExplainerPro
               </TabsContent>
 
               <TabsContent value="medications" className="space-y-4">
-                {explanation.treatment.medications.map((med: any, index: number) => (
+                {explanation.treatment.medications.map((med: { name: string; purpose: string; dosage: string }, index: number) => (
                   <div key={index} className="p-4 border rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <Pill className="h-4 w-4 text-blue-600" />

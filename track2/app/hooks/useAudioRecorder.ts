@@ -72,7 +72,7 @@ export const useAudioRecorder = ({ onTranscriptionComplete, language }: UseAudio
             setError('Impossible d\'accéder au microphone')
             setIsRecording(false)
         }
-    }, [])
+    }, [transcribeAudio])
 
     const stopRecording = useCallback(() => {
         if (mediaRecorderRef.current && isRecording) {
