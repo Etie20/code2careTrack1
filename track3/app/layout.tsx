@@ -4,9 +4,9 @@ import { GeistMono } from 'geist/font/mono'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: 'BloodBank AI',
+  description: 'Enlighten innovation BloodBank AI platform',
+  generator: 'Enlighten innovation',
 }
 
 export default function RootLayout({

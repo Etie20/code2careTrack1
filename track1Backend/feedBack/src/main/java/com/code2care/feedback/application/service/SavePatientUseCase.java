@@ -12,7 +12,7 @@ public class SavePatientUseCase {
         this.patientDomainService = patientDomainService;
     }
 
-    public PatientDto excute (PatientDto patientDto) {
+    public PatientDto execute (PatientDto patientDto) {
         return patientDomainService.save(patientDto);
     }
 
