@@ -1,9 +1,9 @@
 "use client"
 
 import {Component, useState} from "react"
-import { Button } from "../../../track2/components/ui/button"
-import { Card, CardContent } from "../../../track2/components/ui/card"
-import { Badge } from "../../../track2/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import {
   Droplets,
   Brain,

@@ -3,11 +3,11 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Button } from "../../../track2/components/ui/button"
-import { Input } from "../../../track2/components/ui/input"
-import { Card, CardContent } from "../../../track2/components/ui/card"
-import { Badge } from "../../../track2/components/ui/badge"
-import { Checkbox } from "../../../track2/components/ui/checkbox"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   Droplets,
   Mail,
