@@ -6,10 +6,17 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Users, Search, Plus, Phone, Mail, Calendar, Droplets, Heart, Award, MapPin, Filter } from "lucide-react"
+import AddDonorModal from "./modals/add-donor-modal"
+import FilterModal from "./modals/filter-modal"
+import ExportModal from "./modals/export-modal"
 
 export default function Donors() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedFilter, setSelectedFilter] = useState("all")
+
+  const [showAddDonorModal, setShowAddDonorModal] = useState(false)
+  const [showFilterModal, setShowFilterModal] = useState(false)
+  const [showExportModal, setShowExportModal] = useState(false)
 
   const donorsData = [
     {
@@ -233,11 +240,14 @@ export default function Donors() {
                 <option value="not_eligible">Not Eligible</option>
                 <option value="pending">Pending</option>
               </select>
-              <Button variant="outline" size="sm" className="bg-white/80">
+              <Button variant="outline" size="sm" className="bg-white/80" onClick={() => setShowFilterModal(true)}>
                 <Filter className="w-4 h-4 mr-2" />
                 Filter
               </Button>
-              <Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
+              <Button
+                onClick={() => setShowAddDonorModal(true)}
+                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Donor
               </Button>
@@ -377,6 +387,11 @@ export default function Donors() {
           </CardContent>
         </Card>
       )}
+
+      {/* Modals */}
+      <AddDonorModal open={showAddDonorModal} onOpenChange={setShowAddDonorModal} />
+      <FilterModal open={showFilterModal} onOpenChange={setShowFilterModal} type="donors" />
+      <ExportModal open={showExportModal} onOpenChange={setShowExportModal} type="donors" />
     </div>
   )
 }

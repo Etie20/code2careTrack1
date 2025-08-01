@@ -1,12 +1,18 @@
 "use client"
 
+import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { TrendingUp, TrendingDown, BarChart3, PieChart, Calendar, Download, RefreshCw, Target } from "lucide-react"
+import FilterModal from "./modals/filter-modal"
+import ExportModal from "./modals/export-modal"
 
 export default function Analytics() {
+  const [showFilterModal, setShowFilterModal] = useState(false)
+  const [showExportModal, setShowExportModal] = useState(false)
+
   const monthlyData = [
     { month: "Jan", donations: 245, requests: 198, efficiency: 81 },
     { month: "Feb", donations: 267, requests: 223, efficiency: 84 },
@@ -152,7 +158,7 @@ export default function Analytics() {
                 <PieChart className="w-5 h-5" />
                 Blood Type Distribution
               </CardTitle>
-              <Button variant="outline" size="sm" className="bg-white/60">
+              <Button variant="outline" size="sm" className="bg-white/60" onClick={() => setShowExportModal(true)}>
                 <Download className="w-4 h-4 mr-2" />
                 Export
               </Button>
@@ -250,6 +256,9 @@ export default function Analytics() {
           </CardContent>
         </Card>
       </div>
+      {/* Modals */}
+      <FilterModal open={showFilterModal} onOpenChange={setShowFilterModal} type="analytics" />
+      <ExportModal open={showExportModal} onOpenChange={setShowExportModal} type="analytics" />
     </div>
   )
 }
