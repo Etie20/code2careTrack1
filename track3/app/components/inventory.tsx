@@ -19,7 +19,14 @@ import {
   Download,
 } from "lucide-react"
 
+import AddStockModal from "./modals/add-stock-modal"
+import FilterModal from "./modals/filter-modal"
+import ExportModal from "./modals/export-modal"
+
 export default function Inventory() {
+  const [showAddStockModal, setShowAddStockModal] = useState(false)
+  const [showFilterModal, setShowFilterModal] = useState(false)
+  const [showExportModal, setShowExportModal] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedFilter, setSelectedFilter] = useState("all")
 
@@ -196,15 +203,18 @@ export default function Inventory() {
                 <option value="low">Low</option>
                 <option value="critical">Critical</option>
               </select>
-              <Button variant="outline" size="sm" className="bg-white/80">
+              <Button variant="outline" size="sm" className="bg-white/80" onClick={() => setShowFilterModal(true)}>
                 <Filter className="w-4 h-4 mr-2" />
                 Filter
               </Button>
-              <Button variant="outline" size="sm" className="bg-white/80">
+              <Button variant="outline" size="sm" className="bg-white/80" onClick={() => setShowExportModal(true)}>
                 <Download className="w-4 h-4 mr-2" />
                 Export
               </Button>
-              <Button className="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700">
+              <Button
+                onClick={() => setShowAddStockModal(true)}
+                className="bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700"
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Stock
               </Button>
@@ -336,6 +346,11 @@ export default function Inventory() {
           </CardContent>
         </Card>
       )}
+
+      {/* Modals */}
+      <AddStockModal open={showAddStockModal} onOpenChange={setShowAddStockModal} />
+      <FilterModal open={showFilterModal} onOpenChange={setShowFilterModal} type="inventory" />
+      <ExportModal open={showExportModal} onOpenChange={setShowExportModal} type="inventory" />
     </div>
   )
 }

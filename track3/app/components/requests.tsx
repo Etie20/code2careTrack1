@@ -19,9 +19,17 @@ import {
   Hospital,
 } from "lucide-react"
 
+import AddRequestModal from "./modals/add-request-modal"
+import FilterModal from "./modals/filter-modal"
+import ExportModal from "./modals/export-modal"
+
 export default function Requests() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedFilter, setSelectedFilter] = useState("all")
+
+  const [showAddRequestModal, setShowAddRequestModal] = useState(false)
+  const [showFilterModal, setShowFilterModal] = useState(false)
+  const [showExportModal, setShowExportModal] = useState(false)
 
   const requestsData = [
     {
@@ -265,11 +273,14 @@ export default function Requests() {
                 <option value="fulfilled">Fulfilled</option>
                 <option value="rejected">Rejected</option>
               </select>
-              <Button variant="outline" size="sm" className="bg-white/80">
+              <Button variant="outline" size="sm" className="bg-white/80" onClick={() => setShowFilterModal(true)}>
                 <Filter className="w-4 h-4 mr-2" />
                 Filter
               </Button>
-              <Button className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700">
+              <Button
+                onClick={() => setShowAddRequestModal(true)}
+                className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 New Request
               </Button>
@@ -411,6 +422,11 @@ export default function Requests() {
           </CardContent>
         </Card>
       )}
+
+      {/* Modals */}
+      <AddRequestModal open={showAddRequestModal} onOpenChange={setShowAddRequestModal} />
+      <FilterModal open={showFilterModal} onOpenChange={setShowFilterModal} type="requests" />
+      <ExportModal open={showExportModal} onOpenChange={setShowExportModal} type="requests" />
     </div>
   )
 }
