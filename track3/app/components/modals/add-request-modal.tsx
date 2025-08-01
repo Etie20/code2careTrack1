@@ -3,303 +3,304 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { CalendarIcon, Plus, CalendarPlus2Icon as CalendarIcon2, Hospital, AlertTriangle } from "lucide-react"
+import { CalendarIcon, CalendarIcon as CalendarLucide, Loader2, AlertTriangle } from "lucide-react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
+import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
+import { Textarea } from "@/components/ui/textarea"
 
 interface AddRequestModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  onSubmit: (data: any) => void
 }
 
-export default function AddRequestModal({ open, onOpenChange }: AddRequestModalProps) {
+export default function AddRequestModal({ open, onOpenChange, onSubmit }: AddRequestModalProps) {
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     hospital: "",
     bloodType: "",
-    unitsRequested: "",
+    quantity: "",
     urgency: "",
-    purpose: "",
-    contactName: "",
-    contactPhone: "",
-    requiredBy: undefined as Date | undefined,
-    patientInfo: "",
+    procedure: "",
+    patientId: "",
+    requestedBy: "",
+    deadline: undefined as Date | undefined,
     notes: "",
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const bloodTypes = ["O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"]
-  const hospitals = [
-    "Hôpital Central de Yaoundé",
-    "Hôpital Laquintinie Douala",
-    "Centre Hospitalier d'Essos",
-    "Hôpital Régional de Bafoussam",
-    "Clinique des Spécialités",
-    "Hôpital Gynéco-Obstétrique",
+  const bloodTypes = [
+    { value: "A+", label: "A+", color: "bg-red-500" },
+    { value: "A-", label: "A-", color: "bg-red-400" },
+    { value: "B+", label: "B+", color: "bg-blue-500" },
+    { value: "B-", label: "B-", color: "bg-blue-400" },
+    { value: "AB+", label: "AB+", color: "bg-purple-500" },
+    { value: "AB-", label: "AB-", color: "bg-purple-400" },
+    { value: "O+", label: "O+", color: "bg-green-500" },
+    { value: "O-", label: "O-", color: "bg-green-400" },
   ]
+
   const urgencyLevels = [
-    { value: "emergency", label: "Urgence", color: "text-red-600" },
-    { value: "high", label: "Élevée", color: "text-orange-600" },
-    { value: "medium", label: "Moyenne", color: "text-yellow-600" },
-    { value: "low", label: "Faible", color: "text-green-600" },
+    { value: "critical", label: "Critique", color: "bg-red-500", description: "Urgence vitale - < 1h" },
+    { value: "urgent", label: "Urgent", color: "bg-orange-500", description: "Urgent - < 4h" },
+    { value: "routine", label: "Routine", color: "bg-blue-500", description: "Programmé - < 24h" },
+    { value: "scheduled", label: "Planifié", color: "bg-green-500", description: "Planifié - < 72h" },
+  ]
+
+  const hospitals = [
+    "Hôpital Saint-Louis",
+    "CHU Pitié-Salpêtrière",
+    "Hôpital Cochin",
+    "Hôpital Necker",
+    "Hôpital Bichat",
+    "Hôpital Tenon",
+    "Hôpital Lariboisière",
+  ]
+
+  const procedures = [
+    "Chirurgie cardiaque",
+    "Chirurgie orthopédique",
+    "Transplantation",
+    "Oncologie",
+    "Traumatologie",
+    "Obstétrique",
+    "Pédiatrie",
+    "Autre",
   ]
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
+    setLoading(true)
 
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    console.log("Nouvelle demande créée:", formData)
-    setIsSubmitting(false)
+    onSubmit(formData)
+    setLoading(false)
     onOpenChange(false)
 
     // Reset form
     setFormData({
       hospital: "",
       bloodType: "",
-      unitsRequested: "",
+      quantity: "",
       urgency: "",
-      purpose: "",
-      contactName: "",
-      contactPhone: "",
-      requiredBy: undefined,
-      patientInfo: "",
+      procedure: "",
+      patientId: "",
+      requestedBy: "",
+      deadline: undefined,
       notes: "",
     })
   }
 
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-indigo-800">
-            <Plus className="w-5 h-5" />
-            Nouvelle Demande de Sang
-          </DialogTitle>
-        </DialogHeader>
+  const selectedUrgency = urgencyLevels.find((u) => u.value === formData.urgency)
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Informations de l'Hôpital */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Informations de l'Établissement</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <CalendarLucide className="w-5 h-5 text-blue-500" />
+              Nouvelle Demande de Sang
+            </DialogTitle>
+          </DialogHeader>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="hospital">Hôpital/Clinique *</Label>
+                <Label htmlFor="hospital">Hôpital *</Label>
                 <Select
-                  value={formData.hospital}
-                  onValueChange={(value) => setFormData({ ...formData, hospital: value })}
+                    value={formData.hospital}
+                    onValueChange={(value) => setFormData({ ...formData, hospital: value })}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Sélectionner l'établissement" />
+                    <SelectValue placeholder="Sélectionner l'hôpital" />
                   </SelectTrigger>
                   <SelectContent>
                     {hospitals.map((hospital) => (
-                      <SelectItem key={hospital} value={hospital}>
-                        <div className="flex items-center gap-2">
-                          <Hospital className="w-4 h-4" />
+                        <SelectItem key={hospital} value={hospital}>
                           {hospital}
-                        </div>
-                      </SelectItem>
+                        </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="contactName">Nom du Contact *</Label>
+                <Label htmlFor="requestedBy">Demandé par *</Label>
                 <Input
-                  id="contactName"
-                  value={formData.contactName}
-                  onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
-                  placeholder="Dr. Marie Nkomo"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="contactPhone">Téléphone du Contact *</Label>
-                <Input
-                  id="contactPhone"
-                  value={formData.contactPhone}
-                  onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
-                  placeholder="+237 6XX XXX XXX"
-                  required
+                    id="requestedBy"
+                    placeholder="Dr. Martin Dubois"
+                    value={formData.requestedBy}
+                    onChange={(e) => setFormData({ ...formData, requestedBy: e.target.value })}
+                    required
                 />
               </div>
             </div>
-          </div>
 
-          {/* Détails de la Demande */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Détails de la Demande</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="bloodType">Type de Sang *</Label>
+                <Label htmlFor="bloodType">Groupe Sanguin *</Label>
                 <Select
-                  value={formData.bloodType}
-                  onValueChange={(value) => setFormData({ ...formData, bloodType: value })}
+                    value={formData.bloodType}
+                    onValueChange={(value) => setFormData({ ...formData, bloodType: value })}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Sélectionner le type" />
+                    <SelectValue placeholder="Sélectionner" />
                   </SelectTrigger>
                   <SelectContent>
                     {bloodTypes.map((type) => (
-                      <SelectItem key={type} value={type}>
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                            {type}
+                        <SelectItem key={type.value} value={type.value}>
+                          <div className="flex items-center gap-2">
+                            <div className={`w-3 h-3 rounded-full ${type.color}`}></div>
+                            {type.label}
                           </div>
-                          {type}
-                        </div>
-                      </SelectItem>
+                        </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="unitsRequested">Unités Demandées *</Label>
+                <Label htmlFor="quantity">Quantité (unités) *</Label>
                 <Input
-                  id="unitsRequested"
-                  type="number"
-                  min="1"
-                  value={formData.unitsRequested}
-                  onChange={(e) => setFormData({ ...formData, unitsRequested: e.target.value })}
-                  placeholder="Ex: 5"
-                  required
+                    id="quantity"
+                    type="number"
+                    placeholder="2"
+                    value={formData.quantity}
+                    onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
+                    required
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="urgency">Niveau d'Urgence *</Label>
-                <Select
-                  value={formData.urgency}
-                  onValueChange={(value) => setFormData({ ...formData, urgency: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Sélectionner l'urgence" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {urgencyLevels.map((level) => (
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="urgency">Niveau d'Urgence *</Label>
+              <Select value={formData.urgency} onValueChange={(value) => setFormData({ ...formData, urgency: value })}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Sélectionner le niveau d'urgence" />
+                </SelectTrigger>
+                <SelectContent>
+                  {urgencyLevels.map((level) => (
                       <SelectItem key={level.value} value={level.value}>
                         <div className="flex items-center gap-2">
-                          {level.value === "emergency" && <AlertTriangle className="w-4 h-4 text-red-500" />}
-                          <span className={level.color}>{level.label}</span>
+                          <div className={`w-3 h-3 rounded-full ${level.color}`}></div>
+                          <div>
+                            <div className="font-medium">{level.label}</div>
+                            <div className="text-xs text-gray-500">{level.description}</div>
+                          </div>
                         </div>
                       </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {selectedUrgency && (
+                  <Badge variant="outline" className={`${selectedUrgency.color} text-white border-0`}>
+                    <AlertTriangle className="w-3 h-3 mr-1" />
+                    {selectedUrgency.label} - {selectedUrgency.description}
+                  </Badge>
+              )}
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="procedure">Type de Procédure</Label>
+                <Select
+                    value={formData.procedure}
+                    onValueChange={(value) => setFormData({ ...formData, procedure: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Sélectionner" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {procedures.map((procedure) => (
+                        <SelectItem key={procedure} value={procedure}>
+                          {procedure}
+                        </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="purpose">Objectif/Procédure *</Label>
-                <Select
-                  value={formData.purpose}
-                  onValueChange={(value) => setFormData({ ...formData, purpose: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Sélectionner l'objectif" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="emergency_surgery">Chirurgie d'Urgence</SelectItem>
-                    <SelectItem value="scheduled_surgery">Chirurgie Programmée</SelectItem>
-                    <SelectItem value="blood_transfusion">Transfusion Sanguine</SelectItem>
-                    <SelectItem value="cancer_treatment">Traitement du Cancer</SelectItem>
-                    <SelectItem value="trauma_care">Soins de Traumatologie</SelectItem>
-                    <SelectItem value="maternity_care">Soins de Maternité</SelectItem>
-                    <SelectItem value="other">Autre</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label>Date Limite *</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start text-left font-normal bg-transparent">
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {formData.requiredBy
-                        ? format(formData.requiredBy, "PPP 'à' HH:mm", { locale: fr })
-                        : "Sélectionner date et heure"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={formData.requiredBy}
-                      onSelect={(date) => setFormData({ ...formData, requiredBy: date })}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                <Label htmlFor="patientId">ID Patient</Label>
+                <Input
+                    id="patientId"
+                    placeholder="PAT-2024-001"
+                    value={formData.patientId}
+                    onChange={(e) => setFormData({ ...formData, patientId: e.target.value })}
+                />
               </div>
             </div>
-          </div>
 
-          {/* Informations Patient */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Informations Patient (Optionnel)</h3>
             <div className="space-y-2">
-              <Label htmlFor="patientInfo">Informations Patient</Label>
+              <Label>Date Limite *</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                      variant="outline"
+                      className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !formData.deadline && "text-muted-foreground",
+                      )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {formData.deadline ? (
+                        format(formData.deadline, "PPP 'à' HH:mm", { locale: fr })
+                    ) : (
+                        <span>Sélectionner la date limite</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                      mode="single"
+                      selected={formData.deadline}
+                      onSelect={(date) => setFormData({ ...formData, deadline: date })}
+                      initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="notes">Notes Additionnelles</Label>
               <Textarea
-                id="patientInfo"
-                value={formData.patientInfo}
-                onChange={(e) => setFormData({ ...formData, patientInfo: e.target.value })}
-                placeholder="Âge, sexe, diagnostic, etc."
-                rows={2}
+                  id="notes"
+                  placeholder="Informations complémentaires sur la demande..."
+                  value={formData.notes}
+                  onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                  rows={3}
               />
             </div>
-          </div>
 
-          {/* Notes Supplémentaires */}
-          <div className="space-y-2">
-            <Label htmlFor="notes">Notes Supplémentaires</Label>
-            <Textarea
-              id="notes"
-              value={formData.notes}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              placeholder="Informations complémentaires, instructions spéciales..."
-              rows={3}
-            />
-          </div>
-
-          {/* Actions */}
-          <div className="flex justify-end gap-3 pt-4 border-t">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Annuler
-            </Button>
-            <Button
-              type="submit"
-              disabled={
-                isSubmitting ||
-                !formData.hospital ||
-                !formData.bloodType ||
-                !formData.unitsRequested ||
-                !formData.urgency
-              }
-              className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
-            >
-              {isSubmitting ? (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Création en cours...
-                </div>
-              ) : (
-                <>
-                  <CalendarIcon2 className="w-4 h-4 mr-2" />
-                  Créer la Demande
-                </>
-              )}
-            </Button>
-          </div>
-        </form>
-      </DialogContent>
-    </Dialog>
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                Annuler
+              </Button>
+              <Button
+                  type="submit"
+                  disabled={loading || !formData.hospital || !formData.bloodType || !formData.quantity || !formData.urgency}
+              >
+                {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Création en cours...
+                    </>
+                ) : (
+                    "Créer la Demande"
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
   )
 }

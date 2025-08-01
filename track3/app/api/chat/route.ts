@@ -26,5 +26,5 @@ Remember: You are providing educational information, not medical diagnosis or tr
     messages,
   })
 
-  return result.toDataStreamResponse()
+  return result.toTextStreamResponse()
 }
