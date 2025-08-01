@@ -17,6 +17,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class Patient {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @org.hibernate.annotations.ColumnDefault("nextval('patient_id_seq')")
     @Column(name = "id", nullable = false)
     private Integer id;
