@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant BD as Base de Données
+    participant M4 as Module Optimisation
+    participant Front as Dashboard
+    participant User as Personnel
+
+    BD->>M4: Événement (Stock bas/Expiration)
+    M4->>M4: Calcule criticité
+    alt Niveau Critique
+        M4->>Front: Alerte Rouge (WebSocket)
+        Front->>User: Notification Push
+    else Niveau Moyen
+        M4->>Front: Alerte Jaune
+    else Info
+        M4->>Front: Alerte Verte
+    end
+    User->>Front: Marquer comme Lu
+    Front->>BD: Mettre à jour Statut

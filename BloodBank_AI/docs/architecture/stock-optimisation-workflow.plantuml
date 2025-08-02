@@ -1,0 +1,19 @@
+@startuml
+start
+:Module4 déclenché quotidiennement;
+partition "Processus d'Optimisation" {
+  :Récupère prévisions (Module2);
+  :Récupère stocks actuels (Module1);
+  :Calcule besoins critiques;
+  if (Stock < Sécurité) then (Oui)
+    :Classifie urgence (Routine/Urgence);
+    :Calcule quantité optimale;
+    :Génère recommandation;
+  else (Non)
+    :Vérifie risque expiration;
+  endif
+  :Persiste recommandations;
+}
+:Envoie notification au dashboard;
+stop
+@enduml
