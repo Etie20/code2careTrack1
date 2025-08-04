@@ -75,7 +75,7 @@ public class ReminderJobs {
                                             "Voici le texte : " + reminder.getMessage()));
                 String  message = Objects.requireNonNull(response.getResult().getOutput().getText());
 
-                if (reminder.getChannel() == ChannelType.SMS) {
+                if (reminder.getChannel() == ChannelType.sms) {
                     Message.creator(
                                     new PhoneNumber(reminder.getPatient().getPhoneNumber()),
                                     new PhoneNumber("+18145511054"),

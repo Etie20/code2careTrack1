@@ -19,4 +19,8 @@ public class PatientDomainService {
     public List<PatientDto> findByFullName(String fullName) {
         return patientRepository.findAllPatients(fullName);
     }
+
+    public PatientDto save(PatientDto patientDto) {
+        return patientRepository.save(patientDto);
+    }
 }

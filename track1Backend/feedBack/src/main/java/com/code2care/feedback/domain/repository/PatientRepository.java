@@ -8,4 +8,6 @@ public interface PatientRepository {
     PatientDto findByPhoneNumber(String phoneNumber);
     List<PatientDto> findAllPatients(String fullName);
 
+    PatientDto save(PatientDto patientDto);
+
 }

@@ -79,6 +79,7 @@ export default function LoginPage() {
 
   // @ts-ignore
   // @ts-ignore
+  // @ts-ignore
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-pink-50 flex">
       {/* Left Side - Login Form */}
@@ -180,7 +181,8 @@ export default function LoginPage() {
                   <div className="flex items-center space-x-2">
                     <Checkbox id="remember"
                               checked={rememberMe}
-                              onCheckedChange={setRememberMe}/>
+                              onCheckedChange={checked => setRememberMe}
+                    />
                     <label htmlFor="remember" className="text-sm text-gray-600">
                       Se souvenir de moi
                     </label>

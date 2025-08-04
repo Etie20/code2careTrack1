@@ -48,7 +48,7 @@ export default function BloodBankSystem() {
             <div className="flex items-center gap-4">
               <div className="text-right">
                 <p className="text-sm font-medium text-gray-800">
-                  {currentTime.toLocaleDateString("en-US", {
+                  {currentTime.toLocaleDateString("fr-FR", {
                     weekday: "long",
                     year: "numeric",
                     month: "long",
@@ -61,13 +61,13 @@ export default function BloodBankSystem() {
                 {criticalLow > 0 && (
                   <Badge variant="destructive" className="animate-pulse">
                     <AlertTriangle className="w-3 h-3 mr-1" />
-                    {criticalLow} Critical
+                    {criticalLow} Critique
                   </Badge>
                 )}
                 {expiringToday > 0 && (
                   <Badge variant="outline" className="border-orange-300 text-orange-700">
                     <Calendar className="w-3 h-3 mr-1" />
-                    {expiringToday} Expiring
+                    {expiringToday} Expirent
                   </Badge>
                 )}
               </div>
@@ -83,20 +83,20 @@ export default function BloodBankSystem() {
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
                 <Droplets className="w-4 h-4" />
-                <span className="font-medium">{totalUnits} Total Units</span>
+                <span className="font-medium">{totalUnits} Unités Totales</span>
               </div>
               <div className="flex items-center gap-2">
                 <Activity className="w-4 h-4" />
-                <span>8 Blood Types Monitored</span>
+                <span>8 Groupes Sanguins Surveillés</span>
               </div>
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-4 h-4" />
-                <span>AI Forecasting Active</span>
+                <span>Prévisions IA Actives</span>
               </div>
             </div>
             <div className="flex items-center gap-1">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-xs">System Online</span>
+              <span className="text-xs">Système En Ligne</span>
             </div>
           </div>
         </div>
@@ -108,27 +108,27 @@ export default function BloodBankSystem() {
           <TabsList className="grid w-full grid-cols-6 bg-white/80 backdrop-blur-sm shadow-sm">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <Activity className="w-4 h-4" />
-              Dashboard
+              Tableau de Bord
             </TabsTrigger>
             <TabsTrigger value="inventory" className="flex items-center gap-2">
               <Droplets className="w-4 h-4" />
-              Inventory
+              Inventaire
             </TabsTrigger>
             <TabsTrigger value="forecasting" className="flex items-center gap-2">
               <Brain className="w-4 h-4" />
-              AI Forecast
+              Prévisions IA
             </TabsTrigger>
             <TabsTrigger value="donors" className="flex items-center gap-2">
               <Users className="w-4 h-4" />
-              Donors
+              Donneurs
             </TabsTrigger>
             <TabsTrigger value="requests" className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
-              Requests
+              Demandes
             </TabsTrigger>
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <TrendingUp className="w-4 h-4" />
-              Analytics
+              Analyses
             </TabsTrigger>
           </TabsList>
 
