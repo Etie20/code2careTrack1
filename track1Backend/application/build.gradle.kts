@@ -41,7 +41,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.ai:spring-ai-starter-model-mistral-ai")
 	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
-
+	implementation("org.modelmapper:modelmapper:3.2.0")
 	implementation("io.github.cdimascio:dotenv-java:3.0.0")
 
 	compileOnly("org.projectlombok:lombok")
