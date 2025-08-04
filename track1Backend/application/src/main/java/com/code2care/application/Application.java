@@ -17,7 +17,8 @@ import java.nio.file.Paths;
 		"com.code2care.reminder",
 		"com.code2care.analytics",
 		"com.code2care.common",
-		"com.code2care.notification"
+		"com.code2care.notification",
+		"com.code2care.donor"
 })
 @EnableScheduling
 public class Application {
