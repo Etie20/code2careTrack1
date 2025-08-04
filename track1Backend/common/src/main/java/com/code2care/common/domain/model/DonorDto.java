@@ -1,23 +1,24 @@
 package com.code2care.common.domain.model;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-@Value
+@Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DonorDto {
-    Integer id;
-    String fullName;
-    String contactNumber;
-    String bloodType;
-    String gender;
-    LocalDateTime dateOfBirth;
-    String email;
-    String address;
-    String occupation;
-    LocalDateTime registrationDate;
-    LocalDateTime lastDonationDate;
-    String medicalNotes;
+    private Integer id;
+    private String fullName;
+    private String contactNumber;
+    private String bloodType;
+    private String gender;
+    private LocalDate dateOfBirth;
+    private String email;
+    private String address;
+    private String occupation;
+    private LocalDate registrationDate;
+    private LocalDate lastDonationDate;
+    private String medicalNotes;
 }

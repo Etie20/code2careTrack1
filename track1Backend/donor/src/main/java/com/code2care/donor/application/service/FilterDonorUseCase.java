@@ -6,15 +6,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
-public class SearchDonorUseCase {
+public class FilterDonorUseCase {
     private final DonorDomainService donorDomainService;
 
-    public SearchDonorUseCase(DonorDomainService donorDomainService) {
+    public FilterDonorUseCase(DonorDomainService donorDomainService) {
         this.donorDomainService = donorDomainService;
     }
 
-    public Page<DonorDto> execute(String searchTerm, Pageable pageable) {
-        return donorDomainService.searchDonor(searchTerm, pageable);
+    public Page<DonorDto> execute(String bloodType, LocalDate startDate, LocalDate endDate, Pageable pageable) {
+        return donorDomainService.filterDonor(bloodType, startDate, endDate, pageable);
     }
 }

@@ -1,9 +1,6 @@
 package com.code2care.common.infrastructure.entites;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -16,6 +13,7 @@ import java.time.LocalDate;
 @Table(name = "donors")
 public class Donor {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ColumnDefault("nextval('donors_donor_id_seq')")
     @Column(name = "donor_id", nullable = false)
     private Integer id;
