@@ -31,6 +31,7 @@ dependencies {
     implementation("org.springframework.modulith:spring-modulith-starter-core")
     implementation("org.springframework.modulith:spring-modulith-starter-jpa")
     implementation("org.hibernate:hibernate-core:7.0.8.Final")
+    implementation("jakarta.validation:jakarta.validation-api:3.1.1")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")

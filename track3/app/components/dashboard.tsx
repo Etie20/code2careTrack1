@@ -16,7 +16,16 @@ import {
   Bell,
 } from "lucide-react"
 
+import { useState } from "react"
+import AddStockModal from "./modals/add-stock-modal"
+import AddDonorModal from "./modals/add-donor-modal"
+import AddRequestModal from "./modals/add-request-modal"
+
 export default function Dashboard() {
+  const [showAddStockModal, setShowAddStockModal] = useState(false)
+  const [showAddDonorModal, setShowAddDonorModal] = useState(false)
+  const [showAddRequestModal, setShowAddRequestModal] = useState(false)
+
   const bloodInventory = [
     { type: "O+", units: 245, capacity: 300, status: "good", trend: "up", percentage: 82 },
     { type: "O-", units: 89, capacity: 150, status: "low", trend: "down", percentage: 59 },
@@ -230,19 +239,28 @@ export default function Dashboard() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button className="h-20 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700">
+            <Button
+              onClick={() => setShowAddStockModal(true)}
+              className="h-20 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700"
+            >
               <div className="text-center">
                 <Droplets className="w-6 h-6 mx-auto mb-1" />
                 <span className="text-sm">Add Donation</span>
               </div>
             </Button>
-            <Button className="h-20 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
+            <Button
+              onClick={() => setShowAddDonorModal(true)}
+              className="h-20 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+            >
               <div className="text-center">
                 <Users className="w-6 h-6 mx-auto mb-1" />
                 <span className="text-sm">Register Donor</span>
               </div>
             </Button>
-            <Button className="h-20 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700">
+            <Button
+              onClick={() => setShowAddRequestModal(true)}
+              className="h-20 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+            >
               <div className="text-center">
                 <Activity className="w-6 h-6 mx-auto mb-1" />
                 <span className="text-sm">Process Request</span>
@@ -257,6 +275,18 @@ export default function Dashboard() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Modals */}
+      <AddStockModal open={showAddStockModal} onOpenChange={setShowAddStockModal} onSubmit={function (data: any): void {
+        throw new Error("Function not implemented.")
+      }} />
+      <AddDonorModal open={showAddDonorModal} onOpenChange={setShowAddDonorModal} onSubmit={function (data: any): void {
+        throw new Error("Function not implemented.")
+      }} />
+      <AddRequestModal open={showAddRequestModal} onOpenChange={setShowAddRequestModal}
+                       onSubmit={function (data: any): void {
+                         throw new Error("Function not implemented.")
+                       }} />
     </div>
   )
 }
