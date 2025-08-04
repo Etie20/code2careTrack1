@@ -5,7 +5,11 @@ plugins {
 }
 
 group = "com.code2care"
-version = "0.0.1-SNAPSHOT"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
 
 java {
     toolchain {
@@ -19,9 +23,6 @@ configurations {
     }
 }
 
-repositories {
-    mavenCentral()
-}
 
 extra["springModulithVersion"] = "1.4.1"
 
@@ -30,8 +31,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.modulith:spring-modulith-starter-core")
     implementation("org.springframework.modulith:spring-modulith-starter-jpa")
-    implementation("org.hibernate:hibernate-core:7.0.8.Final")
-    implementation("jakarta.validation:jakarta.validation-api:3.1.1")
+    implementation(project(":common"))
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")

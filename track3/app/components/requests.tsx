@@ -424,9 +424,18 @@ export default function Requests() {
       )}
 
       {/* Modals */}
-      <AddRequestModal open={showAddRequestModal} onOpenChange={setShowAddRequestModal} />
-      <FilterModal open={showFilterModal} onOpenChange={setShowFilterModal} type="requests" />
-      <ExportModal open={showExportModal} onOpenChange={setShowExportModal} type="requests" />
+      <AddRequestModal open={showAddRequestModal} onOpenChange={setShowAddRequestModal}
+                       onSubmit={function (data: any): void {
+                         throw new Error("Function not implemented.")
+                       }} />
+      <FilterModal open={showFilterModal} onOpenChange={setShowFilterModal} filterType="requests"
+                   onApplyFilters={function (filters: any): void {
+                     throw new Error("Function not implemented.")
+                   }} />
+      <ExportModal open={showExportModal} onOpenChange={setShowExportModal} dataType="requests"
+                   onExport={function (config: any): void {
+                     throw new Error("Function not implemented.")
+                   }} />
     </div>
   )
 }

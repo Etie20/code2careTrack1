@@ -277,9 +277,16 @@ export default function Dashboard() {
       </Card>
 
       {/* Modals */}
-      <AddStockModal open={showAddStockModal} onOpenChange={setShowAddStockModal} />
-      <AddDonorModal open={showAddDonorModal} onOpenChange={setShowAddDonorModal} />
-      <AddRequestModal open={showAddRequestModal} onOpenChange={setShowAddRequestModal} />
+      <AddStockModal open={showAddStockModal} onOpenChange={setShowAddStockModal} onSubmit={function (data: any): void {
+        throw new Error("Function not implemented.")
+      }} />
+      <AddDonorModal open={showAddDonorModal} onOpenChange={setShowAddDonorModal} onSubmit={function (data: any): void {
+        throw new Error("Function not implemented.")
+      }} />
+      <AddRequestModal open={showAddRequestModal} onOpenChange={setShowAddRequestModal}
+                       onSubmit={function (data: any): void {
+                         throw new Error("Function not implemented.")
+                       }} />
     </div>
   )
 }

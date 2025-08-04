@@ -389,9 +389,17 @@ export default function Donors() {
       )}
 
       {/* Modals */}
-      <AddDonorModal open={showAddDonorModal} onOpenChange={setShowAddDonorModal} />
-      <FilterModal open={showFilterModal} onOpenChange={setShowFilterModal} type="donors" />
-      <ExportModal open={showExportModal} onOpenChange={setShowExportModal} type="donors" />
+      <AddDonorModal open={showAddDonorModal} onOpenChange={setShowAddDonorModal} onSubmit={function (data: any): void {
+        throw new Error("Function not implemented.")
+      }} />
+      <FilterModal open={showFilterModal} onOpenChange={setShowFilterModal} filterType="donors"
+                   onApplyFilters={function (filters: any): void {
+                     throw new Error("Function not implemented.")
+                   }} />
+      <ExportModal open={showExportModal} onOpenChange={setShowExportModal} dataType="donors"
+                   onExport={function (config: any): void {
+                     throw new Error("Function not implemented.")
+                   }} />
     </div>
   )
 }

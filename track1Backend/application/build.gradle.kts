@@ -36,6 +36,7 @@ dependencies {
 	implementation("org.springframework.modulith:spring-modulith-starter-core")
 	implementation("org.springframework.modulith:spring-modulith-starter-jpa")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
+	implementation("jakarta.validation:jakarta.validation-api:3.1.1")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.ai:spring-ai-starter-model-mistral-ai")
 	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
