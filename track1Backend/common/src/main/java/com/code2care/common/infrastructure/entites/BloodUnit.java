@@ -14,6 +14,7 @@ public class BloodUnit {
     @Id
     @jakarta.validation.constraints.Size(max = 20)
     @Column(name = "unit_id", nullable = false, length = 20)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String unitId;
 
     @ManyToOne(fetch = FetchType.LAZY)
