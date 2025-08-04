@@ -35,16 +35,15 @@ export class Login {
       complete: () => {
         this.loading.set(false);
         this.router.navigate(['/home']).then();
-      }
-    ,
+      },
       error: (err)=> {
         this.loading.set(false);
         document.dispatchEvent(new CustomEvent('basecoat:toast', {
           detail: {
             config: {
-              category: 'success',
-              title: 'Success',
-              description: 'A success toast called from the front-end.',
+              category: 'error',
+              title: 'error',
+              description: 'An error occurred.',
               cancel: {
                 label: 'Dismiss'
               }

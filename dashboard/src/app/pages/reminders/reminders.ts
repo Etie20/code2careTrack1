@@ -134,7 +134,20 @@ export class Reminders {
           location.reload();
         },
         error: (err) => {
+          this.loading.set(false);
           this.error.set(err);
+          document.dispatchEvent(new CustomEvent('basecoat:toast', {
+            detail: {
+              config: {
+                category: 'error',
+                title: 'error',
+                description: 'An error occured',
+                cancel: {
+                  label: 'Dismiss'
+                }
+              }
+            }
+          }))
         }
       })
     } else {
