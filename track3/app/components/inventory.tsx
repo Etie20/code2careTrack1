@@ -31,7 +31,14 @@ export default function Inventory() {
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [showExportModal, setShowExportModal] = useState(false)
 
-  const [bloodUnits, setBloodUnits] = useState<BloodUnit[]>([]);
+  const [bloodUnits, setBloodUnits] = useState<BloodUnit>({
+    content: [],
+    last: false,
+    pageNumber: 0,
+    pageSize: 0,
+    totalElements: 0,
+    totalPages: 0
+  });
   const [bloodUnitSummary, setBloodUnitSummary] = useState<BloodUnitSummary>({
     criticalStocks: 0,
     expiringSoonStocks: 0,
@@ -171,9 +178,9 @@ export default function Inventory() {
   /*
   const filteredStock = bloodUnits.filter(
       (item) =>
-          item.content[0].bloodType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.content[0].storageLocation.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.content[0].donor.id.toString().toLowerCase().includes(searchTerm.toLowerCase()),
+          item.bloodType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.storageLocation.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.donor.id.toString().toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
    */
@@ -221,19 +228,19 @@ export default function Inventory() {
             <p> Chargement...</p>
         ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {bloodUnits.map((item) => (
-                  <Card key={item.content[0].unitId} className="relative overflow-hidden hover:shadow-lg transition-shadow">
+              {bloodUnits.content.map((item) => (
+                  <Card key={item.unitId} className="relative overflow-hidden hover:shadow-lg transition-shadow">
                     <CardHeader className="pb-3">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <div className={`w-4 h-4 rounded-full ${getBloodTypeColor(item.content[0].bloodType)}`}></div>
-                          <CardTitle className="text-lg">{item.content[0].bloodType}</CardTitle>
+                          <div className={`w-4 h-4 rounded-full ${getBloodTypeColor(item.bloodType)}`}></div>
+                          <CardTitle className="text-lg">{item.bloodType}</CardTitle>
                         </div>
-                        <Badge variant="outline" className={`${getStatusColor(isExpiringSoon(item.content[0].expirationDate) ? 'expiring' : item.content[0].currentStatus)} text-white border-0`}>
-                          {getStatusLabel(isExpiringSoon(item.content[0].expirationDate) ? 'expiring' : item.content[0].currentStatus)}
+                        <Badge variant="outline" className={`${getStatusColor(isExpiringSoon(item.expirationDate) ? 'expiring' : item.currentStatus)} text-white border-0`}>
+                          {getStatusLabel(isExpiringSoon(item.expirationDate) ? 'expiring' : item.currentStatus)}
                         </Badge>
                       </div>
-                      <CardDescription className="text-xs text-gray-500">ID: {item.content[0].unitId}</CardDescription>
+                      <CardDescription className="text-xs text-gray-500">ID: {item.unitId}</CardDescription>
                     </CardHeader>
 
                     <CardContent className="space-y-4">
@@ -242,41 +249,41 @@ export default function Inventory() {
                         <div className="flex justify-between text-sm">
                           <span>Quantité</span>
                           <span className="font-medium">
-                  {item.content[0].volumeMl}/{item.content[0].volumeMl} unités
+                  {item.volumeMl}/{item.volumeMl} unités
                 </span>
                         </div>
-                        <Progress value={(item.content[0].volumeMl / item.content[0].volumeMl) * 100} className="h-2"/>
+                        <Progress value={(item.volumeMl / item.volumeMl) * 100} className="h-2"/>
                       </div>
 
                       {/* Informations Détaillées */}
                       <div className="space-y-2 text-xs text-gray-600">
                         <div className="flex items-center gap-2">
                           <MapPin className="w-3 h-3"/>
-                          <span>{item.content[0].storageLocation}</span>
+                          <span>{item.storageLocation}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Thermometer className="w-3 h-3"/>
-                          <span>{item.content[0].componentType}</span>
+                          <span>{item.componentType}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Calendar className="w-3 h-3"/>
-                          <span>Expire: {new Date(item.content[0].expirationDate).toLocaleDateString("fr-FR")}</span>
+                          <span>Expire: {new Date(item.expirationDate).toLocaleDateString("fr-FR")}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Clock className="w-3 h-3"/>
-                          <span>Collecté: {new Date(item.content[0].collectionDate).toLocaleDateString("fr-FR")}</span>
+                          <span>Collecté: {new Date(item.collectionDate).toLocaleDateString("fr-FR")}</span>
                         </div>
                       </div>
 
                       {/* Alertes */}
-                      {item.content[0].currentStatus === "Expired" && (
+                      {item.currentStatus === "Expired" && (
                           <div className="flex items-center gap-2 p-2 bg-red-50 rounded-lg">
                             <AlertTriangle className="w-4 h-4 text-red-500"/>
                             <span className="text-xs text-red-700">Stock critique - Réapprovisionnement urgent</span>
                           </div>
                       )}
 
-                      {isExpiringSoon(item.content[0].expirationDate) && (
+                      {isExpiringSoon(item.expirationDate) && (
                           <div className="flex items-center gap-2 p-2 bg-orange-50 rounded-lg">
                             <Clock className="w-4 h-4 text-orange-500"/>
                             <span className="text-xs text-orange-700">Expire dans moins de 7 jours</span>
@@ -296,7 +303,7 @@ export default function Inventory() {
 
                     {/* Indicateur de Statut */}
                     <div
-                        className={`absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] ${getStatusColor(item.content[0].currentStatus)}`}
+                        className={`absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] ${getStatusColor(item.currentStatus)}`}
                     ></div>
                   </Card>
               ))}
