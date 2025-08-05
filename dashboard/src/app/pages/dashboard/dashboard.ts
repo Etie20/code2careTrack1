@@ -1,10 +1,22 @@
 import { Component, Input } from '@angular/core';
 import {NgClass} from '@angular/common';
-import {LucideAngularModule, MessageSquare, BarChart3, Heart, TrendingUp, Star, Bell, Clock,} from 'lucide-angular';
+import {
+  LucideAngularModule,
+  MessageSquare,
+  BarChart3,
+  Heart,
+  TrendingUp,
+  Star,
+  Bell,
+  Clock,
+  Loader2,
+} from 'lucide-angular';
 import {FeedbackCard} from '../../components/feedback-card/feedback-card';
 import {FeedBack} from '../../models/feedback';
 import {FeedbackService} from '../../services/feedback/feedback-service';
 import {TokenService} from '../../services/token/token-service';
+import {rxResource} from '@angular/core/rxjs-interop';
+import {AnalyticsService} from '../../services/analytics/analytics-service';
 
 
 @Component({
@@ -136,7 +148,23 @@ export class Dashboard {
   isLoadingFeedback = true;
   recentFeedBack: FeedBack[] = [];
 
-  constructor(private feedbackService: FeedbackService, protected tokenService: TokenService) {}
+  stats = rxResource(
+    {
+      stream: () => this.analyticsService.getStats(),
+    }
+  )
+
+  sentiments = rxResource({
+    defaultValue: [],
+    stream: () => this.analyticsService.getSentiments(),
+  })
+
+  occurrences = rxResource({
+    defaultValue: [],
+    stream: () => this.analyticsService.getOccurrences()
+  })
+
+  constructor(private feedbackService: FeedbackService, protected tokenService: TokenService, private analyticsService: AnalyticsService) {}
 
   ngOnInit() {
     this.fetchRecentFeedBack();
@@ -186,4 +214,5 @@ export class Dashboard {
   protected readonly MessageSquare = MessageSquare;
   protected readonly Bell = Bell;
   protected readonly Clock = Clock;
+  protected readonly Loader2 = Loader2;
 }
