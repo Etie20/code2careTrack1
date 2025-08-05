@@ -1,4 +1,4 @@
-package com.code2care.donor.application.dto;
+package com.code2care.common.application.dto;
 
 
 import lombok.AllArgsConstructor;

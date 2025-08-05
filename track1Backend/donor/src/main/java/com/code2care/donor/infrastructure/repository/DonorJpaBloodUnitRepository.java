@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.Instant;
 
-public interface JpaBloodUnitRepository extends JpaRepository<BloodUnit, String> {
+public interface DonorJpaBloodUnitRepository extends JpaRepository<BloodUnit, String> {
     long countByExpirationDateBefore(Instant expirationDate);
 }

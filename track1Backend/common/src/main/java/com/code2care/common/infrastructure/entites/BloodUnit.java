@@ -12,10 +12,9 @@ import java.time.Instant;
 @Table(name = "blood_units")
 public class BloodUnit {
     @Id
-    @jakarta.validation.constraints.Size(max = 20)
-    @Column(name = "unit_id", nullable = false, length = 20)
+    @Column(name = "unit_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String unitId;
+    private Long unitId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "donor_id")
