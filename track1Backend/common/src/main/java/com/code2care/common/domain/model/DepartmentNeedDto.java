@@ -25,7 +25,7 @@ public class DepartmentNeedDto implements Serializable {
     @Size(max = 5)
     private String bloodType;
     @NotNull
-    @Size(max = 5)
+    @Size(max = 255)
     private String demandType;
     @NotNull
     @Size(max = 20)

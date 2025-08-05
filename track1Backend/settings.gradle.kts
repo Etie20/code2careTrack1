@@ -8,7 +8,9 @@ include(
     "common",
     "reminder",
     "analytics",
-    "donor"
+    "donor",
+    "bloodUnit",
+    "demand"
 )
 project(":application").projectDir = file("application")
 project(":auth").projectDir = file("auth")
@@ -18,3 +20,5 @@ project(":common").projectDir = file("common")
 project(":reminder").projectDir = file("reminder")
 project(":analytics").projectDir = file("analytics")
 project(":donor").projectDir = file("donor")
+project(":bloodUnit").projectDir = file("bloodUnit")
+project(":demand").projectDir = file("demand")
