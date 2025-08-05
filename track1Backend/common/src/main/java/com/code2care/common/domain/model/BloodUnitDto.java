@@ -3,6 +3,7 @@ package com.code2care.common.domain.model;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,11 +14,11 @@ import java.time.Instant;
  * DTO for {@link com.code2care.common.infrastructure.entites.BloodUnit}
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class BloodUnitDto implements Serializable {
-    @Size(max = 20)
-    private String unitId;
+    private Long unitId;
     @NotNull
     private DonorDto donor;
     @NotNull

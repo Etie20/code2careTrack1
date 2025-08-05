@@ -18,7 +18,8 @@ import java.nio.file.Paths;
 		"com.code2care.analytics",
 		"com.code2care.common",
 		"com.code2care.notification",
-		"com.code2care.donor"
+		"com.code2care.donor",
+		"com.code2care.bloodUnit"
 })
 @EnableScheduling
 public class Application {

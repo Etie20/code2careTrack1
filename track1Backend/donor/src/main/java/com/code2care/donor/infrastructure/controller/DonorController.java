@@ -1,8 +1,8 @@
 package com.code2care.donor.infrastructure.controller;
 
+import com.code2care.common.application.dto.PageResponse;
 import com.code2care.common.domain.model.DonorDto;
 import com.code2care.donor.application.dto.DashboardStatsDto;
-import com.code2care.donor.application.dto.PageResponse;
 import com.code2care.donor.application.service.CreateDonorUseCase;
 import com.code2care.donor.application.service.FilterDonorUseCase;
 import com.code2care.donor.application.service.GetDashboardUseCase;
