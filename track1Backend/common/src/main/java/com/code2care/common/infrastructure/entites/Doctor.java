@@ -40,7 +40,7 @@ public class Doctor {
     @Column(name = "password", nullable = false, length = Integer.MAX_VALUE)
     private String password;
 
-    @Column(name = "email", columnDefinition = "email_domain", nullable = false)
+    @Column(name = "email", nullable = false)
     @Convert(converter = EmailConverter.class)
     private Email email;
 }
