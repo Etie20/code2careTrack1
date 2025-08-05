@@ -10,5 +10,5 @@ import {FeedbackForm} from '../../shared/components/feedback-form/feedback-form'
   styleUrl: './feedback.css'
 })
 export class Feedback {
-  @Input() language: 'en' | 'fr' = 'en';
+  @Input() language: 'ENGLISH' | 'FRENCH' = 'ENGLISH';
 }
