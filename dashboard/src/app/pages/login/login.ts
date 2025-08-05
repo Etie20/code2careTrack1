@@ -1,9 +1,8 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, signal} from '@angular/core';
 import { AuthService } from '../../services/auth/auth-service';
 import { Router } from '@angular/router';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ArrowLeft, ArrowRight, Eye, EyeOff, Heart, LockIcon, LucideAngularModule, Mail, User} from 'lucide-angular';
-import {TokenService} from '../../services/token/token-service';
 
 @Component({
   selector: 'app-login',
@@ -87,11 +86,9 @@ export class Login {
     this.router.navigate(['/landing']).then();
   }
 
-  protected readonly ArrowRight = ArrowRight;
   protected readonly ArrowLeft = ArrowLeft;
   protected readonly Heart = Heart;
   protected readonly Mail = Mail;
-  protected readonly Lock = Lock;
   protected readonly EyeOff = EyeOff;
   protected readonly LockIcon = LockIcon;
   protected readonly User = User;

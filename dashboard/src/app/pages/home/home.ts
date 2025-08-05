@@ -87,3 +87,4 @@ export class Home {
 
   protected readonly Heart = Heart;
 }
+
