@@ -175,15 +175,15 @@ export default function Inventory() {
     // Ici vous ajouteriez la logique pour exporter les données
   }
 
-  /*
-  const filteredStock = bloodUnits.filter(
+
+  const filteredStock = bloodUnits.content.filter(
       (item) =>
           item.bloodType.toLowerCase().includes(searchTerm.toLowerCase()) ||
           item.storageLocation.toLowerCase().includes(searchTerm.toLowerCase()) ||
           item.donor.id.toString().toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
-   */
+
 
   return (
       <div className="space-y-6">
@@ -228,7 +228,7 @@ export default function Inventory() {
             <p> Chargement...</p>
         ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {bloodUnits.content.map((item) => (
+              {filteredStock.map((item) => (
                   <Card key={item.unitId} className="relative overflow-hidden hover:shadow-lg transition-shadow">
                     <CardHeader className="pb-3">
                       <div className="flex items-center justify-between">
