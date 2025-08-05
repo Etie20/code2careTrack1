@@ -30,7 +30,7 @@ public class DepartmentNeed {
     @Column(name = "blood_type", nullable = false, length = 5)
     private String bloodType;
 
-    @jakarta.validation.constraints.Size(max = 5)
+    @jakarta.validation.constraints.Size(max = 255)
     @jakarta.validation.constraints.NotNull
     @Column(name = "demand_type", nullable = false, length = 5)
     private String demandType;

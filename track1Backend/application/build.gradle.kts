@@ -35,6 +35,7 @@ dependencies {
 	implementation(project(":analytics"))
 	implementation(project(":donor"))
 	implementation(project(":bloodUnit"))
+	implementation(project(":demand"))
 	implementation("org.springframework.modulith:spring-modulith-starter-core")
 	implementation("org.springframework.modulith:spring-modulith-starter-jpa")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
