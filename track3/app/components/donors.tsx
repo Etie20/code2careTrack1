@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,6 +9,8 @@ import { Users, Search, Plus, Phone, Mail, Calendar, Droplets, Heart, Award, Map
 import AddDonorModal from "./modals/add-donor-modal"
 import FilterModal from "./modals/filter-modal"
 import ExportModal from "./modals/export-modal"
+import {DonorData} from "@/lib/types/donor";
+import {getDonors} from "@/app/services/donor.service";
 
 export default function Donors() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -17,6 +19,49 @@ export default function Donors() {
   const [showAddDonorModal, setShowAddDonorModal] = useState(false)
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [showExportModal, setShowExportModal] = useState(false)
+
+  const [donors, setDonors] = useState<DonorData[]>([])
+  const [filteredDonors, setFilteredDonors] = useState<DonorData[]>([])
+
+  useEffect(() => {
+    const fetchDonors = async () => {
+      try {
+        const data = await getDonors()
+        setDonors(data)
+        setFilteredDonors(data)
+      } catch (error) {
+        console.error("Erreur lors du chargement des donneurs :", error)
+      }
+    }
+    fetchDonors().then(r => console.log(r))
+  }, [])
+
+  useEffect(() => {
+    let filtered = donors
+
+    if (searchTerm) {
+      filtered = filtered.filter((donor) =>
+          donor.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
+
+    if (selectedFilter !== "all") {
+      filtered = filtered.filter((donor) => donor.bloodType === selectedFilter)
+    }
+
+    setFilteredDonors(filtered)
+  }, [searchTerm, selectedFilter, donors])
+
+  filteredDonors.map((donor) => {
+    const name = donor.fullName
+    const location = donor.address || "Unknown"
+    const bloodType = donor.bloodType
+    const healthStatus = donor.medicalNotes || "N/A"
+    const lastDonation = donor.lastDonationDate || "Aucune donation précédente"
+    const weight = 70 // ou à remplacer si présent dans l'API
+    const status = "eligible" // logiques de calcul personnalisées
+  })
+
 
   const donorsData = [
     {
@@ -144,14 +189,6 @@ export default function Donors() {
     return { level: "New", color: "text-blue-600", icon: "⭐" }
   }
 
-  const filteredDonors = donorsData.filter((donor) => {
-    const matchesSearch =
-      donor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      donor.bloodType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      donor.location.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesFilter = selectedFilter === "all" || donor.status === selectedFilter
-    return matchesSearch && matchesFilter
-  })
 
   const totalDonors = donorsData.length
   const eligibleDonors = donorsData.filter((d) => d.status === "eligible").length
@@ -223,17 +260,17 @@ export default function Donors() {
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
               <Input
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search by name, blood type, or location..."
-                className="pl-10 bg-white/80 border-blue-200"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search by name, blood type, or location..."
+                  className="pl-10 bg-white/80 border-blue-200"
               />
             </div>
             <div className="flex gap-2">
               <select
-                value={selectedFilter}
-                onChange={(e) => setSelectedFilter(e.target.value)}
-                className="px-3 py-2 border border-blue-200 rounded-md bg-white/80 text-sm"
+                  value={selectedFilter}
+                  onChange={(e) => setSelectedFilter(e.target.value)}
+                  className="px-3 py-2 border border-blue-200 rounded-md bg-white/80 text-sm"
               >
                 <option value="all">All Status</option>
                 <option value="eligible">Eligible</option>
@@ -245,8 +282,8 @@ export default function Donors() {
                 Filter
               </Button>
               <Button
-                onClick={() => setShowAddDonorModal(true)}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+                  onClick={() => setShowAddDonorModal(true)}
+                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Donor
@@ -259,28 +296,26 @@ export default function Donors() {
       {/* Donors List */}
       <div className="grid gap-4">
         {filteredDonors.map((donor) => {
-          const donationLevel = getDonationLevel(donor.totalDonations)
+          const donationLevel = getDonationLevel(totalDonations)
           return (
             <Card
-              key={donor.id}
               className="bg-white/90 backdrop-blur-sm border-gray-200 hover:shadow-lg transition-all duration-200"
             >
               <CardContent className="p-6">
-                <div className="grid grid-cols-1 lg:grid-cols-6 gap-6 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-center">
                   {/* Donor Info */}
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                      {donor.name
+                      {donor.fullName
                         .split(" ")
                         .map((n) => n[0])
                         .join("")}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-800">{donor.name}</h3>
-                      <p className="text-sm text-gray-600">{donor.id}</p>
+                      <h3 className="font-semibold text-gray-800">{donor.fullName}</h3>
                       <div className="flex items-center gap-2 mt-1">
                         <MapPin className="w-3 h-3 text-gray-500" />
-                        <span className="text-xs text-gray-500">{donor.location}</span>
+                        <span className="text-xs text-gray-500">{donor.address}</span>
                       </div>
                     </div>
                   </div>
@@ -295,28 +330,14 @@ export default function Donors() {
                     </div>
                     <div>
                       <p className="text-xs text-gray-500">Health Status</p>
-                      <p className={`text-sm font-medium ${getHealthColor(donor.healthStatus)} capitalize`}>
-                        {donor.healthStatus}
+                      <p className={`text-sm font-medium capitalize`}>
+                        {donor.medicalNotes}
                       </p>
                     </div>
                   </div>
 
                   {/* Donation History */}
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Award className="w-4 h-4 text-gray-500" />
-                      <span className="text-sm font-medium">Donations</span>
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xl font-bold text-gray-800">{donor.totalDonations}</span>
-                        <span className="text-lg">{donationLevel.icon}</span>
-                      </div>
-                      <Badge variant="outline" className={`${donationLevel.color} bg-white border-current`}>
-                        {donationLevel.level} Donor
-                      </Badge>
-                    </div>
-                  </div>
+
 
                   {/* Last Donation */}
                   <div className="space-y-2">
@@ -326,30 +347,13 @@ export default function Donors() {
                     </div>
                     <div>
                       <p className="text-sm font-bold text-gray-800">
-                        {new Date(donor.lastDonation).toLocaleDateString()}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        Next eligible: {new Date(donor.nextEligible).toLocaleDateString()}
+                        {donor.lastDonationDate? donor.medicalNotes : "Aucune donation précédante"}
                       </p>
                     </div>
                   </div>
 
                   {/* Status */}
-                  <div className="space-y-2">
-                    <span className="text-sm font-medium text-gray-600">Status</span>
-                    <div>
-                      <Badge variant="outline" className={getStatusColor(donor.status)}>
-                        {donor.status === "eligible"
-                          ? "Eligible"
-                          : donor.status === "not_eligible"
-                            ? "Not Eligible"
-                            : "Pending"}
-                      </Badge>
-                      <p className="text-xs text-gray-500 mt-1">
-                        Age: {donor.age} • Weight: {donor.weight}kg
-                      </p>
-                    </div>
-                  </div>
+
 
                   {/* Actions */}
                   <div className="flex flex-col gap-2">
@@ -361,15 +365,7 @@ export default function Donors() {
                       <Mail className="w-3 h-3 mr-1" />
                       Email
                     </Button>
-                    {donor.status === "eligible" && (
-                      <Button
-                        size="sm"
-                        className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
-                      >
-                        <Heart className="w-3 h-3 mr-1" />
-                        Schedule
-                      </Button>
-                    )}
+
                   </div>
                 </div>
               </CardContent>

@@ -74,7 +74,7 @@ export default function AddDonorModal({ open, onOpenChange }: AddDonorModalProps
       })
 
       console.log("valeurs du formulaire, ", formData )
-      alert("✅Nouveau Donnateur crée avec succès .😄")
+      alert("✅Nouveau Donneur crée avec succès .😄")
     } catch (error) {
       console.error("Erreur lors de l'ajout du donneur :", error)
       alert("⚠️Une erreur est survenue. Veuillez réessayer.😔")
