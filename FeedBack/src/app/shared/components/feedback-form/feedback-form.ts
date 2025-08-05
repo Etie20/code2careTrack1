@@ -30,7 +30,7 @@ export class FeedbackForm {
 
   @ViewChild('speechtotext') speechToTextInstance !: SpeechToTextComponent;
 
-  @Input() language: 'en' | 'fr' = 'en';
+  @Input() language: 'ENGLISH' | 'FRENCH' = 'ENGLISH';
 
   rating = 0;
   selectedEmoji = '';
@@ -46,7 +46,7 @@ export class FeedbackForm {
   @Input() label: string = 'Service Quality';
 
   translations = {
-    en: {
+    ENGLISH: {
       title: 'Patient FeedbackService',
       subtitle: 'Help us improve our healthcare services',
       rateExperience: 'Rate your experience',
@@ -58,7 +58,7 @@ export class FeedbackForm {
       thankYou: 'Thank you for your feedback!',
       label : ['Wait Time', 'Resolution time'],
     },
-    fr: {
+    FRENCH: {
       title: 'Commentaires des Patients',
       subtitle: 'Aidez-nous à améliorer nos services de santé',
       rateExperience: 'Évaluez votre expérience',
