@@ -11,10 +11,10 @@
              focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed
              disabled:opacity-50 md:text-sm resize-none p-2"
       [ngClass]="borderColor"
-      id="feedback"
+
       [placeholder]="placeholder"
-      [value]="text"
-      (input)="onTextChange($event)"
+      [(ngModel)]="text"
+      (change)="onTextChange($event)"
     />
   </div>
 

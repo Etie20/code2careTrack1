@@ -2,8 +2,11 @@ package com.code2care.common.infrastructure.entites;
 
 
 import com.code2care.common.domain.model.Language;
+import com.code2care.common.infrastructure.config.LanguageConverter;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
 
@@ -49,9 +52,10 @@ public class Feedback {
     private Instant submittedAt;
 
 
-    @org.hibernate.annotations.ColumnDefault("'FR'")
-    @Column(name = "language", columnDefinition = "language_enum",nullable = false)
+    @org.hibernate.annotations.ColumnDefault("FRENCH")
+    @Column(name = "language", columnDefinition = "language_enum")
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private Language language;
 }
 
