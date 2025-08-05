@@ -29,7 +29,7 @@ import {TokenService} from '../../services/token/token-service';
   styleUrl: './reminders.css'
 })
 export class Reminders {
-  @Input() language: string = 'EN';
+  @Input() language: string = 'ENGLISH';
 
   translations = {
     en: {

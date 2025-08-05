@@ -4,7 +4,6 @@ import {Dashboard} from '../dashboard/dashboard';
 import {Reminders} from '../reminders/reminders';
 import {LanguageSelector} from '../../components/language-selector/language-selector';
 import {BellIcon, Heart, HomeIcon, LucideAngularModule, PersonStandingIcon} from 'lucide-angular';
-import {Patient} from '../patient/patient';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +13,6 @@ import {Patient} from '../patient/patient';
     Reminders,
     LanguageSelector,
     LucideAngularModule,
-    Patient
   ],
   templateUrl: './home.html',
   standalone: true,
@@ -22,7 +20,7 @@ import {Patient} from '../patient/patient';
 })
 export class Home {
   translations = {
-    en: {
+    ENGLISH: {
       title: "Patient Care System",
       subtitle: "Comprehensive healthcare feedback and reminder management",
       dashboard: "Dashboard",
@@ -30,7 +28,7 @@ export class Home {
       reminders: "Reminders",
       analytics: "Analytics",
     },
-    fr: {
+    FRENCH: {
       title: "Système de Soins aux Patients",
       subtitle: "Gestion complète des commentaires et rappels de santé",
       dashboard: "Tableau de bord",
@@ -49,9 +47,9 @@ export class Home {
   }
 
   activeTab: string = 'dashboard';
-  language: string = 'en';
+  language: string = 'ENGLISH';
 
-  t = this.translations[this.language as keyof typeof this.translations] || this.translations.en;
+  t = this.translations[this.language as keyof typeof this.translations] || this.translations.ENGLISH;
   tb: { [key: string]: string } = {
     dashboard: 'Dashboard',
     reminders: 'Reminders',
