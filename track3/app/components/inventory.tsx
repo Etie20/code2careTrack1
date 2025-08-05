@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -21,12 +21,36 @@ import {
 import AddStockModal from "./modals/add-stock-modal"
 import FilterModal from "./modals/filter-modal"
 import ExportModal from "./modals/export-modal"
+import {BloodUnit} from "@/app/models/bloodUnit";
+import {getBloodUnits, getBloodUnitSummary} from "@/app/api/bloodUnit/route";
+import {BloodUnitSummary} from "@/app/models/bloodUnitSummary";
 
 export default function Inventory() {
   const [searchTerm, setSearchTerm] = useState("")
   const [showAddModal, setShowAddModal] = useState(false)
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [showExportModal, setShowExportModal] = useState(false)
+
+  const [bloodUnits, setBloodUnits] = useState<BloodUnit[]>([]);
+  const [bloodUnitSummary, setBloodUnitSummary] = useState<BloodUnitSummary>({
+    criticalStocks: 0,
+    expiringSoonStocks: 0,
+    normalStocks: 0,
+    totalUnits: 0
+  });
+  const [loadingBloodUnit, setLoadingBloodUnit] = useState(true);
+  const [loadingBloodUnitSummary, setLoadingBloodUnitSummary] = useState(true);
+
+  useEffect(() => {
+    getBloodUnits().then(data => {
+      setBloodUnits(data);
+      setLoadingBloodUnit(false);
+    });
+    getBloodUnitSummary().then(data => {
+      setBloodUnitSummary(data);
+      setLoadingBloodUnitSummary(false);
+    });
+  }, []);
 
   const bloodStock = [
     {
@@ -81,11 +105,11 @@ export default function Inventory() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "critical":
+      case "Expired":
         return "bg-red-500"
       case "expiring":
         return "bg-orange-500"
-      case "normal":
+      case "Available":
         return "bg-green-500"
       default:
         return "bg-gray-500"
@@ -94,15 +118,25 @@ export default function Inventory() {
 
   const getStatusLabel = (status: string) => {
     switch (status) {
-      case "critical":
+      case "Expired":
         return "Critique"
       case "expiring":
         return "Expire Bientôt"
-      case "normal":
+      case "Available":
         return "Normal"
       default:
         return "Inconnu"
     }
+  }
+
+  function isExpiringSoon(expirationDate: string | Date): boolean {
+    const now = new Date();
+    const expireDate = new Date(expirationDate);
+
+    const diffTime = expireDate.getTime() - now.getTime(); // en ms
+    const diffDays = diffTime / (1000 * 60 * 60 * 24); // en jours
+
+    return diffDays > 0 && diffDays < 7;
   }
 
   const getBloodTypeColor = (type: string) => {
@@ -134,12 +168,15 @@ export default function Inventory() {
     // Ici vous ajouteriez la logique pour exporter les données
   }
 
-  const filteredStock = bloodStock.filter(
+  /*
+  const filteredStock = bloodUnits.filter(
       (item) =>
-          item.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.donorId.toLowerCase().includes(searchTerm.toLowerCase()),
+          item.content[0].bloodType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.content[0].storageLocation.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.content[0].donor.id.toString().toLowerCase().includes(searchTerm.toLowerCase()),
   )
+
+   */
 
   return (
       <div className="space-y-6">
@@ -180,87 +217,92 @@ export default function Inventory() {
         </div>
 
         {/* Grille des Stocks */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredStock.map((item) => (
-              <Card key={item.id} className="relative overflow-hidden hover:shadow-lg transition-shadow">
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className={`w-4 h-4 rounded-full ${getBloodTypeColor(item.type)}`}></div>
-                      <CardTitle className="text-lg">{item.type}</CardTitle>
-                    </div>
-                    <Badge variant="outline" className={`${getStatusColor(item.status)} text-white border-0`}>
-                      {getStatusLabel(item.status)}
-                    </Badge>
-                  </div>
-                  <CardDescription className="text-xs text-gray-500">ID: {item.id}</CardDescription>
-                </CardHeader>
-
-                <CardContent className="space-y-4">
-                  {/* Quantité et Progression */}
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Quantité</span>
-                      <span className="font-medium">
-                    {item.quantity}/{item.capacity} unités
-                  </span>
-                    </div>
-                    <Progress value={(item.quantity / item.capacity) * 100} className="h-2" />
-                  </div>
-
-                  {/* Informations Détaillées */}
-                  <div className="space-y-2 text-xs text-gray-600">
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-3 h-3" />
-                      <span>{item.location}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Thermometer className="w-3 h-3" />
-                      <span>{item.temperature}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-3 h-3" />
-                      <span>Expire: {new Date(item.expirationDate).toLocaleDateString("fr-FR")}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-3 h-3" />
-                      <span>Collecté: {new Date(item.collectionDate).toLocaleDateString("fr-FR")}</span>
-                    </div>
-                  </div>
-
-                  {/* Alertes */}
-                  {item.status === "critical" && (
-                      <div className="flex items-center gap-2 p-2 bg-red-50 rounded-lg">
-                        <AlertTriangle className="w-4 h-4 text-red-500" />
-                        <span className="text-xs text-red-700">Stock critique - Réapprovisionnement urgent</span>
+        {loadingBloodUnit ? (
+            <p> Chargement...</p>
+        ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {bloodUnits.map((item) => (
+                  <Card key={item.content[0].unitId} className="relative overflow-hidden hover:shadow-lg transition-shadow">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className={`w-4 h-4 rounded-full ${getBloodTypeColor(item.content[0].bloodType)}`}></div>
+                          <CardTitle className="text-lg">{item.content[0].bloodType}</CardTitle>
+                        </div>
+                        <Badge variant="outline" className={`${getStatusColor(isExpiringSoon(item.content[0].expirationDate) ? 'expiring' : item.content[0].currentStatus)} text-white border-0`}>
+                          {getStatusLabel(isExpiringSoon(item.content[0].expirationDate) ? 'expiring' : item.content[0].currentStatus)}
+                        </Badge>
                       </div>
-                  )}
+                      <CardDescription className="text-xs text-gray-500">ID: {item.content[0].unitId}</CardDescription>
+                    </CardHeader>
 
-                  {item.status === "expiring" && (
-                      <div className="flex items-center gap-2 p-2 bg-orange-50 rounded-lg">
-                        <Clock className="w-4 h-4 text-orange-500" />
-                        <span className="text-xs text-orange-700">Expire dans moins de 7 jours</span>
+                    <CardContent className="space-y-4">
+                      {/* Quantité et Progression */}
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span>Quantité</span>
+                          <span className="font-medium">
+                  {item.content[0].volumeMl}/{item.content[0].volumeMl} unités
+                </span>
+                        </div>
+                        <Progress value={(item.content[0].volumeMl / item.content[0].volumeMl) * 100} className="h-2"/>
                       </div>
-                  )}
 
-                  {/* Actions Rapides */}
-                  <div className="flex gap-2 pt-2">
-                    <Button size="sm" variant="outline" className="flex-1 text-xs bg-transparent">
-                      Réserver
-                    </Button>
-                    <Button size="sm" variant="outline" className="flex-1 text-xs bg-transparent">
-                      Détails
-                    </Button>
-                  </div>
-                </CardContent>
+                      {/* Informations Détaillées */}
+                      <div className="space-y-2 text-xs text-gray-600">
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-3 h-3"/>
+                          <span>{item.content[0].storageLocation}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Thermometer className="w-3 h-3"/>
+                          <span>{item.content[0].componentType}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-3 h-3"/>
+                          <span>Expire: {new Date(item.content[0].expirationDate).toLocaleDateString("fr-FR")}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-3 h-3"/>
+                          <span>Collecté: {new Date(item.content[0].collectionDate).toLocaleDateString("fr-FR")}</span>
+                        </div>
+                      </div>
 
-                {/* Indicateur de Statut */}
-                <div
-                    className={`absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] ${getStatusColor(item.status)}`}
-                ></div>
-              </Card>
-          ))}
-        </div>
+                      {/* Alertes */}
+                      {item.content[0].currentStatus === "Expired" && (
+                          <div className="flex items-center gap-2 p-2 bg-red-50 rounded-lg">
+                            <AlertTriangle className="w-4 h-4 text-red-500"/>
+                            <span className="text-xs text-red-700">Stock critique - Réapprovisionnement urgent</span>
+                          </div>
+                      )}
+
+                      {isExpiringSoon(item.content[0].expirationDate) && (
+                          <div className="flex items-center gap-2 p-2 bg-orange-50 rounded-lg">
+                            <Clock className="w-4 h-4 text-orange-500"/>
+                            <span className="text-xs text-orange-700">Expire dans moins de 7 jours</span>
+                          </div>
+                      )}
+
+                      {/* Actions Rapides */}
+                      <div className="flex gap-2 pt-2">
+                        <Button size="sm" variant="outline" className="flex-1 text-xs bg-transparent">
+                          Réserver
+                        </Button>
+                        <Button size="sm" variant="outline" className="flex-1 text-xs bg-transparent">
+                          Détails
+                        </Button>
+                      </div>
+                    </CardContent>
+
+                    {/* Indicateur de Statut */}
+                    <div
+                        className={`absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] ${getStatusColor(item.content[0].currentStatus)}`}
+                    ></div>
+                  </Card>
+              ))}
+            </div>
+        )}
+
 
         {/* Résumé des Stocks */}
         <Card>
@@ -270,34 +312,38 @@ export default function Inventory() {
               Résumé de l'Inventaire
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900">
-                  {filteredStock.reduce((sum, item) => sum + item.quantity, 0)}
+          {loadingBloodUnitSummary ? (
+              <p>Chargement...</p>
+          ) : (
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900">
+                      {bloodUnitSummary.totalUnits}
+                    </div>
+                    <div className="text-sm text-gray-600">Unités Totales</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-red-600">
+                      {bloodUnitSummary.criticalStocks}
+                    </div>
+                    <div className="text-sm text-gray-600">Stocks Critiques</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-orange-600">
+                      {bloodUnitSummary.expiringSoonStocks}
+                    </div>
+                    <div className="text-sm text-gray-600">Expirent Bientôt</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-green-600">
+                      {bloodUnitSummary.normalStocks}
+                    </div>
+                    <div className="text-sm text-gray-600">Stocks Normaux</div>
+                  </div>
                 </div>
-                <div className="text-sm text-gray-600">Unités Totales</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-red-600">
-                  {filteredStock.filter((item) => item.status === "critical").length}
-                </div>
-                <div className="text-sm text-gray-600">Stocks Critiques</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600">
-                  {filteredStock.filter((item) => item.status === "expiring").length}
-                </div>
-                <div className="text-sm text-gray-600">Expirent Bientôt</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">
-                  {filteredStock.filter((item) => item.status === "normal").length}
-                </div>
-                <div className="text-sm text-gray-600">Stocks Normaux</div>
-              </div>
-            </div>
-          </CardContent>
+              </CardContent>
+          )}
         </Card>
 
         {/* Modals */}
