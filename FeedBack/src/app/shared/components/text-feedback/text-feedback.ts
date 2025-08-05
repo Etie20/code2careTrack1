@@ -1,8 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-text-feedback',
-  imports: [],
+  imports: [
+    FormsModule
+  ],
   templateUrl: './text-feedback.html',
   styleUrl: './text-feedback.css'
 })

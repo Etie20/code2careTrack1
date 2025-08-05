@@ -9,7 +9,7 @@ import {PatientModel} from '../models/patient.model';
   providedIn: 'root'
 })
 export class PatientService {
-  private readonly API_URL = environment.apiURL + "/api/patient/search";
+  private readonly API_URL = environment.apiURL + "/api/patient/search/phone";
 
   constructor(private http: HttpClient) {}
 
@@ -17,7 +17,6 @@ export class PatientService {
    return this.http.get<PatientModel[]>(
      this.API_URL,
      {
-       headers: {"ngrok-skip-browser-warning": "true"},
        params: {"query": query}
      }
    );

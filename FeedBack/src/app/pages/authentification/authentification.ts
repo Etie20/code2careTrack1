@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from '@angular/router';
-import {PatientDataService} from "../../services/patient-data.service";
+import {AuthentificationService} from "../../services/authentification.service";
 import {FormsModule} from "@angular/forms";
 import {PatientService} from "../../services/patient.service";
 
@@ -16,29 +16,51 @@ export class Authentification {
 
   phone = '';
   error = false
+  errorMessage = ''
+  errorMessages = [
+    'Verified your network connection please',
+    "Incorrect phone number"
+  ]
+  isLoading: boolean = false;
 
   constructor(
       private router: Router,
-      private patientService: PatientService
+      private patientService: PatientService,
+      private authentificationService: AuthentificationService
   ) {}
 
    goHome() {
     let patient
+     this.isLoading = true;
     this.patientService.searchPatient(this.phone).subscribe(
         {
           next: (result) => {
+
             console.log("heyx", result, result);
-            if (result.length > 0) {
-              patient = result.pop();
+            if (result) {
+              patient = result;
+              this.authentificationService.setPatientData(patient)
               this.router.navigate(['feedback']).then((r) => console.log(r));
 
             } else {
               console.log(this.phone);
-              this.error = !this.error;
+              this.error = true
+              ;
             }
           },
-          error: err => console.log("Erreur lors de la récupération", err),
-          complete: () => console.log("Complète")
+          error: err =>{
+            console.log("Erreur lors de la récupération", err)
+            this.error = true;
+            if (err.status == 0){
+              this.errorMessage = this.errorMessages[0]
+            }else {
+              this.errorMessage = this.errorMessages[1]
+            }
+          },
+          complete: () => {
+            console.log("Complète")
+            this.isLoading = false;
+          }
         }
     )
 
