@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from '@angular/router';
-import {PatientDataService} from "../../services/patient-data.service";
+import {AuthentificationService} from "../../services/authentification.service";
 import {FormsModule} from "@angular/forms";
 import {PatientService} from "../../services/patient.service";
 
@@ -21,22 +21,25 @@ export class Authentification {
     'Verified your network connection please',
     "Incorrect phone number"
   ]
+  isLoading: boolean = false;
 
   constructor(
       private router: Router,
-      private patientService: PatientService
+      private patientService: PatientService,
+      private authentificationService: AuthentificationService
   ) {}
 
    goHome() {
     let patient
+     this.isLoading = true;
     this.patientService.searchPatient(this.phone).subscribe(
         {
           next: (result) => {
 
             console.log("heyx", result, result);
-            if (result.length > 0) {
-              patient = result.pop();
-              localStorage.setItem('patient',JSON.stringify(patient))
+            if (result) {
+              patient = result;
+              this.authentificationService.setPatientData(patient)
               this.router.navigate(['feedback']).then((r) => console.log(r));
 
             } else {
@@ -54,7 +57,10 @@ export class Authentification {
               this.errorMessage = this.errorMessages[1]
             }
           },
-          complete: () => console.log("Complète")
+          complete: () => {
+            console.log("Complète")
+            this.isLoading = false;
+          }
         }
     )
 

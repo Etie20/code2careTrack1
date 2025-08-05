@@ -1,4 +1,4 @@
-// src/app/services/patient-data.service.ts
+// src/app/services/authentification.service.ts
 import { Injectable } from '@angular/core';
 import {PatientModel} from '../models/patient.model';
 
@@ -6,11 +6,11 @@ import {PatientModel} from '../models/patient.model';
 @Injectable({
   providedIn: 'root',
 })
-export class PatientDataService {
+export class AuthentificationService {
   private patientData!: PatientModel;
 
-  setPatientData(data: PatientModel) {
-    this.patientData = data;
+  setPatientData(data: PatientModel[]) {
+    localStorage.setItem('patient',JSON.stringify(data))
   }
 
   getPatientData(): PatientModel {
