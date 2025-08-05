@@ -124,9 +124,10 @@ public class Mapper {
                 .message(reminder.getMessage())
                 .patient(mapPatientDto(reminder.getPatient()))
                 .language(reminder.getLanguage())
-                .type(ReminderType.fromValue(reminder.getType()))
+                .type(reminder.getType())
                 .reminderDate(reminder.getReminderDate())
                 .doctor(mapDoctorDto(reminder.getDoctor()))
+                .channel(reminder.getChannel())
                 .build();
     }
 
@@ -135,10 +136,11 @@ public class Mapper {
                 .id(dto.getId())
                 .message(dto.getMessage())
                 .language(dto.getLanguage())
-                .type(dto.getType().getValue())
+                .type(dto.getType())
                 .patient(mapPatient(dto.getPatient()))
                 .reminderDate(dto.getReminderDate())
-                .doctor(mapDoctor(dto.getDoctor()))
+                .doctor(Doctor.builder().id(dto.getDoctor().getId()).build())
+                .channel(dto.getChannel())
                 .build();
     }
 

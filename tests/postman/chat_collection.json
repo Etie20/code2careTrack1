@@ -1,0 +1,26 @@
+{
+  "info": {
+    "name": "Chat API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Chat",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "X-API-Key", "value": "{{API_KEY}}"}
+        ],
+        "url": {
+          "raw": "{{base_url}}/chat",
+          "host": ["{{base_url}}"],
+          "path": ["chat"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"user_id\": \"u1\", \"message\": \"hello\"}"
+        }
+      }
+    }
+  ]
+}

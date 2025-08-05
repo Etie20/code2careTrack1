@@ -5,5 +5,9 @@ import com.code2care.common.domain.model.PatientDto;
 import java.util.List;
 
 public interface PatientRepository {
-    List<PatientDto> findByPhoneNumber(String fullName);
+    PatientDto findByPhoneNumber(String phoneNumber);
+    List<PatientDto> findAllPatients(String fullName);
+
+    PatientDto save(PatientDto patientDto);
+
 }

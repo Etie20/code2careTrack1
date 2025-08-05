@@ -1,36 +1,49 @@
 import {Component, Input} from '@angular/core';
 import {Bell, Calendar, LucideAngularModule, LucideIconData, MessageSquare, Phone, Pill} from 'lucide-angular';
+import {Reminder} from '../../models/reminder';
 import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-reminder-card',
   imports: [
-    NgClass,
-    LucideAngularModule
+    LucideAngularModule,
+    NgClass
   ],
   templateUrl: './reminder-card.html',
   standalone: true,
   styleUrl: './reminder-card.css'
 })
 export class ReminderCard {
-  @Input() reminder : {
-    date: string;
-    method: string;
-    patient: string;
-    id: number;
-    time: string;
-    type: string;
-    title: string;
-    status: string
-  } = {
+  @Input() reminder : Reminder = {
     id: 1,
-    type: "",
-    title: "",
-    date: "",
-    time: "",
-    patient: "",
-    status: "",
-    method: "",
+    type: '',
+    doctor: {
+      id: 0,
+      fullName: '',
+      specialty: '',
+      phoneNumber: '',
+      createdAt: null,
+      password: '',
+      email: {
+        value: ''
+      }
+    },
+    message: '',
+    reminderDate: new Date(),
+    language: '',
+    patient: {
+      id: 0,
+      fullName: '',
+      age: 0,
+      department: '',
+      phoneNumber: '',
+      createdAt: new Date(),
+      preferredLanguage: '',
+      email: {
+        value: ''
+      }
+    },
+    channel: ''
   };
 
   @Input() language: string = 'en';
@@ -97,7 +110,7 @@ export class ReminderCard {
 
   getMethodIcon(method: string): LucideIconData {
     switch (method) {
-      case 'sms':
+      case 'SMS':
         return MessageSquare;
       case 'voice':
         return Phone;

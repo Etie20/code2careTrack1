@@ -3,7 +3,8 @@ import {NgClass} from '@angular/common';
 import {Dashboard} from '../dashboard/dashboard';
 import {Reminders} from '../reminders/reminders';
 import {LanguageSelector} from '../../components/language-selector/language-selector';
-import {BellIcon, HomeIcon, LucideAngularModule} from 'lucide-angular';
+import {BellIcon, Heart, HomeIcon, LucideAngularModule, PersonStandingIcon} from 'lucide-angular';
+import {Patient} from '../patient/patient';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,8 @@ import {BellIcon, HomeIcon, LucideAngularModule} from 'lucide-angular';
     Dashboard,
     Reminders,
     LanguageSelector,
-    LucideAngularModule
+    LucideAngularModule,
+    Patient
   ],
   templateUrl: './home.html',
   standalone: true,
@@ -53,6 +55,7 @@ export class Home {
   tb: { [key: string]: string } = {
     dashboard: 'Dashboard',
     reminders: 'Reminders',
+    patients: 'Patients',
     analytics: 'Analytics'
   };
 
@@ -67,6 +70,11 @@ export class Home {
       label: 'reminders',
       icon: BellIcon
     },
+    {
+      value: 'patients',
+      label: 'patients',
+      icon: PersonStandingIcon
+    },
   ];
 
   setActiveTab(tab: string): void {
@@ -77,4 +85,5 @@ export class Home {
     this.language = lang;
   }
 
+  protected readonly Heart = Heart;
 }
