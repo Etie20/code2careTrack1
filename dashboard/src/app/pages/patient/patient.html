@@ -1,0 +1,117 @@
+<div class="space-y-6">
+  <div class="grid gap-4 md:grid-cols-3">
+    <div class="card border border-blue-200 bg-blue-50 p-4 rounded-lg shadow">
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="text-sm text-blue-600 font-medium">Total {{t.patients}}</p>
+          <p class="text-2xl font-bold text-blue-700">{{ patients.value().length }}</p>
+        </div>
+        <lucide-icon [img]="PersonStanding" class="w-8 h-8 text-blue-500"></lucide-icon>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="grid gap-6 lg:grid-cols-2">
+    <div class="card bg-white rounded-lg shadow backdrop-blur-sm bg-opacity-80 h-full">
+      <header class="flex items-center gap-2">
+        <lucide-icon [img]="PersonStanding" class="w-6 h-6 text-blue-600"></lucide-icon>
+        <h3 class="text-lg font-semibold">{{ t.patients }}</h3>
+      </header>
+      <section class="space-y-4">
+        @if (patients.isLoading()) {
+          <div class="flex w-full justify-center">
+            <lucide-icon [img]="Loader2" class="w-6 h-6 animate-spin text-blue-600"></lucide-icon>
+          </div>
+        }
+        <div>
+          @if (patients.value().length === 0 && !patients.isLoading()) {
+            <div class="flex w-full justify-center">
+              <p class="text-gray-600">No active reminders</p>
+            </div>
+          }
+          @for (patient of patients.value(); track $index) {
+            <app-patient-card [patient]="patient" [language]="language"></app-patient-card>
+          }
+        </div>
+
+      </section>
+    </div>
+
+    <div class="card bg-white rounded-lg shadow backdrop-blur-sm bg-opacity-80">
+      <header class="flex items-center gap-2">
+        <lucide-icon [img]="Plus" class="w-6 h-6 text-green-600"></lucide-icon>
+        <h3 class="text-lg font-semibold">{{ t.createPatient }}</h3>
+      </header>
+      <section>
+        <form [formGroup]="patientForm" class="space-y-4">
+          <div class="grid gap-3">
+            <div class="label">{{ t.fullName }}</div>
+            <input
+              id="patientName"
+              name="patientName"
+              formControlName="fullName"
+              type="text"
+              placeholder="Enter {{ t.fullName }}"
+              class="input w-full"
+            />
+          </div>
+            <div class="grid gap-3">
+              <div class="label">{{ t.age }}</div>
+              <input
+                id="age"
+                name="age"
+                formControlName="age"
+                type="number"
+                placeholder="Enter {{ t.age }}"
+                class="input w-full"
+              />
+            </div>
+          <div class="grid gap-3">
+            <div class="label">{{ t.department }}</div>
+            <input
+              id="department"
+              name="department"
+              formControlName="department"
+              type="text"
+              placeholder="Enter {{ t.department }}"
+              class="input w-full"
+            />
+          </div>
+          <div class="grid gap-3">
+            <div class="label">{{ t.phone }}</div>
+            <input
+              id="phone"
+              name="phone"
+              formControlName="phoneNumber"
+              type="text"
+              placeholder="Enter {{ t.phone }}"
+              class="input w-full"
+            />
+          </div>
+          <div class="grid gap-3">
+            <div class="label">{{ t.email }}</div>
+            <input
+              id="email"
+              name="email"
+              formControlName="email"
+              type="text"
+              placeholder="Enter {{ t.email }}"
+              class="input w-full"
+            />
+          </div>
+
+          <button (click)="onSubmit()" class="btn w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
+            @if (loading()){
+              <lucide-icon [img]="Loader2" class="w-4 h-4 text-white mr-2 animate-spin"></lucide-icon>
+            } @else {
+              <lucide-icon [img]="Plus" class="w-4 h-4 text-white mr-2"></lucide-icon>
+              {{ t.createPatient }}
+            }
+          </button>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>
