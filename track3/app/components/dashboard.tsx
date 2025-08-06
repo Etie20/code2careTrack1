@@ -16,7 +16,7 @@ import {
   Bell,
 } from "lucide-react"
 
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import AddStockModal from "./modals/add-stock-modal"
 import AddDonorModal from "./modals/add-donor-modal"
 import AddRequestModal from "./modals/add-request-modal"
@@ -82,6 +82,13 @@ export default function Dashboard() {
         return <Bell className="w-4 h-4 text-gray-500" />
     }
   }
+
+  const [currentTime, setCurrentTime] = useState('')
+
+  useEffect(() => {
+    const now = new Date()
+    setCurrentTime(now.toLocaleTimeString())
+  }, [])
 
   return (
     <div className="space-y-6">
@@ -280,9 +287,8 @@ export default function Dashboard() {
       <AddStockModal open={showAddStockModal} onOpenChange={setShowAddStockModal} onSubmit={function (data: any): void {
         throw new Error("Function not implemented.")
       }} />
-      <AddDonorModal open={showAddDonorModal} onOpenChange={setShowAddDonorModal} onSubmit={function (data: any): void {
-        throw new Error("Function not implemented.")
-      }} />
+      <AddDonorModal open={showAddDonorModal} onOpenChange={setShowAddDonorModal}
+      />
       <AddRequestModal open={showAddRequestModal} onOpenChange={setShowAddRequestModal}
                        onSubmit={function (data: any): void {
                          throw new Error("Function not implemented.")
