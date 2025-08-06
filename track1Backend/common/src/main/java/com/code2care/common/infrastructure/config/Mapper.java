@@ -1,10 +1,7 @@
 package com.code2care.common.infrastructure.config;
 
 import com.code2care.common.domain.model.*;
-import com.code2care.common.infrastructure.entites.Doctor;
-import com.code2care.common.infrastructure.entites.Feedback;
-import com.code2care.common.infrastructure.entites.Patient;
-import com.code2care.common.infrastructure.entites.Reminder;
+import com.code2care.common.infrastructure.entites.*;
 
 import java.util.List;
 
@@ -125,6 +122,7 @@ public class Mapper {
                 .patient(mapPatientDto(reminder.getPatient()))
                 .language(reminder.getLanguage())
                 .type(reminder.getType())
+                .status(reminder.getStatus())
                 .reminderDate(reminder.getReminderDate())
                 .doctor(mapDoctorDto(reminder.getDoctor()))
                 .channel(reminder.getChannel())
@@ -141,6 +139,7 @@ public class Mapper {
                 .reminderDate(dto.getReminderDate())
                 .doctor(Doctor.builder().id(dto.getDoctor().getId()).build())
                 .channel(dto.getChannel())
+                .status(dto.getStatus())
                 .build();
     }
 
@@ -154,5 +153,18 @@ public class Mapper {
         return dtos.stream()
                 .map(Mapper::mapReminder)
                 .toList();
+    }
+
+    public static ReminderStatDto mapReminderStatDto(ReminderStat reminderStat) {
+        if (reminderStat == null) {
+            return null;
+        }
+
+        return ReminderStatDto.builder()
+                .doctorId(reminderStat.getDoctorId())
+                .totalReminders(reminderStat.getTotalReminders())
+                .pendingReminders(reminderStat.getPendingReminders())
+                .deliveredReminders(reminderStat.getDeliveredReminders())
+                .build();
     }
 }
