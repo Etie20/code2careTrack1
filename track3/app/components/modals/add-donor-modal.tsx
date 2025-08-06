@@ -16,7 +16,7 @@ import { fr } from "date-fns/locale"
 import { cn } from "@/lib/utils"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {submitDonor} from "@/app/services/donor.service";
-import {DonorData} from "@/lib/types/donor";
+import {Donor} from "@/lib/types/donor";
 
 interface AddDonorModalProps {
   open: boolean
@@ -25,7 +25,8 @@ interface AddDonorModalProps {
 
 export default function AddDonorModal({ open, onOpenChange }: AddDonorModalProps) {
   const [loading, setLoading] = useState(false)
-  const [formData, setFormData] =  useState<DonorData>({
+  const [formData, setFormData] =  useState<Donor>({
+    id : 0,
     fullName: "",
     contactNumber: "",
     bloodType: "",
@@ -56,10 +57,11 @@ export default function AddDonorModal({ open, onOpenChange }: AddDonorModalProps
     setLoading(true)
 
     try {
-      await submitDonor(formData as DonorData)
+      await submitDonor(formData as Donor)
       onOpenChange(false)
       // Reset form
       setFormData({
+        id : 0,
         fullName: "",
         contactNumber: "",
         bloodType: "",

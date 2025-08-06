@@ -12,7 +12,7 @@ import { fr } from "date-fns/locale"
 import { cn } from "@/lib/utils"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
-import {BloodUnit} from "@/app/models/bloodUnit";
+import {BloodUnit} from "@/lib/types/bloodUnit";
 import {exportToCSV, exportToExcel, exportToPDF} from "@/app/utils/exportUtils";
 
 interface ExportModalProps {

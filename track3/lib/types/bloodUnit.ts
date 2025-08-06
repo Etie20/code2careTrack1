@@ -1,4 +1,4 @@
-import {Donor} from "@/app/models/donor";
+import {Donor} from "@/lib/types/donor";
 
 export interface BloodUnit {
     content:       Content[];

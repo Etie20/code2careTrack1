@@ -2,7 +2,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import {BloodUnit} from "@/app/models/bloodUnit";
+import {BloodUnit} from "@/lib/types/bloodUnit";
 
 export const exportToCSV = (data : BloodUnit, filename = "Inventory.csv") => {
     const flatData = flattenData(data);

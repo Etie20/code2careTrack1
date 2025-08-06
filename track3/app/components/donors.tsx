@@ -7,10 +7,9 @@ import { Input } from "@/components/ui/input"
 import {Users, Search, Plus, Phone, Mail, Calendar, Droplets, Heart, Award, MapPin, Filter, Loader2} from "lucide-react"
 import AddDonorModal from "./modals/add-donor-modal"
 import FilterModal from "./modals/filter-modal"
-import ExportModal from "./modals/export-modal"
-import {DonorData} from "@/lib/types/donor";
 import {getDonors} from "@/app/services/donor.service";
 import {Filters} from "@/lib/types/filter"
+import {Donor} from "@/lib/types/donor";
 
 export default function Donors() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -20,8 +19,8 @@ export default function Donors() {
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [showExportModal, setShowExportModal] = useState(false)
 
-  const [donors, setDonors] = useState<DonorData[]>([])
-  const [filteredDonors, setFilteredDonors] = useState<DonorData[]>([])
+  const [donors, setDonors] = useState<Donor[]>([])
+  const [filteredDonors, setFilteredDonors] = useState<Donor[]>([])
 
   const [monthlyDonationCount, setMonthlyDonationCount] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
@@ -101,6 +100,7 @@ export default function Donors() {
   const eligibleDonors = donors.filter((d) => d.medicalNotes.toLowerCase() === "en bonne santé").length
   const totalDonations = donors.length
 
+  // @ts-ignore
   return (
     <div className="space-y-6">
       {/* Stats Overview */}
@@ -298,10 +298,7 @@ export default function Donors() {
       <FilterModal open={showFilterModal} onOpenChange={setShowFilterModal} filterType="donors"
                    onApplyFilters={handleFilterApply}
       />
-      <ExportModal open={showExportModal} onOpenChange={setShowExportModal} dataType="donors"
-                   onExport={function (config: any): void {
-                     throw new Error("Function not implemented.")
-                   }} />
+
     </div>
   )
 }

@@ -1,7 +1,7 @@
 // services/api/user.ts
 import axios from 'axios';
-import {BloodUnit} from "@/app/models/bloodUnit";
-import {BloodUnitSummary} from "@/app/models/bloodUnitSummary";
+import {BloodUnit} from "@/lib/types/bloodUnit";
+import {BloodUnitSummary} from "@/lib/types/bloodUnitSummary";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://code2caretrack1.onrender.com/api';
 

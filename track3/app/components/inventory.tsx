@@ -21,9 +21,9 @@ import {
 import AddStockModal from "./modals/add-stock-modal"
 import FilterModal from "./modals/filter-modal"
 import ExportModal from "./modals/export-modal"
-import {BloodUnit} from "@/app/models/bloodUnit";
-import {getBloodUnits, getBloodUnitSummary} from "@/app/api/bloodUnit/route";
-import {BloodUnitSummary} from "@/app/models/bloodUnitSummary";
+import {BloodUnit} from "@/lib/types/bloodUnit";
+import {BloodUnitSummary} from "@/lib/types/bloodUnitSummary";
+import {getBloodUnits, getBloodUnitSummary} from "@/app/services/bloodUnit.service";
 
 export default function Inventory() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -146,6 +146,13 @@ export default function Inventory() {
     return diffDays > 0 && diffDays < 7;
   }
 
+  function isExpired(expirationDate: string | Date): boolean {
+    const now = new Date();
+    const expDate = new Date(expirationDate);
+    return expDate.getTime() < now.getTime();
+  }
+
+
   const getBloodTypeColor = (type: string) => {
     const colors: { [key: string]: string } = {
       "A+": "bg-red-500",
@@ -180,7 +187,7 @@ export default function Inventory() {
       (item) =>
           item.bloodType.toLowerCase().includes(searchTerm.toLowerCase()) ||
           item.storageLocation.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.donor.id.toString().toLowerCase().includes(searchTerm.toLowerCase()),
+          item.donor.fullName.toString().toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
 
@@ -239,8 +246,8 @@ export default function Inventory() {
                           <div className={`w-4 h-4 rounded-full ${getBloodTypeColor(item.bloodType)}`}></div>
                           <CardTitle className="text-lg">{item.bloodType}</CardTitle>
                         </div>
-                        <Badge variant="outline" className={`${getStatusColor(isExpiringSoon(item.expirationDate) ? 'expiring' : item.currentStatus)} text-white border-0`}>
-                          {getStatusLabel(isExpiringSoon(item.expirationDate) ? 'expiring' : item.currentStatus)}
+                        <Badge variant="outline" className={`${getStatusColor(isExpiringSoon(item.expirationDate) ? 'expiring' : isExpired(item.expirationDate) ? 'Expired' : item.currentStatus)} text-white border-0`}>
+                          {getStatusLabel(isExpiringSoon(item.expirationDate) ? 'expiring' : isExpired(item.expirationDate) ? 'Expired' : item.currentStatus)}
                         </Badge>
                       </div>
                       <CardDescription className="text-xs text-gray-500">ID: {item.unitId}</CardDescription>
