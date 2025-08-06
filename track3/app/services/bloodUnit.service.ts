@@ -1,10 +1,10 @@
 import { environment } from "../environment";
-import {BloodUnit, Content} from "@/lib/types/bloodUnit";
+import {BloodUnit} from "@/lib/types/bloodUnit";
 import {BloodUnitSummary} from "@/lib/types/bloodUnitSummary";
 
 const API_URL = environment.apiURL + "/api/bloodUnit";
 
-export async function submitBloodUnit(data: Content): Promise<void> {
+export async function submitBloodUnit(data: BloodUnit): Promise<void> {
 
     const res = await fetch(API_URL, {
         method: "POST",
@@ -23,8 +23,8 @@ export async function submitBloodUnit(data: Content): Promise<void> {
 }
 
 
-export async function getBloodUnits(): Promise<BloodUnit> {
-    const res = await fetch(`${API_URL}/search`, {
+export async function getBloodUnits(): Promise<BloodUnit[]> {
+    const res = await fetch(API_URL, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

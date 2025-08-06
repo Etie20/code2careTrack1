@@ -14,7 +14,7 @@ import { CalendarIcon, Droplets, Loader2 } from "lucide-react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import { cn } from "@/lib/utils"
-import {Content} from "@/lib/types/bloodUnit";
+import {BloodUnit} from "@/lib/types/bloodUnit";
 import {getDonors} from "@/app/services/donor.service";
 import {Donor} from "@/lib/types/donor";
 import {submitBloodUnit} from "@/app/services/bloodUnit.service";
@@ -27,7 +27,7 @@ interface AddStockModalProps {
 
 export default function AddStockModal({ open, onOpenChange, onSubmit }: AddStockModalProps) {
   const [loading, setLoading] = useState(false)
-  const [formData, setFormData] = useState<Content>({
+  const [formData, setFormData] = useState<BloodUnit>({
     bloodType: "",
     collectionCenter: "DGH",
     collectionDate: new Date(),
@@ -73,7 +73,7 @@ export default function AddStockModal({ open, onOpenChange, onSubmit }: AddStock
     setLoading(true)
 
     try {
-      await submitBloodUnit(formData as Content)
+      await submitBloodUnit(formData as BloodUnit)
       onOpenChange(false)
       // Reset form
       setFormData({

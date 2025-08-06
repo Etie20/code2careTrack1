@@ -31,14 +31,7 @@ export default function Inventory() {
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [showExportModal, setShowExportModal] = useState(false)
 
-  const [bloodUnits, setBloodUnits] = useState<BloodUnit>({
-    content: [],
-    last: false,
-    pageNumber: 0,
-    pageSize: 0,
-    totalElements: 0,
-    totalPages: 0
-  });
+  const [bloodUnits, setBloodUnits] = useState<BloodUnit[]>([]);
   const [bloodUnitSummary, setBloodUnitSummary] = useState<BloodUnitSummary>({
     criticalStocks: 0,
     expiringSoonStocks: 0,
@@ -132,7 +125,7 @@ export default function Inventory() {
   }
 
 
-  const filteredStock = bloodUnits.content.filter(
+  const filteredStock = bloodUnits.filter(
       (item) =>
           item.bloodType.toLowerCase().includes(searchTerm.toLowerCase()) ||
           item.storageLocation.toLowerCase().includes(searchTerm.toLowerCase()) ||
