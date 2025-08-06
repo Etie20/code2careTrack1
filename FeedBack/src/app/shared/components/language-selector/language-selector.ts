@@ -7,8 +7,6 @@ import {LanguageModel} from '../../../models/language.model';
 @Component({
   selector: 'app-language-selector',
   imports: [
-    NgForOf,
-    NgIf,
     LucideAngularModule
   ],
   templateUrl: './language-selector.html',
@@ -26,7 +24,7 @@ export class LanguageSelector {
   languages: LanguageModel[] = [
     { code: 'en', name: 'English', flag: '🇺🇸' },
     { code: 'fr', name: 'Français', flag: '🇫🇷' },
-    { code: 'douala', name: 'Duálá', flag: '🇨🇲' },
+    { code: 'duala', name: 'Duálá', flag: '🇨🇲' },
     { code: 'bassa', name: 'Bassa', flag: '🇨🇲' },
     { code: 'ewondo', name: 'Ewondo', flag: '🇨🇲' },
   ];

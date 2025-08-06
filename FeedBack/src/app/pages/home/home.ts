@@ -4,15 +4,12 @@ import {FeedbackForm} from '../../shared/components/feedback-form/feedback-form'
 import {NgForOf, NgIf} from '@angular/common';
 import {MessageSquare, TrendingUp, LucideAngularModule, Bell, Users} from 'lucide-angular';
 import {Feedback} from '../feedback/feedback';
+import {Language} from '../../models/language.type';
 
 
 interface Translations {
   title: string;
   subtitle: string;
-  dashboard: string;
-  feedback: string;
-  reminders: string;
-  analytics: string;
 }
 
 @Component({
@@ -20,7 +17,7 @@ interface Translations {
   imports: [
     LanguageSelector,
     LucideAngularModule,
-    Feedback
+    FeedbackForm
   ],
   templateUrl: './home.html',
   styleUrl: './home.css'
@@ -28,42 +25,35 @@ interface Translations {
 export class Home {
 
 
-  activeTab = 'dashboard';
-  language: 'ENGLISH' | 'FRENCH' = 'ENGLISH';
+
+  language: Language = 'en';
 
   translations: Record<string, Translations> = {
-    ENGLISH: {
+    en: {
       title: 'Patient Care System',
       subtitle: 'Comprehensive healthcare feedback and reminder management',
-      dashboard: 'Dashboard',
-      feedback: 'FeedbackService',
-      reminders: 'Reminders',
-      analytics: 'Analytics',
     },
-    FRENCH: {
+    fr: {
       title: 'Système de Soins aux Patients',
-      subtitle: 'Gestion complète des commentaires et rappels de santé',
-      dashboard: 'Tableau de bord',
-      feedback: 'Commentaires',
-      reminders: 'Rappels',
-      analytics: 'Analyses',
+      subtitle: 'Gestion complète des commentaires et rappels de santé'
     },
-    douala: {
+    duala: {
       title: 'Système ya Soins ya Bato',
       subtitle: 'Gestion complète ya commentaires na rappels ya santé',
-      dashboard: 'Tableau ya bord',
-      feedback: 'Commentaires',
-      reminders: 'Rappels',
-      analytics: 'Analyses',
+
     },
+    ewondo: {
+      title: 'Ndako ya kosalela ba moto ba nyolo',
+      subtitle: 'Bosali mobimba mwa masango na bokundoli ya mbombo'
+    },
+    bassa: {
+      title: 'Nkap kukuluk ban be meyom',
+      subtitle: 'Misala mi nyone mya malog na mekundol mya kukuluk'
+    }
   };
 
   get t(): any {
     return this.translations[this.language] || this.translations['ENGLISH'];
-  }
-
-  setActiveTab(tab: string) {
-    this.activeTab = tab;
   }
 
   onLanguageChange(language: any) {

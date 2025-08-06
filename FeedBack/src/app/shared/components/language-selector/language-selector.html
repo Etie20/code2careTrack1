@@ -18,16 +18,21 @@
       </svg>
     </button>
 
-    <div
-      *ngIf="isDropdownOpen"
-      class="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10">
-      <button
-        *ngFor="let lang of languages"
-        (click)="selectLanguage(lang)"
-        class="w-full px-3 py-2 text-left hover:bg-gray-50 flex items-center gap-2 transition-colors">
-        <span>{{ lang.flag }}</span>
-        <span class="text-sm">{{ lang.name }}</span>
-      </button>
-    </div>
+    @if (isDropdownOpen) {
+      <div
+        class="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10">
+        @for (lang of languages; track $index ){
+          <button
+            (click)="selectLanguage(lang)"
+            class="w-full px-3 py-2 text-left hover:bg-gray-50 flex items-center gap-2 transition-colors"
+          >
+            <span>{{ lang.flag }}</span>
+            <span class="text-sm">{{ lang.name }}</span>
+          </button>
+        }
+
+      </div>
+    }
+
   </div>
 </div>

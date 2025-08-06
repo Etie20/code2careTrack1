@@ -51,6 +51,7 @@ export class Authentification {
           error: err =>{
             console.log("Erreur lors de la récupération", err)
             this.error = true;
+            this.isLoading = false;
             if (err.status == 0){
               this.errorMessage = this.errorMessages[0]
             }else {
