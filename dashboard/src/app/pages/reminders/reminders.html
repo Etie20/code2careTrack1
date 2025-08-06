@@ -5,7 +5,7 @@
       <div class="flex justify-between items-center">
         <div>
           <p class="text-sm text-blue-600 font-medium">Total Reminders</p>
-          <p class="text-2xl font-bold text-blue-700">24</p>
+          <p class="text-2xl font-bold text-blue-700">{{ reminderStat.isLoading() ? '0..' : reminderStat.value().totalReminders }}</p>
         </div>
         <lucide-icon [img]="Bell" class="w-8 h-8 text-blue-500"></lucide-icon>
       </div>
@@ -15,7 +15,7 @@
       <div class="flex justify-between items-center">
         <div>
           <p class="text-sm text-green-600 font-medium">Delivered</p>
-          <p class="text-2xl font-bold text-green-700">18</p>
+          <p class="text-2xl font-bold text-green-700">{{ reminderStat.isLoading() ? '0..' : reminderStat.value().deliveredReminders }}</p>
         </div>
         <lucide-icon [img]="MessageSquare" class="w-8 h-8 text-green-500"></lucide-icon>
       </div>
@@ -25,7 +25,7 @@
       <div class="flex justify-between items-center">
         <div>
           <p class="text-sm text-yellow-600 font-medium">Pending</p>
-          <p class="text-2xl font-bold text-yellow-700">6</p>
+          <p class="text-2xl font-bold text-yellow-700">{{ reminderStat.isLoading() ? '0..' : reminderStat.value().pendingReminders }}</p>
         </div>
         <lucide-icon [img]="Clock" class="w-8 h-8 text-yellow-500"></lucide-icon>
       </div>

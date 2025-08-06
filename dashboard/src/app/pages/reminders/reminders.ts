@@ -15,6 +15,7 @@ import {rxResource} from '@angular/core/rxjs-interop';
 import {PatientService} from '../../services/patient/patient-service';
 import {Patient} from '../../models/patient';
 import {TokenService} from '../../services/token/token-service';
+import {ReminderStat} from '../../models/reminderStat';
 
 @Component({
   selector: 'app-reminders',
@@ -85,6 +86,11 @@ export class Reminders {
     stream: () => this.remindersService.findAllReminders(),
   });
 
+  reminderStat = rxResource({
+    defaultValue: {} as ReminderStat,
+    stream: () => this.remindersService.findReminderStat()
+  })
+
   patients: WritableSignal<Patient[]> = signal([]);
 
   constructor(private remindersService: RemindersService, private patientService: PatientService, private fb: FormBuilder, private tokenService: TokenService) {
@@ -97,6 +103,7 @@ export class Reminders {
       reminderDate: [new Date(Date.now()), Validators.required],
       reminderTime: [new Date(Date.now()), Validators.required],
       language: [this.language, Validators.required],
+      status: ["PENDING", Validators.required]
     });
   }
 
@@ -113,6 +120,7 @@ export class Reminders {
       'doctor': {'id': Number(this.tokenService.getUserId())},
       'patient': this.patients().find(p => p.fullName == this.reminderForm.value['patient']) ?? this.reminderForm.value['patient'],
       'reminderDate': new Date(`${this.reminderForm.value['reminderDate']}T${this.reminderForm.value['reminderTime']}`).toISOString(),
+       'status': "PENDING"
     });
     if(this.reminderForm.valid) {
       this.loading.set(true);

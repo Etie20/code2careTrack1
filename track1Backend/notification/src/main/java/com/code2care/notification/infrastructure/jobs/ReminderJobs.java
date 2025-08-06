@@ -1,6 +1,7 @@
 package com.code2care.notification.infrastructure.jobs;
 
 import com.code2care.common.domain.model.ChannelType;
+import com.code2care.common.domain.model.ReminderStatus;
 import com.code2care.common.infrastructure.entites.Reminder;
 import com.code2care.notification.infrastructure.repository.JpaReminderNotificationRepository;
 import com.resend.Resend;
@@ -91,6 +92,7 @@ public class ReminderJobs {
                     CreateEmailResponse data = resend.emails().send(params);
                     System.out.println(data.getId());
                 }
+                jpaReminderNotificationRepository.updateStatusById(ReminderStatus.DELIVERED,reminder.getId());
 
             } catch (ResendException e) {
                 e.printStackTrace();

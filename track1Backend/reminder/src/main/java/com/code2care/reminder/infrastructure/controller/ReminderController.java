@@ -5,6 +5,7 @@ import com.code2care.common.infrastructure.entites.Reminder;
 import com.code2care.reminder.application.service.CreateReminderUseCase;
 import com.code2care.reminder.application.service.GetReminderUseCaseByDoctorIDAndType;
 import com.code2care.reminder.application.service.GetRemindersByDoctorIDUseCase;
+import com.code2care.reminder.application.service.ReminderStatUseCase;
 import com.code2care.reminder.domain.exeption.ReminderTypeNotExist;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -23,11 +24,13 @@ class ReminderController {
     private final GetRemindersByDoctorIDUseCase getRemindersByDoctorIDUseCase;
     private final GetReminderUseCaseByDoctorIDAndType getReminderUseCaseByDoctorIDAndType;
     private final CreateReminderUseCase createReminderUseCase;
+    private final ReminderStatUseCase reminderStatUseCase;
 
-    ReminderController(GetRemindersByDoctorIDUseCase getRemindersByDoctorIDUseCase, GetReminderUseCaseByDoctorIDAndType getReminderUseCaseByDoctorIDAndType, CreateReminderUseCase createReminderUseCase) {
+    ReminderController(GetRemindersByDoctorIDUseCase getRemindersByDoctorIDUseCase, GetReminderUseCaseByDoctorIDAndType getReminderUseCaseByDoctorIDAndType, CreateReminderUseCase createReminderUseCase, ReminderStatUseCase reminderStatUseCase) {
         this.getRemindersByDoctorIDUseCase = getRemindersByDoctorIDUseCase;
         this.getReminderUseCaseByDoctorIDAndType = getReminderUseCaseByDoctorIDAndType;
         this.createReminderUseCase = createReminderUseCase;
+        this.reminderStatUseCase = reminderStatUseCase;
     }
 
     @GetMapping("{doctorID}/{type}")
@@ -82,5 +85,16 @@ class ReminderController {
         }
     }
 
+    @GetMapping("/stat")
+    ResponseEntity getReminderStat(
+            @RequestParam() Integer doctorId){
+        try {
+            return ResponseEntity.ok(reminderStatUseCase.execute(doctorId));
+
+        } catch (RuntimeException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 }
