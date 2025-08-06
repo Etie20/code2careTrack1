@@ -10,6 +10,6 @@ export interface DonorData {
     address: string
     occupation: string
     registrationDate?: Date
-    lastDonationDate?: Date
+    lastDonationDate ?: Date
     medicalNotes: string
 }

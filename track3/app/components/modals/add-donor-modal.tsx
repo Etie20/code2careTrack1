@@ -35,7 +35,7 @@ export default function AddDonorModal({ open, onOpenChange }: AddDonorModalProps
     address: "",
     occupation: "",
     registrationDate: new Date(),
-    lastDonationDate: undefined,
+    lastDonationDate : undefined,
     medicalNotes: "",
   })
 

@@ -11,6 +11,7 @@ import FilterModal from "./modals/filter-modal"
 import ExportModal from "./modals/export-modal"
 import {DonorData} from "@/lib/types/donor";
 import {getDonors} from "@/app/services/donor.service";
+import {newDate} from "date-fns-jalali";
 
 export default function Donors() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -23,12 +24,34 @@ export default function Donors() {
   const [donors, setDonors] = useState<DonorData[]>([])
   const [filteredDonors, setFilteredDonors] = useState<DonorData[]>([])
 
+  const [monthlyDonationCount, setMonthlyDonationCount] = useState(0)
+
   useEffect(() => {
     const fetchDonors = async () => {
       try {
         const data = await getDonors()
         setDonors(data)
         setFilteredDonors(data)
+
+        //Donneurs du mois actuel
+        const now = new Date()
+        const currentMonth = now.getMonth()
+        const currentYear = now.getFullYear()
+
+        console.log("hello:, ", currentMonth)
+
+        const donationsThisMonth = data.filter((donor) => {
+          if (!donor.lastDonationDate) return false;
+
+          const donationDate = new Date(donor.lastDonationDate)
+          console.log("month:, ", donationDate.getMonth())
+          return (
+              donationDate.getMonth() === currentMonth &&
+              donationDate.getFullYear() === currentYear
+          )
+        })
+
+        setMonthlyDonationCount(donationsThisMonth.length)
       } catch (error) {
         console.error("Erreur lors du chargement des donneurs :", error)
       }
@@ -52,135 +75,9 @@ export default function Donors() {
     setFilteredDonors(filtered)
   }, [searchTerm, selectedFilter, donors])
 
-  filteredDonors.map((donor) => {
-    const name = donor.fullName
-    const location = donor.address || "Unknown"
-    const bloodType = donor.bloodType
-    const healthStatus = donor.medicalNotes || "N/A"
-    const lastDonation = donor.lastDonationDate || "Aucune donation précédente"
-    const weight = 70 // ou à remplacer si présent dans l'API
-    const status = "eligible" // logiques de calcul personnalisées
-  })
 
 
-  const donorsData = [
-    {
-      id: "D001",
-      name: "Marie Dubois",
-      bloodType: "O-",
-      phone: "+237 6XX XXX XXX",
-      email: "marie.dubois@email.com",
-      lastDonation: "2024-01-15",
-      totalDonations: 12,
-      status: "eligible",
-      nextEligible: "2024-03-15",
-      location: "Douala",
-      age: 28,
-      weight: 65,
-      healthStatus: "excellent",
-    },
-    {
-      id: "D002",
-      name: "Jean Paul Kamga",
-      bloodType: "A+",
-      phone: "+237 6XX XXX XXX",
-      email: "jean.kamga@email.com",
-      lastDonation: "2024-01-20",
-      totalDonations: 8,
-      status: "eligible",
-      nextEligible: "2024-03-20",
-      location: "Yaoundé",
-      age: 35,
-      weight: 78,
-      healthStatus: "good",
-    },
-    {
-      id: "D003",
-      name: "Alice Mballa",
-      bloodType: "B+",
-      phone: "+237 6XX XXX XXX",
-      email: "alice.mballa@email.com",
-      lastDonation: "2024-01-28",
-      totalDonations: 15,
-      status: "not_eligible",
-      nextEligible: "2024-03-28",
-      location: "Douala",
-      age: 42,
-      weight: 58,
-      healthStatus: "good",
-    },
-    {
-      id: "D004",
-      name: "Pierre Nkomo",
-      bloodType: "AB+",
-      phone: "+237 6XX XXX XXX",
-      email: "pierre.nkomo@email.com",
-      lastDonation: "2023-12-10",
-      totalDonations: 22,
-      status: "eligible",
-      nextEligible: "2024-02-10",
-      location: "Bafoussam",
-      age: 38,
-      weight: 82,
-      healthStatus: "excellent",
-    },
-    {
-      id: "D005",
-      name: "Grace Fotso",
-      bloodType: "O+",
-      phone: "+237 6XX XXX XXX",
-      email: "grace.fotso@email.com",
-      lastDonation: "2024-01-05",
-      totalDonations: 6,
-      status: "eligible",
-      nextEligible: "2024-03-05",
-      location: "Douala",
-      age: 31,
-      weight: 62,
-      healthStatus: "good",
-    },
-    {
-      id: "D006",
-      name: "Samuel Biya",
-      bloodType: "A-",
-      phone: "+237 6XX XXX XXX",
-      email: "samuel.biya@email.com",
-      lastDonation: "2024-01-12",
-      totalDonations: 18,
-      status: "eligible",
-      nextEligible: "2024-03-12",
-      location: "Yaoundé",
-      age: 45,
-      weight: 75,
-      healthStatus: "excellent",
-    },
-  ]
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "eligible":
-        return "text-green-700 bg-green-100 border-green-200"
-      case "not_eligible":
-        return "text-red-700 bg-red-100 border-red-200"
-      case "pending":
-        return "text-orange-700 bg-orange-100 border-orange-200"
-      default:
-        return "text-gray-700 bg-gray-100 border-gray-200"
-    }
-  }
-
-  const getHealthColor = (health: string) => {
-    switch (health) {
-      case "excellent":
-        return "text-green-600"
-      case "good":
-        return "text-blue-600"
-      case "fair":
-        return "text-orange-600"
-      default:
-        return "text-gray-600"
-    }
-  }
 
   const getDonationLevel = (count: number) => {
     if (count >= 20) return { level: "Gold", color: "text-yellow-600", icon: "🏆" }
@@ -190,9 +87,9 @@ export default function Donors() {
   }
 
 
-  const totalDonors = donorsData.length
-  const eligibleDonors = donorsData.filter((d) => d.status === "eligible").length
-  const totalDonations = donorsData.reduce((sum, d) => sum + d.totalDonations, 0)
+  const totalDonors = donors.length
+  const eligibleDonors = donors.filter((d) => d.medicalNotes == "En Bonne Santé").length
+  const totalDonations = donors.length
 
   return (
     <div className="space-y-6">
@@ -239,7 +136,7 @@ export default function Donors() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-orange-100 text-sm font-medium">This Month</p>
-                <p className="text-2xl font-bold">47</p>
+                <p className="text-2xl font-bold">{monthlyDonationCount}</p>
               </div>
               <Calendar className="w-6 h-6 text-orange-200" />
             </div>
@@ -267,16 +164,6 @@ export default function Donors() {
               />
             </div>
             <div className="flex gap-2">
-              <select
-                  value={selectedFilter}
-                  onChange={(e) => setSelectedFilter(e.target.value)}
-                  className="px-3 py-2 border border-blue-200 rounded-md bg-white/80 text-sm"
-              >
-                <option value="all">All Status</option>
-                <option value="eligible">Eligible</option>
-                <option value="not_eligible">Not Eligible</option>
-                <option value="pending">Pending</option>
-              </select>
               <Button variant="outline" size="sm" className="bg-white/80" onClick={() => setShowFilterModal(true)}>
                 <Filter className="w-4 h-4 mr-2" />
                 Filter
@@ -295,10 +182,12 @@ export default function Donors() {
 
       {/* Donors List */}
       <div className="grid gap-4">
-        {filteredDonors.map((donor) => {
+        {filteredDonors.map((donor, index) => {
           const donationLevel = getDonationLevel(totalDonations)
+          // @ts-ignore
           return (
             <Card
+                key={index}
               className="bg-white/90 backdrop-blur-sm border-gray-200 hover:shadow-lg transition-all duration-200"
             >
               <CardContent className="p-6">
@@ -347,7 +236,10 @@ export default function Donors() {
                     </div>
                     <div>
                       <p className="text-sm font-bold text-gray-800">
-                        {donor.lastDonationDate? donor.medicalNotes : "Aucune donation précédante"}
+                        {donor.lastDonationDate
+                            ? new Date(donor.lastDonationDate).toLocaleDateString()
+                            : "—"
+                        }
                       </p>
                     </div>
                   </div>
