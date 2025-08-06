@@ -1,7 +1,8 @@
 import asyncpg
 from datetime import datetime
 from typing import List, Dict, Optional
-from scheduler.sentiment_theme_analysis import analyze_feedback
+# from scheduler.sentiment_theme_analysis import analyze_feedback
+from scheduler.test_model import analyze_feedback
 
 class DBSynchronizer:
     def __init__(self):
@@ -14,14 +15,16 @@ class DBSynchronizer:
         """YOUR CUSTOM THEME DETECTION LOGIC"""
         themes = []
         text = text.lower()
+        # themes = analyze_feedback(text, language)
         themes = analyze_feedback(text, language)
+        
         # if "wait" in text or "attente" in text:
         #     themes.append(1)  # temps d'attente
         # if "staff" in text or "personnel" in text:
         #     themes.append(2)  # attitude du personnel
         # if "clean" in text or "hygiène" in text:
         #     themes.append(3)  # hygiène
-        return themes['themes'] or [9]  # default to consultation
+        return themes['categories'] or [9]  # default to consultation
 
     async def sync_single_feedback(self, feedback: Dict, source_conn, target_conn):
         """Process and sync a single feedback record"""

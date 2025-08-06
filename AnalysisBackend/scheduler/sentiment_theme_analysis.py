@@ -4,8 +4,13 @@ import spacy
 from spacy.matcher import Matcher
 import torch
 
+from translate import Translator
+
+
+
 def analyze_feedback(text: str, input_lang: str) -> dict:
-    translator = Translator(service_urls=['translate.google.com'])
+    # translator = Translator(service_urls=['translate.google.com'])
+    translator = Translator(to_lang="fr")
 
     # French Sentiment Analysis
     sentiment_pipe = pipeline(
@@ -28,7 +33,8 @@ def analyze_feedback(text: str, input_lang: str) -> dict:
     # Translate to French
     if input_lang != "fr":
         try:
-            text = translator.translate(text, src=input_lang, dest="fr").text
+            # text = translator.translate(text, src=input_lang, dest="fr").text
+            text = translator.translate(text)
         except Exception as e:
             print(f"Translation failed: {e}")
 
@@ -48,7 +54,9 @@ def analyze_feedback(text: str, input_lang: str) -> dict:
     sentiment = sentiment_map.get(sentiment_result[0]["label"], "neutral")
 
     # Theme Classification
-    theme_candidates = ["temps d'attente", "attitude du personnel", "hygiène", "consultation", "équipement", "facturation et prix", "disponibilité des médicaments", "infrastructure"]
+    theme_candidates = ["Outpatient", "Cardiology", "Emergency", "Radiology", "Pediatrics", "Oncology", "Other"]
+    
+    # theme_candidates = ["temps d'attente", "attitude du personnel", "hygiène", "consultation", "équipement", "facturation et prix", "disponibilité des médicaments", "infrastructure"]
     dict_theme_candidates = { "temps d'attente": 1, "attitude du personnel": 2,  "hygiène": 3, "consultation": 4, "équipement": 5, "facturation et prix": 6, "disponibilité des médicaments": 7, "infrastructure": 8, "autre": 9}
     themes = theme_pipe(text, candidate_labels=theme_candidates, multi_label=True)
     top_themes = [theme_candidates[i] for i, score in enumerate(themes["scores"]) if score > 0.5]
