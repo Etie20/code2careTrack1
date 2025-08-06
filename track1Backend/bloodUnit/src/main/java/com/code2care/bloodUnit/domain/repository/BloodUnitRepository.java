@@ -6,11 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.Instant;
-import java.time.LocalDate;
+import java.util.List;
 
 public interface BloodUnitRepository {
     public void save(BloodUnitDto bloodUnitDto);
     public Page<BloodUnitDto> search(String searchTerm, Pageable pageable);
+    public List<BloodUnitDto> findAll();
     public BloodUnitDto getById(Long id);
     public Page<BloodUnitDto> filter(String bloodType, String storageLocation, Instant startDate, Instant endDate, Pageable pageable);
     public StockSummaryDTO getStockSummary();

@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BloodUnitDomainService {
@@ -32,5 +34,9 @@ public class BloodUnitDomainService {
 
     public StockSummaryDTO getStockSummary() {
         return bloodUnitRepository.getStockSummary();
+    }
+
+    public List<BloodUnitDto> getBloodUnits() {
+        return bloodUnitRepository.findAll();
     }
 }

@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
+import { toast } from "sonner"
 import {
   Droplets,
   Mail,
@@ -37,11 +38,32 @@ export default function LoginPage() {
     e.preventDefault()
     setIsLoading(true)
 
+    // Define allowed combinations
+    const allowedCredentials = [
+      { email: "admin@bloodbank.ai", password: "admin123" },
+      { email: "dswb@gmail.com", password: "12345678" },
+    ]
+
+    const isValid = allowedCredentials.some(
+        (cred) => cred.email === email && cred.password === password
+    )
+
     // Simulation de connexion
     setTimeout(() => {
       setIsLoading(false)
-      router.push("/dashboard") // Redirection vers le dashboard
-    }, 2000)
+
+      if (isValid) {
+        router.push("/dashboard") // Redirect on successful login
+      } else {
+        toast("An error occurred", {
+          description: "Your credentials are incorrect. Please try again.",
+          action: {
+            label: "Dismiss",
+            onClick: () => toast.dismiss(),
+          },
+        })
+      }
+    }, 1000)
   }
 
   const loginTypes = [
@@ -223,12 +245,8 @@ export default function LoginPage() {
                   <span className="text-blue-600">admin@bloodbank.ai / admin123</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-blue-700">Médecin:</span>
-                  <span className="text-blue-600">doctor@bloodbank.ai / doctor123</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-blue-700">Technicien:</span>
-                  <span className="text-blue-600">tech@bloodbank.ai / tech123</span>
+                  <span className="text-blue-700">Jury:</span>
+                  <span className="text-blue-600">dswb@gmail.com / 12345678</span>
                 </div>
               </div>
             </CardContent>
