@@ -16,7 +16,7 @@ import {
   Calendar,
   MapPin,
   Thermometer,
-  Clock,
+  Clock, Loader2,
 } from "lucide-react"
 import AddStockModal from "./modals/add-stock-modal"
 import FilterModal from "./modals/filter-modal"
@@ -225,7 +225,10 @@ export default function Inventory() {
 
         {/* Grille des Stocks */}
         {loadingBloodUnit ? (
-            <p> Chargement...</p>
+            <div className="flex items-center justify-center py-10 gap-2">
+              <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+              <span className="text-sm text-blue-500">Chargement...</span>
+            </div>
         ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredStock.map((item) => (
@@ -320,13 +323,16 @@ export default function Inventory() {
             </CardTitle>
           </CardHeader>
           {loadingBloodUnitSummary ? (
-              <p>Chargement...</p>
+              <div className="flex items-center justify-center py-10 gap-2">
+                <Loader2 className="w-6 h-6 animate-spin text-blue-500"/>
+                <span className="text-sm text-blue-500">Chargement de l'inventaire...</span>
+              </div>
           ) : (
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-gray-900">
-                      {bloodUnitSummary.totalUnits}
+                    {bloodUnitSummary.totalUnits}
                     </div>
                     <div className="text-sm text-gray-600">Unités Totales</div>
                   </div>
@@ -368,7 +374,7 @@ export default function Inventory() {
             onOpenChange={setShowExportModal}
             onExport={handleExport}
             dataType="inventory"
-        />
+         data={bloodUnits}/>
       </div>
   )
 }
