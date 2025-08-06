@@ -1,0 +1,164 @@
+<div class="space-y-6">
+  <div class="bg-gradient-to-r from-blue-600 to-green-600 rounded-2xl p-6 text-white">
+    <h2 class="text-2xl font-bold mb-2">{{ t.welcome }}{{tokenService.getUserName()}}</h2>
+    <p class="opacity-90">Here's what's happening with your patients today</p>
+  </div>
+  @if (stats.isLoading()) {
+    <div class="flex w-full justify-center">
+      <lucide-icon [img]="Loader2" class="w-6 h-6 animate-spin text-blue-600"></lucide-icon>
+    </div>
+  } @else {
+    <div class="grid gap-4 md:grid-cols-3">
+      <div class="card bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 p-4 rounded-lg shadow">
+        <header class="p-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-blue-600 font-medium">{{ tb.totalFeedback }}</p>
+              <p class="text-2xl font-bold text-blue-700">{{ stats.value()?.total_feedbacks ?? 0  }}</p>
+            </div>
+            <i-lucide [img]="MessageSquare" class="w-8 h-8 text-blue-500"></i-lucide>
+          </div>
+        </header>
+      </div>
+      <div class="card bg-gradient-to-br border-yellow-200 from-yellow-50 to-yellow-100 p-4 rounded-lg shadow">
+        <header class="p-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-yellow-600 font-medium">{{ tb.avgRating }}</p>
+              <p class="text-2xl font-bold text-yellow-700">{{ stats.value()?.average_rating ?? 0  }}</p>
+            </div>
+            <i-lucide [img]="Star" class="w-8 h-8 text-yellow-500"></i-lucide>
+          </div>
+        </header>
+      </div>
+      <div class="card bg-gradient-to-br from-green-50 to-green-100 border-green-200 p-4 rounded-lg shadow">
+        <header class="p-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-green-600 font-medium">{{ tb.responseRate }}</p>
+              <p class="text-2xl font-bold text-green-700">{{ stats.value()?.response_rate ?? 0  }}%</p>
+            </div>
+            <i-lucide [img]="TrendingUp" class="w-8 h-8 text-green-500"></i-lucide>
+          </div>
+        </header>
+      </div>
+    </div>
+  }
+
+  <div class="grid gap-6 lg:grid-cols-2">
+    <div class="card bg-white/80 backdrop-blur-sm">
+      <header class="flex items-center gap-2">
+        <i-lucide [img]="Heart" class="w-5 h-5 text-pink-600"></i-lucide>
+        <h3 class="font-semibold text-lg">{{ tb.sentimentAnalysis }}</h3>
+      </header>
+      @if (sentiments.isLoading()) {
+        <div class="flex w-full justify-center">
+          <lucide-icon [img]="Loader2" class="w-6 h-6 animate-spin text-blue-600"></lucide-icon>
+        </div>
+      } @else {
+        <section class="space-y-4">
+          @for (sentiment of sentiments.value(); track sentiment.sentiment) {
+            <div class="space-y-3">
+              <div class="flex justify-between items-center">
+                @if (sentiment.count == 0) {
+                  <span class="text-sm font-medium text-red-600">{{ sentiment.sentiment }}</span>
+                } @else if (sentiment.count <= 5) {
+                  <span class="text-sm font-medium text-yellow-600">{{ sentiment.sentiment }}</span>
+                } @else {
+                  <span class="text-sm font-medium text-green-600">{{ sentiment.sentiment }}</span>
+                }
+                <span class="text-sm text-gray-600">{{ sentiment.percentage }}%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                <div
+                  class="h-full bg-black transition-all duration-300"
+                  [style.width.%]="sentiment.percentage"
+                ></div>
+              </div>
+            </div>
+          }
+        </section>
+      }
+    </div>
+
+    <!-- Recent Feedback -->
+    <div class="card bg-white/80 backdrop-blur-sm">
+      <header class="flex items-center gap-2">
+        <i-lucide [img]="Heart" class="w-5 h-5 text-red-500"></i-lucide>
+        <h3 class="font-semibold text-lg">{{ t.recentFeedback }}</h3>
+      </header>
+      <section class="space-y-4">
+        <!-- ⏳ Shimmer Placeholder -->
+        @if (isLoadingFeedback) {
+          @for (i of [0,1,2]; track i) {
+            <div class="flex items-center gap-4">
+              <div class="grid gap-2">
+                <div class="bg-accent animate-pulse rounded-md h-4 w-[150px]"></div>
+                <div class="bg-accent animate-pulse rounded-md h-4 w-[100px]"></div>
+              </div>
+            </div>
+          }
+        }
+
+        @if (!isLoadingFeedback) {
+          @if (recentFeedBack.length == 0) {
+            <div class="flex w-full justify-center">
+              <p class="text-gray-600">{{ t.recentFeedback }}</p>
+            </div>
+          }
+          @for (feedback of recentFeedBack; track feedback.id) {
+            <app-feedback-card [feedback]="feedback" [language]="language"> </app-feedback-card>
+          }
+        }
+        <footer>
+          <button class="w-full border border-gray-300 rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50">
+            {{ t.viewAll }}
+          </button>
+        </footer>
+      </section>
+    </div>
+  </div>
+
+  <div class="card bg-white/80 backdrop-blur-sm">
+    <header class="flex items-center gap-2">
+      <i-lucide [img]="BarChart3" class="w-5 h-5 text-purple-500"></i-lucide>
+      <h2 class="font-semibold text-lg">{{ tb.commonThemes }}</h2>
+    </header>
+    @if (occurrences.isLoading()) {
+      <div class="flex w-full justify-center">
+        <lucide-icon [img]="Loader2" class="w-6 h-6 animate-spin text-blue-600"></lucide-icon>
+      </div>
+    } @else {
+      <section class="space-y-4">
+        <div>
+          @for (theme of occurrences.value(); track theme.theme) {
+            <div class="flex justify-between items-center p-3 m-3 bg-gray-50 rounded-lg">
+              <div class="flex gap-3 items-center">
+                <span class="font-medium">{{ theme.theme }}</span>
+                <span
+                  class="badge"
+                  [ngClass]="{
+              'bg-green-100 text-green-800': theme.count >= 2,
+              'bg-red-100 text-red-800': theme.count < 1,
+              'bg-yellow-100 text-yellow-800': theme.count == 1
+            }"
+                >
+            {{
+                    theme.count >= 2
+                      ? tb.positive
+                      : theme.count < 1
+                        ? tb.negative
+                        : tb.neutral
+                  }}
+          </span>
+              </div>
+              <span class="text-sm text-gray-600">{{ theme.count }} mentions</span>
+            </div>
+          }
+        </div>
+
+      </section>
+    }
+  </div>
+
+</div>

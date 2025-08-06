@@ -1,0 +1,15 @@
+<!-- language-selector.component.html -->
+<div class="flex items-center gap-2">
+  <select
+    [(ngModel)]="language"
+    (ngModelChange)="onChange($event)"
+    id="select-174001"
+    class="select bg-white/80 backdrop-blur-sm rounded px-2 py-1 text-sm"
+  >
+    @for (lang of languages; track lang.code) {
+      <option [value]="lang.code">
+        {{ lang.flag }} {{ lang.name }}
+      </option>
+    }
+  </select>
+</div>

@@ -3,11 +3,7 @@ package com.code2care.common.infrastructure.entites;
 
 import com.code2care.common.domain.model.Email;
 import com.code2care.common.infrastructure.config.EmailConverter;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -25,6 +21,7 @@ public class Doctor {
     @Id
     @ColumnDefault("nextval('doctor_id_seq')")
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "full_name", nullable = false, length = 100)
@@ -43,7 +40,7 @@ public class Doctor {
     @Column(name = "password", nullable = false, length = Integer.MAX_VALUE)
     private String password;
 
-    @Column(name = "email", columnDefinition = "email_domain", nullable = false)
+    @Column(name = "email", nullable = false)
     @Convert(converter = EmailConverter.class)
     private Email email;
 }

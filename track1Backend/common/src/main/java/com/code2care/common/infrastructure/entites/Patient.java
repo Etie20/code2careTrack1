@@ -17,6 +17,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class Patient {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @org.hibernate.annotations.ColumnDefault("nextval('patient_id_seq')")
     @Column(name = "id", nullable = false)
     private Integer id;
@@ -30,7 +31,7 @@ public class Patient {
     @Column(name = "department", nullable = false, length = 100)
     private String department;
 
-    @Column(name = "phone_number", nullable = false, length = 20)
+    @Column(name = "phone_number", nullable = false, length = 20,unique = true)
     private String phoneNumber;
 
     @org.hibernate.annotations.ColumnDefault("CURRENT_TIMESTAMP")

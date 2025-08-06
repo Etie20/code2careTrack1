@@ -1,0 +1,98 @@
+<div class="card bg-white/80 backdrop-blur-sm">
+  <header
+    class="flex flex-col items-center space-y-1.5"
+  >
+    <h2
+      class="text-2xl font-semibold leading-none tracking-tight bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent"
+    >{{ t.title }}</h2>
+    <p
+      class="text-sm text-muted-foreground"
+    >{{ t.subtitle }}</p>
+  </header>
+
+  <section
+    class="space-y-6 flex flex-col gap-3"
+  >
+    <app-rating-stars
+      [rating]="rating"
+      (ratingChange)="rating = $event"
+      [label]="t.rateExperience"
+    />
+    <app-emoji-picker
+      [selectedEmoji]="selectedEmoji"
+      (emojiSelect)="feedEmoji($event)"
+      [label]="t.howFeeling"
+    />
+    <div
+      class="space-y-3 flex flex-col gap-1"
+    >
+      <label for="feedback" class="text-base font-medium">{{ t.additionalComments }}</label>
+
+      <div
+        class="flex items-center rounded-md border border-input bg-background px-3 py-2 ring-offset-2 ring-offset-background
+                focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-base"
+
+      >
+        <textarea
+          class="w-5/6 flex min-h-[80px] placeholder:text-muted-foreground  disabled:cursor-not-allowed
+           disabled:opacity-50 md:text-sm resize-none p-2 focus-visible:outline-none"
+          id="comments-textarea"
+          placeholder="Tell us about your experience..."
+          [(ngModel)]="feedbackText"
+        ></textarea>
+        <button
+          (click)="toggleRecording()"
+          [ngClass]="{
+          'bg-red-600 text-white hover:bg-red-700': recording,
+          'border border-gray-300 text-gray-700 hover:bg-gray-100': !recording
+        }"
+          class="w-1/6 p-2 rounded flex items-center justify-center gap-2 transition-colors hover:cursor-pointer"
+          ejs-speechtotext id="speechtotext" #speechtotext
+          (transcriptChanged) = "onTranscriptChange($event)"
+        >
+          <lucide-angular
+            [img]="mic"
+            [size]="16"
+            [ngClass]="{ 'animate-pulse': recording }"
+            color="#4a5565"
+          ></lucide-angular>
+        </button>
+      </div>
+
+    </div>
+
+
+    <div class=" grid gap-4 md:grid-cols-2">
+      @for (card of feedbackCards; track $index; let i = $index) {
+        <div
+          class="bg-gradient-to-br "
+        >
+          <div class="space-y-3 flex flex-col gap-1">
+            <label for="feedback" class="text-base font-medium">{{ t.label[i] }}</label>
+
+            <input
+              type="number"
+              class="cursor-pointer hover:shadow-md transition-shadow rounded-lg w-full rounded-md border border-input bg-background px-3 py-2 text-base
+             ring-offset-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none
+             focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed
+             disabled:opacity-50 md:text-sm resize-none p-2 border-gray-200"
+              placeholder="Evaluate your experience on 5"
+              [(ngModel)]="feedbackSummaryTexts[i]"
+            />
+          </div>
+
+        </div>
+
+
+
+      }
+    </div>
+
+
+    <app-submit-button
+      [label]="t.submit"
+      (submit)="onSubmit()"
+    />
+  </section>
+
+</div>
