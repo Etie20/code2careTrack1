@@ -171,7 +171,7 @@ export class FeedbackForm implements OnChanges {
 
     this.feedbackService.createFeedback(formField).subscribe({
       next: () => {
-        alert(this.t.thankYou)
+        alert("✅ " +this.t.thankYou)
         console.log("send")
       },
       error: (err) => {
