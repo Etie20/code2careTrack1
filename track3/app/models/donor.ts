@@ -4,11 +4,11 @@ export interface Donor {
     contactNumber:    string;
     bloodType:        string;
     gender:           string;
-    dateOfBirth:      Date;
+    dateOfBirth?:      Date;
     email:            string;
     address:          string;
     occupation:       string;
-    registrationDate: Date;
-    lastDonationDate: Date;
+    registrationDate?: Date;
+    lastDonationDate?: Date;
     medicalNotes:     string;
 }
