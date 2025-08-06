@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {Reminder} from '../../models/reminder';
 import {ReminderRequest} from '../../dto/request/reminderRequest';
 import {TokenService} from '../token/token-service';
+import {ReminderStat} from '../../models/reminderStat';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,13 @@ export class RemindersService {
 
   createReminder(createReminder: ReminderRequest): Observable<Reminder> {
     return this.http.post<Reminder> (`${this.apiUrl}`, createReminder)
+  }
+
+  findReminderStat():Observable<ReminderStat>{
+    return  this.http.get<ReminderStat>(`${this.apiUrl}/stat`,{
+      params : {
+        "doctorId" : `${this.tokenService.getUserId()}`
+      }
+    })
   }
 }

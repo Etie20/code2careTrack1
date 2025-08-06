@@ -1,10 +1,13 @@
 package com.code2care.notification.infrastructure.repository;
 
+import com.code2care.common.domain.model.ReminderStatus;
 import com.code2care.common.infrastructure.entites.Reminder;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListPagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,4 +22,10 @@ public interface JpaReminderNotificationRepository extends ListPagingAndSortingR
     List<Reminder> findRemindersByDateAndTime(
             @Param("date") LocalDate date,
             @Param("hourMinute") String hourMinute);
+
+    @Transactional
+    @Modifying
+    @Query("update Reminder r set r.status = ?1 where r.id = ?2")
+    void updateStatusById(ReminderStatus status, Integer id);
+
 }

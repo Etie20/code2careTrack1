@@ -2,6 +2,7 @@ package com.code2care.common.infrastructure.entites;
 
 import com.code2care.common.domain.model.ChannelType;
 import com.code2care.common.domain.model.Language;
+import com.code2care.common.domain.model.ReminderStatus;
 import com.code2care.common.domain.model.ReminderType;
 import com.code2care.common.infrastructure.config.ChannelTypeConverter;
 import jakarta.persistence.*;
@@ -54,13 +55,12 @@ public class Reminder {
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private ChannelType channel;
 
-/*
- TODO [Reverse Engineering] create field to map the 'status' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
-    @org.hibernate.annotations.ColumnDefault("'active'")
-    @jakarta.persistence.Column(name = "status", columnDefinition = "reminder_status_enum not null")
-    private Object status;
-*/
+    @org.hibernate.annotations.ColumnDefault("'PENDING'")
+    @jakarta.persistence.Column(name = "status", columnDefinition = "reminder_status_enum")
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    private ReminderStatus status;
+
     @org.hibernate.annotations.ColumnDefault("'FR'")
     @jakarta.persistence.Column(name = "language", columnDefinition = "language_enum", nullable = false)
     @Enumerated(EnumType.STRING)

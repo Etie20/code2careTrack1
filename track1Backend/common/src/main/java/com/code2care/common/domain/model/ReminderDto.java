@@ -22,4 +22,5 @@ public class ReminderDto implements Serializable {
     ReminderType type;
     Language language;
     ChannelType channel;
+    ReminderStatus status;
 }
