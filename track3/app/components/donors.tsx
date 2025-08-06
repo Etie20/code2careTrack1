@@ -11,7 +11,7 @@ import FilterModal from "./modals/filter-modal"
 import ExportModal from "./modals/export-modal"
 import {DonorData} from "@/lib/types/donor";
 import {getDonors} from "@/app/services/donor.service";
-import {newDate} from "date-fns-jalali";
+import {Filters} from "@/lib/types/filter"
 
 export default function Donors() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -74,6 +74,22 @@ export default function Donors() {
 
     setFilteredDonors(filtered)
   }, [searchTerm, selectedFilter, donors])
+
+  const handleFilterApply = (appliedFilters: Filters) => {
+    let filtered = donors
+
+    if (appliedFilters.bloodTypes.length > 0) {
+      filtered = filtered.filter((donor) =>
+          appliedFilters.bloodTypes.includes(donor.bloodType)
+      )
+    }
+
+    // Tu peux compléter avec les autres filtres si tu les implémentes
+    // ex: status, location, etc.
+
+    setFilteredDonors(filtered)
+  }
+
 
 
 
@@ -279,9 +295,8 @@ export default function Donors() {
       {/* Modals */}
       <AddDonorModal open={showAddDonorModal} onOpenChange={setShowAddDonorModal} />
       <FilterModal open={showFilterModal} onOpenChange={setShowFilterModal} filterType="donors"
-                   onApplyFilters={function (filters: any): void {
-                     throw new Error("Function not implemented.")
-                   }} />
+                   onApplyFilters={handleFilterApply}
+      />
       <ExportModal open={showExportModal} onOpenChange={setShowExportModal} dataType="donors"
                    onExport={function (config: any): void {
                      throw new Error("Function not implemented.")

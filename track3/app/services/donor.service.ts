@@ -38,6 +38,3 @@ export async function getDonors(): Promise<DonorData[]> {
     return data.content
 }
 
-// export async function searchDonors(donorName :string): Promise<DonorData[]>{
-//     const res = await fetch(`${API_URL}/search?page=0&size=10&sortBy=lastDonationDate&direction=desc&query=Victoire`)
-// }

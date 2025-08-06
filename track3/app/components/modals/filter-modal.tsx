@@ -24,8 +24,6 @@ interface FilterModalProps {
 export default function FilterModal({ open, onOpenChange, onApplyFilters, filterType }: FilterModalProps) {
   const [filters, setFilters] = useState({
     bloodTypes: [] as string[],
-    dateFrom: undefined as Date | undefined,
-    dateTo: undefined as Date | undefined,
     status: "all", // Updated default value
     location: "all", // Updated default value
     urgency: "all", // Updated default value
@@ -61,8 +59,6 @@ export default function FilterModal({ open, onOpenChange, onApplyFilters, filter
   const handleClearFilters = () => {
     setFilters({
       bloodTypes: [],
-      dateFrom: undefined,
-      dateTo: undefined,
       status: "all", // Updated default value
       location: "all", // Updated default value
       urgency: "all", // Updated default value
@@ -74,7 +70,6 @@ export default function FilterModal({ open, onOpenChange, onApplyFilters, filter
   const getActiveFiltersCount = () => {
     let count = 0
     if (filters.bloodTypes.length > 0) count++
-    if (filters.dateFrom || filters.dateTo) count++
     if (filters.status !== "all") count++
     if (filters.location !== "all") count++
     if (filters.urgency !== "all") count++
@@ -129,65 +124,7 @@ export default function FilterModal({ open, onOpenChange, onApplyFilters, filter
             </div>
 
             {/* Plage de Dates */}
-            <div className="space-y-3">
-              <Label className="text-sm font-medium">Période</Label>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label className="text-xs text-gray-500">Du</Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                          variant="outline"
-                          className={cn(
-                              "w-full justify-start text-left font-normal",
-                              !filters.dateFrom && "text-muted-foreground",
-                          )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {filters.dateFrom ? (
-                            format(filters.dateFrom, "dd/MM/yyyy", { locale: fr })
-                        ) : (
-                            <span>Date début</span>
-                        )}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <Calendar
-                          mode="single"
-                          selected={filters.dateFrom}
-                          onSelect={(date) => setFilters({ ...filters, dateFrom: date })}
-                          initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-xs text-gray-500">Au</Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                          variant="outline"
-                          className={cn(
-                              "w-full justify-start text-left font-normal",
-                              !filters.dateTo && "text-muted-foreground",
-                          )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {filters.dateTo ? format(filters.dateTo, "dd/MM/yyyy", { locale: fr }) : <span>Date fin</span>}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <Calendar
-                          mode="single"
-                          selected={filters.dateTo}
-                          onSelect={(date) => setFilters({ ...filters, dateTo: date })}
-                          initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              </div>
-            </div>
+
 
             {/* Filtres spécifiques selon le type */}
             {filterType === "inventory" && (
