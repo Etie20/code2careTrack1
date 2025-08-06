@@ -26,10 +26,7 @@
             ],
             "styles": [
               "src/styles.css"
-            ],
-            "outputPath": "dist/",
-            "index": "src/index.html",
-            "baseHref": "/dashboard/"
+            ]
           },
           "configurations": {
             "production": {
