@@ -19,8 +19,8 @@ public class FeedbackDomainService {
         return feedbackRepository.save(feedbackDto);
     }
 
-    public Page<FeedbackDto> findAllFeedback(Pageable pageable) {
-        return feedbackRepository.findAll(pageable);
+    public List<FeedbackDto> findAllFeedback() {
+        return feedbackRepository.findAll();
     }
 
     public List<FeedbackDto> findRecentFeedback() {
