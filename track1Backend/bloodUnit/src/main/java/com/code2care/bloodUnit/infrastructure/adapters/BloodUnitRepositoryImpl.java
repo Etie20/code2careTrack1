@@ -4,18 +4,15 @@ import com.code2care.bloodUnit.application.dto.StockSummaryDTO;
 import com.code2care.bloodUnit.domain.repository.BloodUnitRepository;
 import com.code2care.bloodUnit.infrastructure.repository.JpaBloodUnitRepository;
 import com.code2care.common.domain.model.BloodUnitDto;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
+import java.util.List;
 
 @Repository
 public class BloodUnitRepositoryImpl implements BloodUnitRepository {
@@ -35,6 +32,11 @@ public class BloodUnitRepositoryImpl implements BloodUnitRepository {
     @Override
     public Page<BloodUnitDto> search(String searchTerm, Pageable pageable) {
         return jpaBloodUnitRepository.findAllByBloodTypeContainingIgnoreCaseOrUnitIdOrStorageLocationContainingIgnoreCase(searchTerm, Long.parseLong(searchTerm), searchTerm, pageable).map((element) -> modelMapper.map(element, BloodUnitDto.class));
+    }
+
+    @Override
+    public List<BloodUnitDto> findAll() {
+        return jpaBloodUnitRepository.findAll().stream().map((element) -> modelMapper.map(element, BloodUnitDto.class)).toList();
     }
 
     @Override

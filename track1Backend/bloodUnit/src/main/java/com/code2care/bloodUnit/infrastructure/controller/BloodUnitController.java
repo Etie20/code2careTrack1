@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RestController
 @RequestMapping("/api/bloodUnit")
@@ -22,6 +24,7 @@ public class BloodUnitController {
     private final SearchBloodUnitUseCase searchBloodUnitUseCase;
     private final GetBloodUnitByIdUseCase getBloodUnitByIdUseCase;
     private final GetStockSummaryUseCase getStockSummaryUseCase;
+    private final GetBloodUnitsUseCase getBloodUnitsUseCase;
 
     @PostMapping("")
     public ResponseEntity<Object> create(@RequestBody BloodUnitDto bloodUnitDto) {
@@ -87,6 +90,15 @@ public class BloodUnitController {
     public ResponseEntity<StockSummaryDTO> getSummary() {
         try {
             return ResponseEntity.ok(getStockSummaryUseCase.execute());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<BloodUnitDto>> getBloodUnits() {
+        try {
+            return ResponseEntity.ok(getBloodUnitsUseCase.execute());
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
