@@ -6,7 +6,9 @@ from typing import List
 import os
 from models.serve import DatabaseService
 from api.inference import router as inference_router
-from scheduler.task import app as celery_app
+import models.serve
+
+# from scheduler.task import app as celery_app
 
 
 app = FastAPI()
@@ -25,7 +27,23 @@ app.include_router(inference_router, prefix="/api/v1")
 def home():
     return {"status": "Backend Server Running"}
 
+# @app.on_event("startup")
+# async def startup():
+#     # Initialize Celery
+#     celery_app.conf.update(task_track_started=True) 
+
+db_config = {
+    "user": os.getenv("DB_USER", "postgres.ihnkhvimonixivwphgnt"),
+    "password": os.getenv("DB_PASSWORD", "VaIC1Hgvm2kCxZYY"), 
+    "database": os.getenv("DB_NAME", "postgres"),
+    "host": os.getenv("DB_HOST", "aws-0-eu-north-1.pooler.supabase.com"), 
+}
+db_service = models.serve.DatabaseService(db_config)
+
 @app.on_event("startup")
 async def startup():
-    # Initialize Celery
-    celery_app.conf.update(task_track_started=True) 
+    try:
+        await db_service.connect()
+    except Exception as e:
+        raise
+    

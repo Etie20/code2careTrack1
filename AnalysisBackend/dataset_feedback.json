@@ -1,0 +1,1818 @@
+[
+   {
+    "text": "Le personnel était aimable mais les toilettes étaient sales.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel", "hygiène"]
+  },
+  {
+    "text": "Le temps d'attente était inacceptable.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "J'ai eu une consultation très utile.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "L'équipement était moderne et bien entretenu.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les frais de consultation étaient trop élevés.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Le personnel semblait débordé et peu attentif.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "J'ai trouvé la salle d'attente très inconfortable.",
+    "sentiment": "négatif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Les médecins sont très compétents et attentifs.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Les médicaments étaient disponibles sans problème.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Le temps d'attente était raisonnable.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Les installations étaient propres et bien entretenues.",
+    "sentiment": "positif",
+    "categories": ["hygiène", "infrastructure"]
+  },
+  {
+    "text": "Il y avait un manque d'informations sur les prix.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Le personnel administratif était très serviable.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "L'équipement était obsolète et peu fonctionnel.",
+    "sentiment": "négatif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Le médecin a pris le temps d'écouter mes préoccupations.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Les horaires de rendez-vous étaient mal gérés.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente", "organisation"]
+  },
+  {
+    "text": "Le personnel était très professionnel.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Les médicaments étaient épuisés et non disponibles.",
+    "sentiment": "négatif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "La salle d'attente était propre et bien agencée.",
+    "sentiment": "positif",
+    "categories": ["hygiène", "infrastructure"]
+  },
+  {
+    "text": "Les prix étaient clairs et bien affichés.",
+    "sentiment": "positif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Il y avait trop de bruit dans la salle d'attente.",
+    "sentiment": "négatif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Le personnel a été très accueillant et chaleureux.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Les infirmières étaient très attentionnées et compréhensives.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le médecin a pris le temps de répondre à toutes mes questions.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Chaque membre du personnel était poli et respectueux.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "J'ai apprécié la patience du personnel lors de mon examen.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel m'a mis à l'aise dès mon arrivée.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Les techniciens étaient très professionnels et compétents.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel a fait preuve d'empathie durant toute ma visite.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel a pris le temps de m'expliquer les procédures.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Les réceptionnistes étaient souriants et serviables.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "J'ai été impressionné par la gentillesse du personnel.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel a toujours été disponible pour m'aider.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "L'accueil était correct, rien de particulier à signaler.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel a été poli, sans plus.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le service était standard, sans points forts.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Aucune interaction notable avec le personnel.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel a suivi les procédures habituelles.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "L'attitude du personnel était conforme aux attentes.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "J'ai été accueilli sans enthousiasme.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel a réalisé ses tâches de manière ordinaire.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le traitement a été standard, sans personnalisation.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel était présent mais peu engageant.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Aucune remarque particulière sur le personnel.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel a fait son travail de manière routinière.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le service était conforme à ce que j'attendais.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Rien d'extraordinaire concernant l'attitude du personnel.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "L'accueil était froid et impersonnel.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel a montré peu d'intérêt pour mes préoccupations.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "J'ai eu l'impression de déranger le personnel.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel était souvent distrait et non concentré.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le médecin a été brusque dans ses explications.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel n'a pas fait preuve de respect envers moi.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "L'infirmière était désagréable et peu sympathique.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel n'a pas pris mes préoccupations au sérieux.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel semblait impatient et peu compréhensif.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "L'accueil était négligé et peu professionnel.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel a été peu coopératif dans ma demande.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le médecin a été condescendant dans ses réponses.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Le personnel a manqué de professionnalisme.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel"]
+  },
+  {
+    "text": "Les instruments médicaux n'étaient pas correctement désinfectés.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les sols étaient collants et mal nettoyés.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Il y avait des taches sur les fauteuils.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les sanitaires étaient souvent en mauvais état.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "La cuisine était négligée et pas très propre.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les équipements de gym étaient sales.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les draps utilisés n'étaient pas changés entre les patients.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Le personnel ne semblait pas respecter les normes d'hygiène.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les fenêtres étaient sales et poussiéreuses.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "La propreté des lieux était très insuffisante.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les appareils de climatisation étaient encrassés.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Il y avait des insectes visibles dans les locaux.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les tapis étaient sales et mal entretenus.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les poubelles n'étaient pas vidées régulièrement.",
+    "sentiment": "négatif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les toilettes étaient fonctionnelles et en bon état.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les douches étaient propres mais pourraient bénéficier d'un meilleur entretien.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Il y avait assez de fournitures d'hygiène disponibles.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les espaces de restauration étaient généralement propres.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les locaux semblaient en ordre, mais nécessitent un nettoyage plus fréquent.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "L'hygiène des équipements était adéquate.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les poubelles étaient vidées régulièrement.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Le personnel semblait suivre les protocoles d'hygiène.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les produits d'entretien étaient disponibles et en quantité suffisante.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les surfaces étaient généralement propres.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les vestiaires étaient en bon état, mais pourraient être améliorés.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "L'entretien des locaux était suffisant.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les sanitaires étaient en état de fonctionnement.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "L'hygiène dans les lieux de soins était acceptable.",
+    "sentiment": "neutre",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les espaces communs étaient impeccables.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "L'hygiène dans les salles de soins était irréprochable.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les douches étaient propres et bien entretenues.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les poubelles étaient vidées régulièrement.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les sols étaient brillants et sans taches.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les murs étaient propres et sans traces.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Le personnel respecte bien les normes d'hygiène.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les équipements étaient en excellent état de propreté.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "L'odeur dans les locaux était agréable et fraîche.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les surfaces étaient régulièrement désinfectées.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les espaces de restauration étaient propres et bien rangés.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les chaises étaient soigneusement nettoyées.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les zones de passage étaient bien entretenues.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les produits d'entretien semblaient efficaces et adaptés.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les sanitaires étaient bien fournis en savon et papier.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les douches étaient toujours propres et fonctionnelles.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les espaces de soins étaient hygiéniques et confortables.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les couverts dans la cantine étaient impeccables.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les rampes et poignées étaient régulièrement désinfectées.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les lieux étaient conformes aux normes d'hygiène.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "Les zones de jeu pour enfants étaient propres et sûres.",
+    "sentiment": "positif",
+    "categories": ["hygiène"]
+  },
+  {
+    "text": "L'organisation de l'attente était très bien faite.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le personnel a été très rapide pour m'accueillir.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Je n'ai pas eu à attendre longtemps pour être consulté.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "L'attente a été courte et bien gérée.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le temps d'attente était minimal.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "J'ai été satisfait de la rapidité du service.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le système de prise en charge était très efficace.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "L'attente n'a pas été longue et j'ai été pris en charge rapidement.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Je n'ai pas eu à patienter longtemps pour mes soins.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le temps d'attente était très acceptable.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le processus d'attente a été rapide et fluide.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "L'attente a été bien organisée et rapide.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le personnel a fait preuve d'efficacité dans la gestion des attentes.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "J'ai été pris en charge peu de temps après mon arrivée.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le temps d'attente était beaucoup plus court que prévu.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le service était rapide et sans attente inutile.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le délai avant de commencer mon rendez-vous était habituel.",
+    "sentiment": "neutre",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le temps d'attente était conforme aux standards habituels.",
+    "sentiment": "neutre",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "L'attente a été raisonnable lors de ma visite.",
+    "sentiment": "neutre",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le temps d'attente était ce à quoi je m'attendais.",
+    "sentiment": "neutre",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "J'ai été pris en charge après un temps d'attente normal.",
+    "sentiment": "neutre",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "L'attente a été acceptable pour le service reçu.",
+    "sentiment": "neutre",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le temps d'attente était similaire à ce que j'ai déjà vécu ailleurs.",
+    "sentiment": "neutre",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "L'attente a été standard pour un rendez-vous.",
+    "sentiment": "neutre",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le temps d'attente était modéré et sans incident.",
+    "sentiment": "neutre",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "J'ai attendu un certain temps avant d'être vu, ce qui est normal.",
+    "sentiment": "neutre",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "L'attente a été dans la fourchette habituelle.",
+    "sentiment": "neutre",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le délai d'attente était conforme à mes attentes.",
+    "sentiment": "neutre",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "J'ai été pris en charge après un temps d'attente raisonnable.",
+    "sentiment": "neutre",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "J'ai attendu plus de 30 minutes sans aucune mise à jour.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "L'attente était désorganisée et chaotique.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le temps d'attente était bien trop long et inconfortable.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Je n'ai pas été pris en charge pendant un temps déraisonnable.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le personnel ne semblait pas concerné par le temps d'attente.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "L'attente était interminable et très frustrante.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le temps d'attente était bien au-delà de mes attentes.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "J'ai dû patienter trop longtemps avant d'être vu.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "L'organisation des attentes laissait à désirer.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le temps d'attente était excessif et peu professionnel.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "J'ai attendu plus longtemps que prévu sans raison.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "L'attente était très désagréable et trop longue.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente"]
+  },
+  {
+    "text": "Le médecin a semblé désintéressé par mon état de santé.",
+    "sentiment": "négatif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "J'ai ressenti un manque d'empathie durant la consultation.",
+    "sentiment": "négatif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "La consultation était trop brève pour être utile.",
+    "sentiment": "négatif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Le médecin n'a pas répondu à mes questions avec clarté.",
+    "sentiment": "négatif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Je ne me suis pas senti écouté durant la consultation.",
+    "sentiment": "négatif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "La consultation n'a pas été satisfaisante.",
+    "sentiment": "négatif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Les conseils donnés étaient vagues et peu pratiques.",
+    "sentiment": "négatif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Le médecin a paru pressé et peu attentif.",
+    "sentiment": "négatif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "La consultation n'a pas répondu à mes attentes.",
+    "sentiment": "négatif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "La consultation a suivi le protocole habituel.",
+    "sentiment": "neutre",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Le médecin a effectué les examens requis.",
+    "sentiment": "neutre",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Les conseils donnés étaient basiques mais pertinents.",
+    "sentiment": "neutre",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "La consultation a été effectuée dans un délai raisonnable.",
+    "sentiment": "neutre",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "J'ai eu une consultation standard sans incidents.",
+    "sentiment": "neutre",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Le médecin a pris le temps de m'expliquer les résultats.",
+    "sentiment": "neutre",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "La consultation a répondu à mes attentes.",
+    "sentiment": "neutre",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "L'expérience de consultation était conforme aux standards.",
+    "sentiment": "neutre",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Le médecin a fait une évaluation standard de mon état.",
+    "sentiment": "neutre",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "La consultation a été réalisée dans le temps imparti.",
+    "sentiment": "neutre",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "J'ai reçu des recommandations générales.",
+    "sentiment": "neutre",
+    "categories": ["consultation"]
+  },
+{
+    "text": "Le médecin a pris le temps d'écouter mes préoccupations.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "J'ai reçu des explications claires et précises durant la consultation.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "La consultation a répondu à toutes mes questions.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Le médecin a fait preuve de beaucoup d'empathie.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "J'ai été très satisfait de la qualité de la consultation.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Les conseils donnés étaient très pertinents et adaptés.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "La consultation s'est déroulée dans un cadre agréable.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Le médecin a été très compréhensif et aimable.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "J'ai eu l'impression d'être bien pris en charge.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "La consultation a été très bien organisée.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Les résultats de ma consultation ont été très clairs.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Le médecin a pris le temps d'expliquer chaque étape.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "L'expérience de consultation a été très positive.",
+    "sentiment": "positif",
+    "categories": ["consultation"]
+  },
+  {
+    "text": "Les appareils étaient performants et faciles à manipuler.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était disponible et en bon état.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les outils étaient bien entretenus et fonctionnels.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement a répondu parfaitement à mes attentes.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les installations étaient impressionnantes et bien équipées.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "J'ai apprécié la qualité de l'équipement utilisé.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était à la pointe de la technologie.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Tous les appareils étaient faciles d'accès et bien positionnés.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était suffisamment varié pour répondre à mes besoins.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les fonctionnalités de l'équipement étaient impressionnantes.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était ergonomique et facile à utiliser.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les outils étaient bien adaptés aux différentes procédures.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était performant et fiable.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était de dernière génération et très efficace.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les outils étaient parfaitement adaptés à mes besoins.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était facile à utiliser et très fonctionnel.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les installations étaient bien entretenues et modernes.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Tous les appareils étaient en excellent état de fonctionnement.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement a grandement amélioré mon expérience.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les outils étaient ergonomiques et faciles à manipuler.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement a répondu à toutes mes attentes.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les fonctionnalités de l'équipement étaient impressionnantes.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était propre et bien organisé.",
+    "sentiment": "positif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était souvent en panne et peu fiable.",
+    "sentiment": "négatif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les outils étaient mal entretenus et difficiles à utiliser.",
+    "sentiment": "négatif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement manquait de diversité pour les besoins spécifiques.",
+    "sentiment": "négatif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les installations étaient obsolètes et peu fonctionnelles.",
+    "sentiment": "négatif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était difficile à utiliser sans formation.",
+    "sentiment": "négatif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Le matériel était souvent en désordre et mal rangé.",
+    "sentiment": "négatif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement ne répondait pas aux normes de sécurité.",
+    "sentiment": "négatif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les outils étaient souvent défectueux et peu fiables.",
+    "sentiment": "négatif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement manquait de fonctionnalités essentielles.",
+    "sentiment": "négatif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était encombrant et difficile à manipuler.",
+    "sentiment": "négatif",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était fonctionnel mais sans particularité.",
+    "sentiment": "neutre",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les outils étaient disponibles mais nécessitaient un entretien.",
+    "sentiment": "neutre",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement a été utilisé comme prévu.",
+    "sentiment": "neutre",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les installations étaient adéquates pour les tâches réalisées.",
+    "sentiment": "neutre",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était standard et fonctionnait correctement.",
+    "sentiment": "neutre",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les outils étaient accessibles mais manquaient de spécificité.",
+    "sentiment": "neutre",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement a été utilisé sans incident notable.",
+    "sentiment": "neutre",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les installations étaient suffisantes pour les besoins exprimés.",
+    "sentiment": "neutre",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "L'équipement était conforme aux exigences de base.",
+    "sentiment": "neutre",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les outils ont été utilisés sans problèmes majeurs.",
+    "sentiment": "neutre",
+    "categories": ["équipement"]
+  },
+  {
+    "text": "Les prix étaient très compétitifs et abordables.",
+    "sentiment": "positif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "La transparence des tarifs m'a beaucoup plu.",
+    "sentiment": "positif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "J'ai trouvé la facturation claire et sans surprises.",
+    "sentiment": "positif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Les tarifs étaient justifiés par la qualité du service.",
+    "sentiment": "positif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "J'ai bénéficié d'une remise intéressante sur ma facture.",
+    "sentiment": "positif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "La facturation a été rapide et sans complications.",
+    "sentiment": "positif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Les prix affichés étaient clairs et précis.",
+    "sentiment": "positif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "J'ai été agréablement surpris par le rapport qualité-prix.",
+    "sentiment": "positif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Le processus de facturation était très bien organisé.",
+    "sentiment": "positif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Les options de paiement étaient flexibles et pratiques.",
+    "sentiment": "positif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Les prix étaient trop élevés pour le service fourni.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "J'ai eu des problèmes avec la facturation, c'était confus.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Des frais supplémentaires ont été ajoutés sans explication.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "La transparence des tarifs laissait à désirer.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "La facturation a pris beaucoup trop de temps.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Les erreurs sur ma facture ont été difficiles à corriger.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Les prix ne correspondaient pas à ce qui était annoncé.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "J'ai trouvé le processus de facturation très frustrant.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Les options de paiement étaient limitées et peu pratiques.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Il y avait trop de frais cachés dans la facture.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Les prix étaient trop élevés pour le service fourni.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "J'ai eu des problèmes avec la facturation, c'était confus.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Des frais supplémentaires ont été ajoutés sans explication.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "La transparence des tarifs laissait à désirer.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "La facturation a pris beaucoup trop de temps.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Les erreurs sur ma facture ont été difficiles à corriger.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Les prix ne correspondaient pas à ce qui était annoncé.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "J'ai trouvé le processus de facturation très frustrant.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Les options de paiement étaient limitées et peu pratiques.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Il y avait trop de frais cachés dans la facture.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix"]
+  },
+  {
+    "text": "Les médicaments étaient disponibles immédiatement.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "J'ai trouvé tous les médicaments dont j'avais besoin.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "La pharmacie était bien approvisionnée en médicaments.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Les médicaments étaient disponibles à des horaires pratiques.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "J'ai été impressionné par la variété de médicaments offerts.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Le personnel a rapidement trouvé les médicaments que je cherchais.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "J'ai pu obtenir mes médicaments sans attente.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Les médicaments étaient bien étiquetés et faciles à trouver.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "La disponibilité des médicaments a facilité mon traitement.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "J'ai apprécié la rapidité de service pour la disponibilité des médicaments.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Certains médicaments étaient en rupture de stock.",
+    "sentiment": "négatif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "J'ai dû attendre longtemps pour obtenir mes médicaments.",
+    "sentiment": "négatif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "La pharmacie ne disposait pas de mes médicaments prescrits.",
+    "sentiment": "négatif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Les médicaments étaient souvent indisponibles.",
+    "sentiment": "négatif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Il y avait un manque de diversité dans les médicaments proposés.",
+    "sentiment": "négatif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Le personnel n'était pas au courant des ruptures de stock.",
+    "sentiment": "négatif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "J'ai eu des difficultés à trouver les médicaments nécessaires.",
+    "sentiment": "négatif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "La disponibilité des médicaments était décevante.",
+    "sentiment": "négatif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Il y avait trop de médicaments manquants sur la liste.",
+    "sentiment": "négatif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Les délais d'attente pour certains médicaments étaient inacceptables.",
+    "sentiment": "négatif",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "La disponibilité des médicaments était moyenne.",
+    "sentiment": "neutre",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Certains médicaments étaient disponibles, d'autres non.",
+    "sentiment": "neutre",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "La pharmacie a un assortiment standard de médicaments.",
+    "sentiment": "neutre",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Les médicaments étaient disponibles sans être exceptionnels.",
+    "sentiment": "neutre",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "La disponibilité des médicaments était conforme à mes attentes.",
+    "sentiment": "neutre",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Le service pour la disponibilité des médicaments était acceptable.",
+    "sentiment": "neutre",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "La pharmacie avait les médicaments essentiels, mais pas tous.",
+    "sentiment": "neutre",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Les délais d'attente pour les médicaments étaient normaux.",
+    "sentiment": "neutre",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "La sélection de médicaments était standard sans surprises.",
+    "sentiment": "neutre",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "La disponibilité des médicaments a répondu aux besoins de base.",
+    "sentiment": "neutre",
+    "categories": ["disponibilité des médicaments"]
+  },
+  {
+    "text": "Les installations étaient modernes et bien entretenues.",
+    "sentiment": "positif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "L'infrastructure était adaptée aux besoins des utilisateurs.",
+    "sentiment": "positif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Les équipements étaient de haute qualité et efficaces.",
+    "sentiment": "positif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "L'accès aux installations était facile et pratique.",
+    "sentiment": "positif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Les espaces étaient bien conçus et agréables.",
+    "sentiment": "positif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "L'infrastructure était propre et bien organisée.",
+    "sentiment": "positif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Les services disponibles étaient facilement accessibles.",
+    "sentiment": "positif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "La signalisation dans l'infrastructure était claire et utile.",
+    "sentiment": "positif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "L'infrastructure a grandement facilité mon expérience.",
+    "sentiment": "positif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Les installations étaient bien adaptées pour les personnes à mobilité réduite.",
+    "sentiment": "positif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "L'infrastructure était obsolète et mal entretenue.",
+    "sentiment": "négatif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Les installations étaient souvent en panne et peu fiables.",
+    "sentiment": "négatif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "L'accès aux installations était difficile et peu pratique.",
+    "sentiment": "négatif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Les espaces étaient mal conçus et inconfortables.",
+    "sentiment": "négatif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "La propreté des installations laissait à désirer.",
+    "sentiment": "négatif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Il y avait un manque de signalisation claire dans l'infrastructure.",
+    "sentiment": "négatif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Les services étaient souvent indisponibles ou en retard.",
+    "sentiment": "négatif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "L'infrastructure ne répondait pas aux normes de sécurité.",
+    "sentiment": "négatif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Les installations étaient souvent encombrées et peu pratiques.",
+    "sentiment": "négatif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "L'infrastructure nécessitait des améliorations urgentes.",
+    "sentiment": "négatif",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "L'infrastructure était adéquate pour le service fourni.",
+    "sentiment": "neutre",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Les installations étaient fonctionnelles mais sans particularité.",
+    "sentiment": "neutre",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "L'accès aux installations était correct sans être exceptionnel.",
+    "sentiment": "neutre",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "La propreté des lieux était acceptable.",
+    "sentiment": "neutre",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Les équipements étaient disponibles mais basiques.",
+    "sentiment": "neutre",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "L'infrastructure a répondu aux besoins sans surprises.",
+    "sentiment": "neutre",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Les espaces étaient normaux mais auraient pu être améliorés.",
+    "sentiment": "neutre",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "La signalisation était présente mais pourrait être améliorée.",
+    "sentiment": "neutre",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "L'infrastructure était suffisante pour une utilisation occasionnelle.",
+    "sentiment": "neutre",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Les installations étaient convenables mais manquaient de caractère.",
+    "sentiment": "neutre",
+    "categories": ["infrastructure"]
+  },
+  {
+    "text": "Le temps d'attente était raisonnable et le personnel était très accueillant.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente", "attitude du personnel"]
+  },
+  {
+    "text": "L'hygiène des lieux laissait à désirer, ce qui m'a préoccupé.",
+    "sentiment": "négatif",
+    "categories": ["hygiène", "infrastructure"]
+  },
+  {
+    "text": "La consultation a été rapide, mais les réponses étaient peu claires.",
+    "sentiment": "neutre",
+    "categories": ["consultation", "temps d'attente"]
+  },
+  {
+    "text": "L'équipement était en excellent état et bien entretenu.",
+    "sentiment": "positif",
+    "categories": ["équipement", "consultation"]
+  },
+  {
+    "text": "Les tarifs de facturation étaient trop élevés pour le service reçu.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix", "consultation"]
+  },
+  {
+    "text": "Les médicaments étaient disponibles rapidement et le personnel était serviable.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments", "attitude du personnel"]
+  },
+  {
+    "text": "Le temps d'attente pour la consultation était interminable.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente", "consultation"]
+  },
+  {
+    "text": "L'infrastructure était propre et bien organisée.",
+    "sentiment": "positif",
+    "categories": ["infrastructure", "hygiène"]
+  },
+  {
+    "text": "Le personnel a été très professionnel, mais l'attente était trop longue.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel", "temps d'attente"]
+  },
+  {
+    "text": "La disponibilité des médicaments était satisfaisante.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments", "hygiène"]
+  },
+  {
+    "text": "L'équipement était obsolète et pas très efficace.",
+    "sentiment": "négatif",
+    "categories": ["équipement", "consultation"]
+  },
+  {
+    "text": "Les délais de facturation étaient acceptables et sans complications.",
+    "sentiment": "neutre",
+    "categories": ["facturation et prix", "temps d'attente"]
+  },
+  {
+    "text": "J'ai été satisfait de l'hygiène des installations.",
+    "sentiment": "positif",
+    "categories": ["hygiène", "infrastructure"]
+  },
+  {
+    "text": "La consultation était correcte, sans plus.",
+    "sentiment": "neutre",
+    "categories": ["consultation", "équipement"]
+  },
+  {
+    "text": "Le personnel était accueillant, mais l'équipement manquait de modernité.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel", "équipement"]
+  },
+  {
+    "text": "Il y avait un bon rapport qualité-prix pour les services.",
+    "sentiment": "positif",
+    "categories": ["facturation et prix", "consultation"]
+  },
+  {
+    "text": "L'attitude du personnel était désinvolte et peu professionnelle.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel", "hygiène"]
+  },
+  {
+    "text": "Le temps d'attente était acceptable pour un service de qualité.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente", "consultation"]
+  },
+  {
+    "text": "L'infrastructure était vieillissante et nécessitait des rénovations.",
+    "sentiment": "négatif",
+    "categories": ["infrastructure", "hygiène"]
+  },
+  {
+    "text": "Les médicaments étaient disponibles, mais le personnel pouvait être plus utile.",
+    "sentiment": "neutre",
+    "categories": ["disponibilité des médicaments", "attitude du personnel"]
+  },
+  {
+    "text": "La consultation a été effectuée dans un cadre propre et agréable.",
+    "sentiment": "positif",
+    "categories": ["consultation", "hygiène"]
+  },
+  {
+    "text": "L'équipement était fonctionnel mais aurait besoin d'un entretien.",
+    "sentiment": "neutre",
+    "categories": ["équipement", "hygiène"]
+  },
+  {
+    "text": "Le temps d'attente pour recevoir mes médicaments était raisonnable.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente", "disponibilité des médicaments"]
+  },
+  {
+    "text": "L'hygiène des lieux était médiocre et peu rassurante.",
+    "sentiment": "négatif",
+    "categories": ["hygiène", "infrastructure"]
+  },
+  {
+    "text": "Les employés étaient sympathiques, mais le service était lent.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel", "temps d'attente"]
+  },
+  {
+    "text": "La consultation était très professionnelle et informative.",
+    "sentiment": "positif",
+    "categories": ["consultation", "attitude du personnel"]
+  },
+  {
+    "text": "Les prix étaient compétitifs, mais la facturation était confuse.",
+    "sentiment": "négatif",
+    "categories": ["facturation et prix", "service"]
+  },
+  {
+    "text": "L'équipement était disponible et en bon état.",
+    "sentiment": "positif",
+    "categories": ["équipement", "disponibilité des médicaments"]
+  },
+  {
+    "text": "Le personnel a été très courtois, mais l'attente était trop longue.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel", "temps d'attente"]
+  },
+  {
+    "text": "L'infrastructure était adéquate, mais manquait de confort.",
+    "sentiment": "neutre",
+    "categories": ["infrastructure", "hygiène"]
+  },
+  {
+    "text": "La disponibilité des médicaments était excellente.",
+    "sentiment": "positif",
+    "categories": ["disponibilité des médicaments", "service"]
+  },
+  {
+    "text": "L'hygiène était correcte, mais il y avait des améliorations possibles.",
+    "sentiment": "neutre",
+    "categories": ["hygiène", "consultation"]
+  },
+  {
+    "text": "Le temps d'attente était inacceptable pour le niveau de service.",
+    "sentiment": "négatif",
+    "categories": ["temps d'attente", "consultation"]
+  },
+  {
+    "text": "La consultation a été rapide et efficace.",
+    "sentiment": "positif",
+    "categories": ["consultation", "temps d'attente"]
+  },
+  {
+    "text": "L'équipement était en panne, ce qui a causé des retards.",
+    "sentiment": "négatif",
+    "categories": ["équipement", "consultation"]
+  },
+  {
+    "text": "Les prix étaient transparents et justes.",
+    "sentiment": "positif",
+    "categories": ["facturation et prix", "service"]
+  },
+  {
+    "text": "Le personnel était aimable, mais l'infrastructure était vieillissante.",
+    "sentiment": "neutre",
+    "categories": ["attitude du personnel", "infrastructure"]
+  },
+  {
+    "text": "L'hygiène des lieux était impeccable et rassurante.",
+    "sentiment": "positif",
+    "categories": ["hygiène", "infrastructure"]
+  },
+  {
+    "text": "Les médicaments étaient souvent en rupture de stock, ce qui est frustrant.",
+    "sentiment": "négatif",
+    "categories": ["disponibilité des médicaments", "service"]
+  },
+  {
+    "text": "La consultation a été bien menée, mais le temps d'attente était trop long.",
+    "sentiment": "neutre",
+    "categories": ["consultation", "temps d'attente"]
+  },
+  {
+    "text": "Le personnel était professionnel et attentif à mes besoins.",
+    "sentiment": "positif",
+    "categories": ["attitude du personnel", "service"]
+  },
+  {
+    "text": "L'équipement était fonctionnel, mais un peu ancien.",
+    "sentiment": "neutre",
+    "categories": ["équipement", "consultation"]
+  },
+  {
+    "text": "Le temps d'attente pour la consultation était acceptable dans l'ensemble.",
+    "sentiment": "positif",
+    "categories": ["temps d'attente", "consultation"]
+  },
+  {
+    "text": "L'hygiène était insuffisante et cela m'a mis mal à l'aise.",
+    "sentiment": "négatif",
+    "categories": ["hygiène", "infrastructure"]
+  },
+  {
+    "text": "Les médicaments étaient disponibles, mais le service était lent.",
+    "sentiment": "neutre",
+    "categories": ["disponibilité des médicaments", "temps d'attente"]
+  },
+  {
+    "text": "La consultation a été très informative et bien structurée.",
+    "sentiment": "positif",
+    "categories": ["consultation", "attitude du personnel"]
+  },
+  {
+    "text": "Le personnel était accueillant, mais l'hygiène laissait à désirer.",
+    "sentiment": "négatif",
+    "categories": ["attitude du personnel", "hygiène"]
+  }
+
+]
