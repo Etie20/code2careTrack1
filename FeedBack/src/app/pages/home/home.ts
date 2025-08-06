@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {LanguageSelector} from '../../shared/components/language-selector/language-selector';
 import {FeedbackForm} from '../../shared/components/feedback-form/feedback-form';
 import {NgForOf, NgIf} from '@angular/common';
@@ -29,10 +29,10 @@ export class Home {
 
 
   activeTab = 'dashboard';
-  language : 'en' | 'fr' = 'en';
+  language: 'ENGLISH' | 'FRENCH' = 'ENGLISH';
 
   translations: Record<string, Translations> = {
-    en: {
+    ENGLISH: {
       title: 'Patient Care System',
       subtitle: 'Comprehensive healthcare feedback and reminder management',
       dashboard: 'Dashboard',
@@ -40,7 +40,7 @@ export class Home {
       reminders: 'Reminders',
       analytics: 'Analytics',
     },
-    fr: {
+    FRENCH: {
       title: 'Système de Soins aux Patients',
       subtitle: 'Gestion complète des commentaires et rappels de santé',
       dashboard: 'Tableau de bord',
@@ -59,7 +59,7 @@ export class Home {
   };
 
   get t(): any {
-    return this.translations[this.language] || this.translations['en'];
+    return this.translations[this.language] || this.translations['ENGLISH'];
   }
 
   setActiveTab(tab: string) {

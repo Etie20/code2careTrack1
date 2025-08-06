@@ -5,7 +5,19 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="17" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/analytics" />
+            <option value="$PROJECT_DIR$/application" />
+            <option value="$PROJECT_DIR$/auth" />
+            <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/feedBack" />
+            <option value="$PROJECT_DIR$/notification" />
+            <option value="$PROJECT_DIR$/reminder" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>

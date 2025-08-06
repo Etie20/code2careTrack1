@@ -1,2 +1,8 @@
+/track1Backend/.gradle/
 /.idea/
 /FeedBack/.vscode/
+/venv/
+/track1Backend/build/
+/code2careTrack1.iml
+__pycache__/
+track1Backend/application/src/main/resources/.env
