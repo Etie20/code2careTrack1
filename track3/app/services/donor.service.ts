@@ -1,6 +1,7 @@
 // /app/donors/donor.service.ts
 import type { DonorData } from "@/lib/types/donor"
 import { environment } from "../environment";
+import {DonorDashboard} from "@/lib/types/donor-dashboard";
 
 const API_URL = environment.apiURL + "/api/donor";
 
@@ -37,4 +38,3 @@ export async function getDonors(): Promise<DonorData[]> {
     const data = await res.json()
     return data.content
 }
-

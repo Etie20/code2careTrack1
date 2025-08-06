@@ -4,8 +4,7 @@ import {useEffect, useState} from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Users, Search, Plus, Phone, Mail, Calendar, Droplets, Heart, Award, MapPin, Filter } from "lucide-react"
+import {Users, Search, Plus, Phone, Mail, Calendar, Droplets, Heart, Award, MapPin, Filter, Loader2} from "lucide-react"
 import AddDonorModal from "./modals/add-donor-modal"
 import FilterModal from "./modals/filter-modal"
 import ExportModal from "./modals/export-modal"
@@ -25,6 +24,7 @@ export default function Donors() {
   const [filteredDonors, setFilteredDonors] = useState<DonorData[]>([])
 
   const [monthlyDonationCount, setMonthlyDonationCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchDonors = async () => {
@@ -32,6 +32,7 @@ export default function Donors() {
         const data = await getDonors()
         setDonors(data)
         setFilteredDonors(data)
+        setIsLoading(true)
 
         //Donneurs du mois actuel
         const now = new Date()
@@ -54,6 +55,8 @@ export default function Donors() {
         setMonthlyDonationCount(donationsThisMonth.length)
       } catch (error) {
         console.error("Erreur lors du chargement des donneurs :", error)
+      }finally {
+        setIsLoading(false) // on termine le chargement
       }
     }
     fetchDonors().then(r => console.log(r))
@@ -94,17 +97,8 @@ export default function Donors() {
 
 
 
-
-  const getDonationLevel = (count: number) => {
-    if (count >= 20) return { level: "Gold", color: "text-yellow-600", icon: "🏆" }
-    if (count >= 10) return { level: "Silver", color: "text-gray-600", icon: "🥈" }
-    if (count >= 5) return { level: "Bronze", color: "text-orange-600", icon: "🥉" }
-    return { level: "New", color: "text-blue-600", icon: "⭐" }
-  }
-
-
   const totalDonors = donors.length
-  const eligibleDonors = donors.filter((d) => d.medicalNotes == "En Bonne Santé").length
+  const eligibleDonors = donors.filter((d) => d.medicalNotes.toLowerCase() === "en bonne santé").length
   const totalDonations = donors.length
 
   return (
@@ -197,90 +191,97 @@ export default function Donors() {
       </Card>
 
       {/* Donors List */}
-      <div className="grid gap-4">
-        {filteredDonors.map((donor, index) => {
-          const donationLevel = getDonationLevel(totalDonations)
-          // @ts-ignore
-          return (
-            <Card
-                key={index}
-              className="bg-white/90 backdrop-blur-sm border-gray-200 hover:shadow-lg transition-all duration-200"
-            >
-              <CardContent className="p-6">
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-center">
-                  {/* Donor Info */}
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                      {donor.fullName
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-800">{donor.fullName}</h3>
-                      <div className="flex items-center gap-2 mt-1">
-                        <MapPin className="w-3 h-3 text-gray-500" />
-                        <span className="text-xs text-gray-500">{donor.address}</span>
+      {isLoading ? (
+          <div className="flex items-center justify-center py-10 gap-2">
+            <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+            <span className="text-sm text-blue-500">Chargement des donneurs...</span>
+          </div>
+      ) : (
+          <div className="grid gap-4">
+
+            {filteredDonors.map((donor, index) => {
+              return (
+                  <Card
+                      key={index}
+                      className="bg-white/90 backdrop-blur-sm border-gray-200 hover:shadow-lg transition-all duration-200"
+                  >
+                    <CardContent className="p-6">
+                      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-center">
+                        {/* Donor Info */}
+                        <div className="flex items-center gap-4">
+                          <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                            {donor.fullName
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")}
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-gray-800">{donor.fullName}</h3>
+                            <div className="flex items-center gap-2 mt-1">
+                              <MapPin className="w-3 h-3 text-gray-500" />
+                              <span className="text-xs text-gray-500">{donor.address}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Blood Type & Health */}
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                              {donor.bloodType}
+                            </div>
+                            <span className="text-sm font-medium">Blood Type</span>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-500">Health Status</p>
+                            <p className={`text-sm font-medium capitalize`}>
+                              {donor.medicalNotes}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Donation History */}
+
+
+                        {/* Last Donation */}
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-gray-500" />
+                            <span className="text-sm font-medium">Last Donation</span>
+                          </div>
+                          <div>
+                            <p className="text-sm font-bold text-gray-800">
+                              {donor.lastDonationDate
+                                  ? new Date(donor.lastDonationDate).toLocaleDateString()
+                                  : "—"
+                              }
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Status */}
+
+
+                        {/* Actions */}
+                        <div className="flex flex-col gap-2">
+                          <Button size="sm" variant="outline" className="bg-white/60">
+                            <Phone className="w-3 h-3 mr-1" />
+                            Call
+                          </Button>
+                          <Button size="sm" variant="outline" className="bg-white/60">
+                            <Mail className="w-3 h-3 mr-1" />
+                            Email
+                          </Button>
+
+                        </div>
                       </div>
-                    </div>
-                  </div>
-
-                  {/* Blood Type & Health */}
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                        {donor.bloodType}
-                      </div>
-                      <span className="text-sm font-medium">Blood Type</span>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Health Status</p>
-                      <p className={`text-sm font-medium capitalize`}>
-                        {donor.medicalNotes}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Donation History */}
-
-
-                  {/* Last Donation */}
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-gray-500" />
-                      <span className="text-sm font-medium">Last Donation</span>
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-gray-800">
-                        {donor.lastDonationDate
-                            ? new Date(donor.lastDonationDate).toLocaleDateString()
-                            : "—"
-                        }
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Status */}
-
-
-                  {/* Actions */}
-                  <div className="flex flex-col gap-2">
-                    <Button size="sm" variant="outline" className="bg-white/60">
-                      <Phone className="w-3 h-3 mr-1" />
-                      Call
-                    </Button>
-                    <Button size="sm" variant="outline" className="bg-white/60">
-                      <Mail className="w-3 h-3 mr-1" />
-                      Email
-                    </Button>
-
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )
-        })}
-      </div>
+                    </CardContent>
+                  </Card>
+              )
+            })}
+          </div>
+      )
+      }
 
       {filteredDonors.length === 0 && (
         <Card className="bg-white/90 backdrop-blur-sm border-gray-200">
