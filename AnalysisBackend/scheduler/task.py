@@ -4,10 +4,10 @@ import asyncio
 
 # Database configurations
 SOURCE_DB = {
-    "user": "postgres.ypcufzbpbqywbmwskqew",
-    "password": "zqNj2KxAgrrMwyUU",
-    "database": "postgres",
-    "host": "aws-0-eu-north-1.pooler.supabase.com"
+    "user": "neondb_owner",
+    "password": "npg_e4pYGr3ogXQt",
+    "database": "neondb",
+    "host": "ep-young-sun-ae8uh36n-pooler.c-2.us-east-2.aws.neon.tech"
 }
 
 TARGET_DB = {
