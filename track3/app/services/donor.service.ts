@@ -1,7 +1,6 @@
 // /app/donors/donor.service.ts
 import type { Donor } from "@/lib/types/donor"
 import { environment } from "../environment";
-import {DonorDashboard} from "@/lib/types/donor-dashboard";
 
 const API_URL = environment.apiURL + "/api/donor";
 

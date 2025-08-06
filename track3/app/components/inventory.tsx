@@ -59,57 +59,6 @@ export default function Inventory() {
     });
   }, []);
 
-  const bloodStock = [
-    {
-      id: "BS001",
-      type: "A+",
-      quantity: 45,
-      capacity: 60,
-      location: "Réfrigérateur 1",
-      temperature: "4°C",
-      expirationDate: "2024-02-15",
-      status: "normal",
-      donorId: "DON-2024-001",
-      collectionDate: "2024-01-10",
-    },
-    {
-      id: "BS002",
-      type: "O-",
-      quantity: 12,
-      capacity: 50,
-      location: "Réfrigérateur 2",
-      temperature: "4°C",
-      expirationDate: "2024-02-08",
-      status: "critical",
-      donorId: "DON-2024-002",
-      collectionDate: "2024-01-05",
-    },
-    {
-      id: "BS003",
-      type: "B+",
-      quantity: 38,
-      capacity: 45,
-      location: "Stockage A",
-      temperature: "4°C",
-      expirationDate: "2024-02-20",
-      status: "normal",
-      donorId: "DON-2024-003",
-      collectionDate: "2024-01-12",
-    },
-    {
-      id: "BS004",
-      type: "AB-",
-      quantity: 8,
-      capacity: 25,
-      location: "Réfrigérateur 1",
-      temperature: "4°C",
-      expirationDate: "2024-02-05",
-      status: "expiring",
-      donorId: "DON-2024-004",
-      collectionDate: "2024-01-02",
-    },
-  ]
-
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Expired":

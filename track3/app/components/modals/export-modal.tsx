@@ -54,8 +54,6 @@ export default function ExportModal({ open, onOpenChange, onExport, data, dataTy
           { id: "status", label: "Statut" },
         ]
       case "donors":
-        return [{ id: "name", label: "Nom Complet" }]
-      case "donors":
         return [
           { id: "name", label: "Nom Complet" },
           { id: "bloodType", label: "Groupe Sanguin" },

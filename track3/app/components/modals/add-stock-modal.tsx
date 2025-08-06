@@ -14,8 +14,8 @@ import { CalendarIcon, Droplets, Loader2 } from "lucide-react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import { cn } from "@/lib/utils"
-import {BloodUnit, Content} from "@/lib/types/bloodUnit";
-import {getDonors, submitDonor} from "@/app/services/donor.service";
+import {Content} from "@/lib/types/bloodUnit";
+import {getDonors} from "@/app/services/donor.service";
 import {Donor} from "@/lib/types/donor";
 import {submitBloodUnit} from "@/app/services/bloodUnit.service";
 
@@ -54,7 +54,6 @@ export default function AddStockModal({ open, onOpenChange, onSubmit }: AddStock
     volumeMl: 0
 
   })
-  const [selectedDonorId, setSelectedDonorId] = useState<number>(0);
   const [donors, setDonors] = useState<Donor[]>([]);
   const [loadingDonor, setLoadingDonor] = useState(false)
 
