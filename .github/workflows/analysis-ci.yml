@@ -3,8 +3,8 @@ name: FastAPI Docker Image, Build and Push to DockerHub
 on:
   push:
     branches: [ 'master', 'feat-data-autoload']
-    paths:
-      - 'AnalysisBackend'
+    # paths:
+    #   - 'AnalysisBackend'
     tags: [ 'v*']
 
 jobs:
