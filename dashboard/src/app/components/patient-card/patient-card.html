@@ -1,0 +1,20 @@
+<div class="p-4 m-4 bg-gray-50 rounded-lg space-y-2">
+  <div class="flex justify-between items-center">
+    <div class="flex items-center gap-2">
+      <lucide-icon [img]="PersonStanding" class="w-4 h-4 text-black"></lucide-icon>
+      <span class="font-medium">{{ patient.fullName }}</span>
+    </div>
+    <span class="badge bg-green-100 text-green-800">
+          {{ getTranslation('active') }}
+        </span>
+  </div>
+
+  <div class="flex justify-between text-sm text-gray-600">
+    <span>{{ patient.fullName }}</span>
+  </div>
+
+  <div class="flex items-center gap-2 text-sm">
+    <lucide-icon [img]="Phone" class="w-4 h-4 text-black"></lucide-icon>
+    <span>{{ patient.phoneNumber }}</span>
+  </div>
+</div>

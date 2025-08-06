@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Feedback} from './pages/feedback/feedback';
+import {Home} from './pages/home/home';
+import {Authentification} from './pages/authentification/authentification';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-root',

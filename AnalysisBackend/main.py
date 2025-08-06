@@ -46,4 +46,3 @@ async def startup():
         await db_service.connect()
     except Exception as e:
         raise
-    

@@ -4,10 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum Language {
-    FR("FR"),
-    EN("EN"),
-    AR("AR"),
-    DLA("DLA"),
+    FRENCH("FRENCH"),
+    ENGLISH("ENGLISH"),
+    DLA("DOUALA"),
     BASSA("BASSA"),
     EWONDO("EWONDO");
 

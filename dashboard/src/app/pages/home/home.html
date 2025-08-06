@@ -1,0 +1,62 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+  <!-- Header -->
+  <header class="bg-white/80 backdrop-blur-sm border-b border-blue-100 sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-green-600 rounded-xl flex items-center justify-center">
+            <lucide-icon [img]="Heart" class="w-6 h-6 text-white"></lucide-icon>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+              {{ t.title }}
+            </h1>
+            <p class="text-sm text-gray-600">{{ t.subtitle }}</p>
+          </div>
+        </div>
+
+        <app-language-selector [language]="language" (languageChange)="setLanguage($event)"></app-language-selector>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-8">
+    <div class="space-y-6">
+      <!-- Tabs -->
+      <div class="grid w-full grid-cols-3 bg-white/60 backdrop-blur-sm rounded-lg overflow-hidden">
+        @for (tab of tabs; track tab.value) {
+          <button
+            (click)="setActiveTab(tab.value)"
+            [ngClass]="{
+      'bg-white font-medium text-black': activeTab === tab.value,
+      'hover:bg-white/40 text-gray-500 ': activeTab !== tab.value
+    }"
+            class="py-2 px-4 flex items-center gap-2 justify-center text-sm transition cursor-pointer"
+          >
+            <i-lucide [img]="tab.icon" class="w-4 h-4"></i-lucide>
+            {{ tb[tab.label] }}
+          </button>
+        }
+
+      </div>
+
+      <!-- Dashboard Tab -->
+      @if (activeTab === 'dashboard') {
+        <app-dashboard [language]="language"></app-dashboard>
+      }
+
+      <!-- Reminders Tab -->
+      @if (activeTab === 'reminders') {
+        <app-reminders [language]="language"></app-reminders>
+      }
+
+      <!-- Reminders Tab -->
+
+
+    </div>
+
+    <div id="toaster" class="toaster"></div>
+  </main>
+</div>

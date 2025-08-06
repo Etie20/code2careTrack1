@@ -1,0 +1,50 @@
+<!-- login-card.component.html -->
+<div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+  <div class="card w-2/5">
+    <header>
+      <h2>Register as a patient</h2>
+      <p>Enter the following information to provide feedback</p>
+    </header>
+    <section>
+        <form class="form grid gap-4">
+            <div class="grid gap-2">
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" [(ngModel)]="phone" name="phone" />
+                @if (error) {
+                  <span class="text-red-400 text-sm">
+                    {{ errorMessage }}
+                  </span>
+
+                }
+            </div>
+        </form>
+    </section>
+    <footer class="flex flex-col items-center gap-2">
+      <button
+        type="button"
+        class="btn w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 flex items-center justify-center gap-2"
+        [disabled]="isLoading"
+        (click)="goHome()"
+      >
+        @if (!isLoading){
+          Next
+        } @else {
+          <span class="flex items-center gap-2">
+            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10"
+                      stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8z"></path>
+            </svg>
+            Loading...
+          </span>
+        }
+
+
+
+      </button>
+    </footer>
+
+  </div>
+</div>
