@@ -26,15 +26,12 @@ public class FeedbackController {
     private final GetTop3FeedbackUseCase getTop3FeedbackUseCase;
 
     @GetMapping
-    public ResponseEntity<PageResponse<FeedbackDto>> getAllFeedback(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "submittedAt") String sortBy,
-            @RequestParam(defaultValue = "desc") String direction
-    ) {
-        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
-        PageRequest pageRequest = PageRequest.of(page, size, sort);
-        return ResponseEntity.ok(PageResponse.from(getAllFeedbackUseCase.execute(pageRequest)));
+    public ResponseEntity<List<FeedbackDto>> getAllFeedback() {
+        try {
+            return ResponseEntity.ok(getAllFeedbackUseCase.execute());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PostMapping

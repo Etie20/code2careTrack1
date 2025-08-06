@@ -7,12 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class GetAllFeedbackUseCase {
     private final FeedbackDomainService feedbackDomainService;
 
-    public Page<FeedbackDto> execute(Pageable pageable) {
-        return feedbackDomainService.findAllFeedback(pageable);
+    public List<FeedbackDto> execute() {
+        return feedbackDomainService.findAllFeedback();
     }
 }
