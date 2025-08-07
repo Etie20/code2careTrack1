@@ -20,10 +20,10 @@ import {useEffect, useState} from "react"
 import AddStockModal from "./modals/add-stock-modal"
 import AddDonorModal from "./modals/add-donor-modal"
 import AddRequestModal from "./modals/add-request-modal"
-import {BloodStat} from "@/app/models/bloodStat";
 import {getBloodBanckStats, getBloodStats} from "@/app/api/bloodUnit/route";
-import {BloodBanckSummaryStat} from "@/app/models/bloodBanckSummaryStat";
 import { Client } from '@stomp/stompjs';
+import {BloodStat} from "@/lib/types/bloodStat";
+import {BloodBanckSummaryStat} from "@/lib/types/bloodBanckSummaryStat";
 
 export default function Dashboard() {
   const [showAddStockModal, setShowAddStockModal] = useState(false)
@@ -99,7 +99,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     console.log('Creating STOMP client...');
-    const socket = new WebSocket("ws://localhost:8080/ws");
+    const socket = new WebSocket("ws://code2caretrack1.onrender.com/ws");
 
     socket.onopen = () => {
       console.log("✅ WebSocket connected");

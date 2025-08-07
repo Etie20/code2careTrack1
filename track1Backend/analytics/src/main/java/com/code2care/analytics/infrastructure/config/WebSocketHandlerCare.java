@@ -56,6 +56,7 @@ System.out.println(message.getPayload());
 
 
     public void send(String s) {
+        log.info("sent message: {}", s);
 
         sessions.forEach(session -> {
             try {

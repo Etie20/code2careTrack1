@@ -2,7 +2,7 @@ import { environment } from "../environment";
 import {BloodUnit} from "@/lib/types/bloodUnit";
 import {BloodUnitSummary} from "@/lib/types/bloodUnitSummary";
 
-const API_URL = environment.apiURL + "/api/bloodUnit";
+const API_URL = environment.apiURL + "/bloodUnit";
 
 export async function submitBloodUnit(data: BloodUnit): Promise<void> {
 

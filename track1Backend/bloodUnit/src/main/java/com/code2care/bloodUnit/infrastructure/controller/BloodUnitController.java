@@ -30,12 +30,14 @@ public class BloodUnitController {
     private final GetStockSummaryUseCase getStockSummaryUseCase;
     private final GetBloodStatUseCase getBloodStatUseCase;
     private final GetBloodBackSummaryStatUseCase getBloodBackSummaryStatUseCase;
+    private final GetBloodUnitsUseCase getBloodUnitsUseCase;
     @PostMapping("")
     public ResponseEntity<Object> create(@RequestBody BloodUnitDto bloodUnitDto) {
         try {
             createBloodUnitUseCase.execute(bloodUnitDto);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
+            log.error(e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
