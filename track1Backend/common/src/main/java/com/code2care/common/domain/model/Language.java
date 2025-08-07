@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum Language {
     FRENCH("FRENCH"),
     ENGLISH("ENGLISH"),
-    DLA("DOUALA"),
+    DLA("DLA"),
     BASSA("BASSA"),
     EWONDO("EWONDO");
 
