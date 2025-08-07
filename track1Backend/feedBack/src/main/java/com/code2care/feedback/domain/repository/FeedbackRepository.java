@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface FeedbackRepository {
     FeedbackDto save(FeedbackDto feedbackDto);
-    Page<FeedbackDto> findAll(Pageable pageable);
+    List<FeedbackDto> findAll();
     List<FeedbackDto> findRecentFeedback();
 }

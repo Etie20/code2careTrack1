@@ -24,8 +24,8 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
     }
 
     @Override
-    public Page<FeedbackDto> findAll(Pageable pageable) {
-        return jpaFeebackRepository.findAll(pageable).map(Mapper::mapFeedbackDto);
+    public List<FeedbackDto> findAll() {
+        return jpaFeebackRepository.findAll().stream().map(Mapper::mapFeedbackDto).toList();
     }
 
     @Override

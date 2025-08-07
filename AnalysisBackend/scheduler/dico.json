@@ -11,6 +11,6 @@
     "EN": "Hello {{name}}, don’t forget to take your medication at {{time}}.",
     "DLA": "Mônè {{name}}, n’oublie pas de prendre ton médicament à {{time}}.",
     "BASSA": "Me yéga {{name}}, n’oublie pas de prendre ton médicament à {{time}}.",
-    "EWONDO": "Mbolo {{name}}, tegu a ya Bibouma á {{time}}."
+    "EWONDO": "Mbolo {{name}}, tegu a ya Bibouma á {{time }}."
   }
 }

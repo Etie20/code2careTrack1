@@ -1,6 +1,18 @@
 #  Projet CODE2CARE (Team Enligthen Innovation)
 
 ---
+# Track1
+* (Dashboard) https://care-dashboard-brown.vercel.app/
+* (Feedback) https://care-feedback.vercel.app/
+* (Java Backend) https://code2caretrack1.onrender.com/
+* (Analysis Backend) https://code2care-fastapi-latest.onrender.com/
+---
+# Track2
+* (Chatbot) https://care-bot-three.vercel.app/
+---
+# Track3
+* (Dashboard) https://care-bloodbank.vercel.app/
+---
 
 ##  **1. Objectif métier principal**
 
@@ -166,7 +178,7 @@ L’architecture **Onion (ou Clean Architecture)** adoptée dans ce projet Sprin
 ```
 ---
 
-## 🖼️ **11. Aperçu du frontend**
+## 🖼 **11. Aperçu du frontend**
 
 ![Capture d’écran 2025-07-18 203854](https://github.com/user-attachments/assets/28df3d22-aeae-49ef-a986-5fe0f0f3127c)
 ![Capture d’écran 2025-07-18 203846](https://github.com/user-attachments/assets/9c7c6f54-31c4-4715-9a1f-3fe7a41cd696)
@@ -175,7 +187,7 @@ L’architecture **Onion (ou Clean Architecture)** adoptée dans ce projet Sprin
 
 
 ---
-## 🔧 **12. Lancer le projet**
+##  **12. Lancer le projet**
 
 ### Prérequis
 
@@ -236,3 +248,35 @@ Pour activer l’envoi de SMS, définissez les variables suivantes :
 
 Vous pouvez les définir dans un fichier `.env` à la racine du projet ou dans votre environnement système.
 ```
+
+
+
+---
+
+# Chat Backend avec FastAPI et LangChain [Track2]
+
+Un service de conversation minimal est disponible dans `chat_backend/`.
+Il s'appuie sur LangChain pour conserver le contexte de la conversation en
+mémoire volatile et interroge un module RAG interne avant d'utiliser le modèle
+Mistral pour générer la réponse.
+Les communications doivent être sécurisées via TLS/SSL (par ex. au niveau du
+proxy) pour respecter la confidentialité des échanges.
+
+### Lancer en local
+
+```bash
+pip install -r requirements.txt
+uvicorn chat_backend.main:app --reload --port 8000
+```
+
+### Déploiement Docker
+
+```bash
+docker build -t chat-backend .
+#docker run -e API_KEY=mysecret -p 8000:8000 chat-backend
+docker run -e API_KEY=mysecret -e RAG_API_URL=http://rag:9000/query \
+  -p 8000:8000 chat-backend
+
+```
+
+Consultez `docs/api.md` pour la documentation des endpoints.

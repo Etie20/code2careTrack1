@@ -8,7 +8,7 @@
            disabled:opacity-50 md:text-sm resize-none p-2 "
     id="feedback"
     [placeholder]="placeholder"
-    [value]="text"
-    (input)="onTextChange($event)"
+    [(ngModel)]="text"
+    (change)="onTextChange($event)"
   ></textarea>
 </div>

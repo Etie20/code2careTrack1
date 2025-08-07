@@ -7,6 +7,6 @@ import com.code2care.common.domain.model.DoctorDto;
 import java.util.Optional;
 
 public interface AuthenticationRepository {
-    void save(DoctorDto doctorDto);
+    DoctorDto save(DoctorDto doctorDto);
     Optional<DoctorDto> findByEmail(String email);
 }

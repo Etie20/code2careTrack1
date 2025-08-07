@@ -7,7 +7,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrl: './submit-button.css'
 })
 export class SubmitButton {
-  @Input() label: string = 'Submit Feedback';
+  @Input() label: string = 'Submit FeedbackService';
   @Output() submit = new EventEmitter<void>();
 
   onClick() {

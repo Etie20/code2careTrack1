@@ -1,9 +1,22 @@
 import { Component, Input } from '@angular/core';
 import {NgClass} from '@angular/common';
-import { LucideAngularModule, MessageSquare, BarChart3, Heart, TrendingUp, Star,  } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  MessageSquare,
+  BarChart3,
+  Heart,
+  TrendingUp,
+  Star,
+  Bell,
+  Clock,
+  Loader2,
+} from 'lucide-angular';
 import {FeedbackCard} from '../../components/feedback-card/feedback-card';
 import {FeedBack} from '../../models/feedback';
 import {FeedbackService} from '../../services/feedback/feedback-service';
+import {TokenService} from '../../services/token/token-service';
+import {rxResource} from '@angular/core/rxjs-interop';
+import {AnalyticsService} from '../../services/analytics/analytics-service';
 
 
 @Component({
@@ -98,7 +111,7 @@ export class Dashboard {
 
   translations = {
     en: {
-      welcome: "Welcome to your healthcare companion",
+      welcome: "Welcome Dr ",
       todayOverview: "Today's Overview",
       upcomingAppointments: "Upcoming Appointments",
       recentFeedback: "Recent Patient Feedback",
@@ -111,6 +124,7 @@ export class Dashboard {
       appointments: "appointments",
       pending: "pending",
       completed: "completed",
+      noFeedBack: "No Feedback Yet",
     },
     fr: {
       welcome: "Bienvenue chez votre compagnon de santé",
@@ -126,6 +140,7 @@ export class Dashboard {
       appointments: "rendez-vous",
       pending: "en attente",
       completed: "terminé",
+      noFeedBack: "Aucun commentaire pour l'instant",
     },
   }
   t = this.translations[this.language as keyof typeof this.translations] || this.translations.en;
@@ -133,7 +148,23 @@ export class Dashboard {
   isLoadingFeedback = true;
   recentFeedBack: FeedBack[] = [];
 
-  constructor(private feedbackService: FeedbackService) {}
+  stats = rxResource(
+    {
+      stream: () => this.analyticsService.getStats(),
+    }
+  )
+
+  sentiments = rxResource({
+    defaultValue: [],
+    stream: () => this.analyticsService.getSentiments(),
+  })
+
+  occurrences = rxResource({
+    defaultValue: [],
+    stream: () => this.analyticsService.getOccurrences()
+  })
+
+  constructor(private feedbackService: FeedbackService, protected tokenService: TokenService, private analyticsService: AnalyticsService) {}
 
   ngOnInit() {
     this.fetchRecentFeedBack();
@@ -181,4 +212,7 @@ export class Dashboard {
   protected readonly TrendingUp = TrendingUp;
   protected readonly Star = Star;
   protected readonly MessageSquare = MessageSquare;
+  protected readonly Bell = Bell;
+  protected readonly Clock = Clock;
+  protected readonly Loader2 = Loader2;
 }

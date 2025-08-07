@@ -3,7 +3,7 @@ import {NgClass} from '@angular/common';
 import {Dashboard} from '../dashboard/dashboard';
 import {Reminders} from '../reminders/reminders';
 import {LanguageSelector} from '../../components/language-selector/language-selector';
-import {BellIcon, HomeIcon, LucideAngularModule} from 'lucide-angular';
+import {BellIcon, Heart, HomeIcon, LucideAngularModule, PersonStandingIcon} from 'lucide-angular';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +12,7 @@ import {BellIcon, HomeIcon, LucideAngularModule} from 'lucide-angular';
     Dashboard,
     Reminders,
     LanguageSelector,
-    LucideAngularModule
+    LucideAngularModule,
   ],
   templateUrl: './home.html',
   standalone: true,
@@ -20,7 +20,7 @@ import {BellIcon, HomeIcon, LucideAngularModule} from 'lucide-angular';
 })
 export class Home {
   translations = {
-    en: {
+    ENGLISH: {
       title: "Patient Care System",
       subtitle: "Comprehensive healthcare feedback and reminder management",
       dashboard: "Dashboard",
@@ -28,7 +28,7 @@ export class Home {
       reminders: "Reminders",
       analytics: "Analytics",
     },
-    fr: {
+    FRENCH: {
       title: "Système de Soins aux Patients",
       subtitle: "Gestion complète des commentaires et rappels de santé",
       dashboard: "Tableau de bord",
@@ -47,12 +47,13 @@ export class Home {
   }
 
   activeTab: string = 'dashboard';
-  language: string = 'en';
+  language: string = 'ENGLISH';
 
-  t = this.translations[this.language as keyof typeof this.translations] || this.translations.en;
+  t = this.translations[this.language as keyof typeof this.translations] || this.translations.ENGLISH;
   tb: { [key: string]: string } = {
     dashboard: 'Dashboard',
     reminders: 'Reminders',
+    patients: 'Patients',
     analytics: 'Analytics'
   };
 
@@ -67,6 +68,11 @@ export class Home {
       label: 'reminders',
       icon: BellIcon
     },
+    {
+      value: 'patients',
+      label: 'patients',
+      icon: PersonStandingIcon
+    },
   ];
 
   setActiveTab(tab: string): void {
@@ -77,4 +83,6 @@ export class Home {
     this.language = lang;
   }
 
+  protected readonly Heart = Heart;
 }
+

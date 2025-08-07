@@ -1,13 +1,7 @@
 package com.code2care.common.infrastructure.config;
 
-import com.code2care.common.domain.model.DoctorDto;
-import com.code2care.common.domain.model.FeedbackDto;
-import com.code2care.common.domain.model.PatientDto;
-import com.code2care.common.domain.model.ReminderDto;
-import com.code2care.common.infrastructure.entites.Doctor;
-import com.code2care.common.infrastructure.entites.Feedback;
-import com.code2care.common.infrastructure.entites.Patient;
-import com.code2care.common.infrastructure.entites.Reminder;
+import com.code2care.common.domain.model.*;
+import com.code2care.common.infrastructure.entites.*;
 
 import java.util.List;
 
@@ -19,6 +13,9 @@ public class Mapper {
                 .phoneNumber(patient.getPhoneNumber())
                 .email(patient.getEmail())
                 .fullName(patient.getFullName())
+                .age(patient.getAge())
+                .department(patient.getDepartment())
+                .preferredLanguage(patient.getPreferredLanguage())
                 .build();
     }
 
@@ -28,6 +25,9 @@ public class Mapper {
                 .phoneNumber(dto.getPhoneNumber())
                 .email(dto.getEmail())
                 .fullName(dto.getFullName())
+                .department(dto.getDepartment())
+                .age(dto.getAge())
+                .preferredLanguage(dto.getPreferredLanguage())
                 .build();
     }
 
@@ -50,6 +50,7 @@ public class Mapper {
                 .password(doctor.getPassword())
                 .specialty(doctor.getSpecialty())
                 .fullName(doctor.getFullName())
+                .id(doctor.getId())
                 .build();
     }
     public  static Doctor mapDoctor(DoctorDto dto) {
@@ -121,7 +122,10 @@ public class Mapper {
                 .patient(mapPatientDto(reminder.getPatient()))
                 .language(reminder.getLanguage())
                 .type(reminder.getType())
+                .status(reminder.getStatus())
                 .reminderDate(reminder.getReminderDate())
+                .doctor(mapDoctorDto(reminder.getDoctor()))
+                .channel(reminder.getChannel())
                 .build();
     }
 
@@ -133,6 +137,9 @@ public class Mapper {
                 .type(dto.getType())
                 .patient(mapPatient(dto.getPatient()))
                 .reminderDate(dto.getReminderDate())
+                .doctor(Doctor.builder().id(dto.getDoctor().getId()).build())
+                .channel(dto.getChannel())
+                .status(dto.getStatus())
                 .build();
     }
 
@@ -146,5 +153,18 @@ public class Mapper {
         return dtos.stream()
                 .map(Mapper::mapReminder)
                 .toList();
+    }
+
+    public static ReminderStatDto mapReminderStatDto(ReminderStat reminderStat) {
+        if (reminderStat == null) {
+            return null;
+        }
+
+        return ReminderStatDto.builder()
+                .doctorId(reminderStat.getDoctorId())
+                .totalReminders(reminderStat.getTotalReminders())
+                .pendingReminders(reminderStat.getPendingReminders())
+                .deliveredReminders(reminderStat.getDeliveredReminders())
+                .build();
     }
 }
