@@ -1,15 +1,43 @@
 {
   "info": {
-    "name": "Chat API",
+    "name": "Enhanced Medical Chatbot API",
+    "description": "API collection for testing the enhanced medical chatbot with performance monitoring and multilingual support",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "Chat",
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "System Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {"key": "X-API-Key", "value": "{{API_KEY}}"}
+        ],
+        "url": {
+          "raw": "{{base_url}}/status",
+          "host": ["{{base_url}}"],
+          "path": ["status"]
+        }
+      }
+    },
+    {
+      "name": "Chat - Text Message",
       "request": {
         "method": "POST",
         "header": [
-          {"key": "X-API-Key", "value": "{{API_KEY}}"}
+          {"key": "X-API-Key", "value": "{{API_KEY}}"},
+          {"key": "Content-Type", "value": "application/json"}
         ],
         "url": {
           "raw": "{{base_url}}/chat",
@@ -18,9 +46,82 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\"user_id\": \"u1\", \"message\": \"hello\"}"
+          "raw": "{\n  \"user_id\": \"user123\",\n  \"text\": \"J'ai mal à la tête\",\n  \"explanation_level\": \"simple\"\n}"
         }
       }
+    },
+    {
+      "name": "Chat - Detailed Explanation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "X-API-Key", "value": "{{API_KEY}}"},
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "url": {
+          "raw": "{{base_url}}/chat",
+          "host": ["{{base_url}}"],
+          "path": ["chat"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": \"user123\",\n  \"text\": \"What is malaria?\",\n  \"explanation_level\": \"détaillé\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Get Conversation History",
+      "request": {
+        "method": "GET",
+        "header": [
+          {"key": "X-API-Key", "value": "{{API_KEY}}"}
+        ],
+        "url": {
+          "raw": "{{base_url}}/history/user123",
+          "host": ["{{base_url}}"],
+          "path": ["history", "user123"]
+        }
+      }
+    },
+    {
+      "name": "Delete Conversation History",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {"key": "X-API-Key", "value": "{{API_KEY}}"}
+        ],
+        "url": {
+          "raw": "{{base_url}}/history/user123",
+          "host": ["{{base_url}}"],
+          "path": ["history", "user123"]
+        }
+      }
+    },
+    {
+      "name": "System Statistics",
+      "request": {
+        "method": "GET",
+        "header": [
+          {"key": "X-API-Key", "value": "{{API_KEY}}"}
+        ],
+        "url": {
+          "raw": "{{base_url}}/stats",
+          "host": ["{{base_url}}"],
+          "path": ["stats"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "API_KEY",
+      "value": "your_api_key_here",
+      "type": "string"
     }
   ]
 }

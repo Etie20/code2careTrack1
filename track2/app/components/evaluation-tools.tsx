@@ -159,7 +159,14 @@ interface EvaluationToolsProps {
 export default function EvaluationTools({ language }: EvaluationToolsProps) {
   const [currentTest, setCurrentTest] = useState(0)
   const [testResponse, setTestResponse] = useState("")
-  const [evaluationScores, setEvaluationScores] = useState<any>(null)
+  interface EvaluationScores {
+    accuracy: number
+    clarity: number
+    empathy: number
+    completeness: number
+    overall: number
+  }
+  const [evaluationScores, setEvaluationScores] = useState<EvaluationScores | null>(null)
   const [isEvaluating, setIsEvaluating] = useState(false)
 
   const t = evaluationTranslations[language]

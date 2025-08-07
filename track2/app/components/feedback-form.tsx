@@ -4,21 +4,17 @@ import {useEffect, useRef, useState} from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Mic, Send, Star, Smile, Meh, Frown, Heart, ThumbsUp, ThumbsDown } from "lucide-react"
+import { Send, Star, Smile, Meh, Frown, Heart, ThumbsUp, ThumbsDown } from "lucide-react"
 import AudioRecorder from "@/app/components/AudioRecorder";
 
 // Declare a global interface to add the webkitSpeechRecognition property to the Window object
 declare global {
   interface Window {
-    webkitSpeechRecognition: any;
+    webkitSpeechRecognition: new () => SpeechRecognition;
   }
 }
 
 // Define the type for the commands object
-type CommandFunction = () => void;
-type Commands = {
-  [key: string]: CommandFunction;
-};
 
 const feedbackTranslations = {
   en: {
@@ -62,7 +58,6 @@ export default function FeedbackForm({ language }: FeedbackFormProps) {
   const [rating, setRating] = useState(0)
   const [selectedEmotion, setSelectedEmotion] = useState<number | null>(null)
   const [feedback, setFeedback] = useState("")
-  const [isRecording, setIsRecording] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -71,57 +66,47 @@ export default function FeedbackForm({ language }: FeedbackFormProps) {
   // State variables to manage transcription status and text
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [transcriptionComplete, setTranscriptionComplete] = useState(false);
-  const [transcriptionText, setTranscriptionText] = useState("");
 
   // Reference to store the SpeechRecognition instance
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
 
-  // Function to start transcription
   const startTranscription = () => {
     setIsTranscribing(true);
-    // Create a new SpeechRecognition instance and configure it
-    recognitionRef.current = new window.webkitSpeechRecognition();
-    recognitionRef.current.continuous = true;
-    recognitionRef.current.interimResults = true;
-
-    // Event handler for speech recognition results
-    recognitionRef.current.onresult = (event: any) => {
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       const { transcript } = event.results[event.results.length - 1][0];
-
       console.log(event.results);
       setFeedback(transcript);
     };
+    recognition.start();
+    recognitionRef.current = recognition;
+  };
 
-    // Start the speech recognition
-    recognitionRef.current.start();
+  const stopTranscription = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+      setTranscriptionComplete(true);
+    }
+  };
 
-    // Cleanup effect when the component unmounts
-    useEffect(() => {
-      return () => {
-        // Stop the speech recognition if it's active
-        if (recognitionRef.current) {
-          recognitionRef.current.stop();
-        }
-      };
-    }, []);
+  const handleToggleTranscription = () => {
+    if (isTranscribing) {
+      stopTranscription();
+    } else {
+      startTranscription();
+    }
+  };
 
-    const stopTranscription = () => {
+  useEffect(() => {
+    return () => {
       if (recognitionRef.current) {
-        // Stop the speech recognition and mark transcription as complete
         recognitionRef.current.stop();
-        setTranscriptionComplete(true);
       }
     };
-
-    // Toggle transcription state and manage transcription actions
-    const handleToggleTranscription = () => {
-      setIsTranscribing(!isTranscribing);
-      if (!isTranscribing) {
-        startTranscription();
-      } else {
-        stopTranscription();
-      }
-    };
+  }, []);
 
   const handleSubmit = () => {
     setIsLoading(true)
@@ -133,13 +118,6 @@ export default function FeedbackForm({ language }: FeedbackFormProps) {
     }, 1000)
   }
 
-  const toggleRecording = () => {
-    setIsRecording(!isRecording)
-    // Simulate voice recording
-    if (!isRecording) {
-      setTimeout(() => setIsRecording(false), 3000)
-    }
-  }
 
   if (submitted) {
     return (
@@ -218,7 +196,6 @@ export default function FeedbackForm({ language }: FeedbackFormProps) {
                 handleToogleTranscription={handleToggleTranscription}
                 isTranscribing={isTranscribing}
                 transcriptionComplete={transcriptionComplete}
-                transcriptionText={transcriptionText}
                 onTranscriptionComplete={(text) => {
                   setFeedback(prev => prev + (prev ? ' ' : '') + text)
                 }}
@@ -235,4 +212,4 @@ export default function FeedbackForm({ language }: FeedbackFormProps) {
       </Card>
     </div>
   )
-}}
+}

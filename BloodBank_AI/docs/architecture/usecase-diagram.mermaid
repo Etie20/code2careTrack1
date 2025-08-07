@@ -1,0 +1,26 @@
+flowchart TD
+    A[Admin] --> B(Gérer Utilisateurs)
+    A --> C(Configurer Système)
+    D[Médecin] --> E(Consulter Stocks)
+    D --> F(Soumettre Besoins)
+    D --> G(Voir Prévisions)
+    H[Technicien] --> I(Enregistrer Dons)
+    H --> J(Gérer Inventaire)
+    H --> K(Traiter Alertes)
+
+
+useCaseDiagram
+    actor Personnel as "Personnel Banque de Sang"
+    actor Admin as "Administrateur"
+    actor System as "Systèmes Externes"
+
+    rectangle BloodBank_AI {
+    Personnel --> (Surveiller Stocks)
+    Personnel --> (Consulter Prévisions)
+    Personnel --> (Gérer Alertes)
+    Admin --> (Configurer Paramètres)
+    Admin --> (Auditer Transactions)
+    System --> (Synchroniser Données)
+    (Générer Rapports) --> Personnel
+    (Notifier Pénuries) --> System
+    }

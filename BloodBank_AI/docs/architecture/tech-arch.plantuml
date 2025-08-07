@@ -1,0 +1,24 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+System_Boundary(bloodbank, "BloodBank AI") {
+    Container(module1, "Module 1: Ingestion", "Java/Python", "API REST")
+    Container(module2, "Module 2: Forecasting", "Python", "TensorFlow/Scikit-learn")
+    Container(module3, "Module 3: Dashboard", "WebFramework", "React/Chart.js")
+    Container(module4, "Module 4: Optimization", "Python", "PuLP/SciPy")
+    ContainerDb(db, "Base de Données", "PostgreSQL", "Schéma fourni")
+}
+
+Rel(module1, db, "Reads/Writes", "JDBC/ORM")
+Rel(module2, module1, "GET /api/data", "HTTPS")
+Rel(module3, module1, "GET /api/stocks", "HTTPS")
+Rel(module3, module4, "GET /api/recommendations", "HTTPS")
+Rel(module4, module2, "GET /api/forecasts", "HTTPS")
+
+System_Ext(dhis2, "DHIS2", "Système d'information")
+System_Ext(hospital, "Systèmes Hôpital", "HL7/FHIR")
+
+Rel(dhis2, module1, "Push Data", "API REST")
+Rel(module1, hospital, "Send Alerts", "Webhooks")
+
+@enduml

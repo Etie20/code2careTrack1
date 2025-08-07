@@ -1,0 +1,9 @@
+flowchart LR
+    A[Sources] --> B{Ingestion}
+    B --> C[(Data Lake\nPostgreSQL)]
+    C --> D[IA/Prévisions]
+    D --> E[Optimisation]
+    E --> F[Tableau de Bord]
+    F --> G[Décisions]
+    G --> H[Actions]
+    H --> A

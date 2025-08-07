@@ -1,13 +1,12 @@
-import {generateText, streamText} from "ai"
+import { streamText } from "ai"
 import {AnthropicProviderOptions, createAnthropic} from '@ai-sdk/anthropic';
-import {NextResponse} from "next/server";
 
 export async function POST(req: Request) {
   try {
     const { messages, language, userProfile } = await req.json()
 
     // Enhanced system prompt with user profiling
-    const getPersonalizedTone = (profile: any) => {
+    const getPersonalizedTone = (profile: { age?: number; gender?: string }) => {
       let tone = "empathique et professionnel"
 
       if (profile.age) {
