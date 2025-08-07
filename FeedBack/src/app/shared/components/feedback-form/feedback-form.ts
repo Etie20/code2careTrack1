@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 import {RatingStars} from '../rating-stars/rating-stars';
 import {EmojiPicker} from '../emoji-picker/emoji-picker';
 
@@ -31,7 +31,7 @@ export class FeedbackForm implements OnChanges {
 
   @ViewChild('speechtotext') speechToTextInstance !: SpeechToTextComponent;
 
-  @Input() language: Language = 'en';
+  @Input() language: Language = 'ENGLISH';
 
   rating = 0;
   selectedEmoji = '';
@@ -41,13 +41,13 @@ export class FeedbackForm implements OnChanges {
   protected readonly mic = Mic;
   recording: boolean = false;
   recordingChange = new EventEmitter<boolean>();
-
+  isLoading: boolean = false;
   test !: {  }
 
 
 
   translations = {
-    en: {
+    ENGLISH: {
       title: 'Patient FeedbackService',
       subtitle: 'Help us improve our healthcare services',
       rateExperience: 'Rate your experience',
@@ -59,7 +59,7 @@ export class FeedbackForm implements OnChanges {
       thankYou: 'Thank you for your feedback!',
       label : ['Wait Time', 'Resolution time'],
     },
-    fr: {
+    FRENCH: {
       title: 'Commentaires des Patients',
       subtitle: 'Aidez-nous à améliorer nos services de santé',
       rateExperience: 'Évaluez votre expérience',
@@ -71,7 +71,7 @@ export class FeedbackForm implements OnChanges {
       thankYou: 'Merci pour vos commentaires!',
       label : ["Temps d'attente", 'Temps de résolution']
     },
-    duala:{
+    DLA:{
       title: 'Masango ma ba moto ba nyolo',
       subtitle: 'Salani biso to longola misala ma mbombo',
       rateExperience: 'Tanga ndenge o moni misala ma biso',
@@ -83,7 +83,7 @@ export class FeedbackForm implements OnChanges {
       thankYou: 'Matondo mpo na masango ma yo!',
       label: ["Tango ya kele", 'Tango ya kosilisa']
     },
-    ewondo:{
+    EWONDO:{
       title: 'Minkukuma mi ba fam',
       subtitle: 'Dim biso to lônge misala mi akukuma',
       rateExperience: 'Tob ndenge a wu kiri misala mi biso',
@@ -95,7 +95,7 @@ export class FeedbackForm implements OnChanges {
       thankYou: 'Akiba mpo minkukuma mi a wo!',
       label: ["Ango wa kele", 'Ango wa silise']
     },
-    bassa:{
+    BASSA:{
       title: 'Malog ma ban be meyom',
       subtitle: 'Yem hii to malekle misala mya kukuluk',
       rateExperience: 'Yangla ndeh i ne wula misala mya hii',
@@ -154,7 +154,7 @@ export class FeedbackForm implements OnChanges {
 
   onSubmit() {
     const patient= this.patientDataService.getPatientData();
-
+    this.isLoading = true;
     const formField: FeedbackRequestModel = {
       patient,
       feedbackText: this.feedbackText,
@@ -163,7 +163,7 @@ export class FeedbackForm implements OnChanges {
       starRating: this.rating,
       waitTimeMin : this.feedbackSummaryTexts[0],
       resolutionTimeMin : this.feedbackSummaryTexts[1],
-      language: this.language.toUpperCase(),
+      language: this.language,
     };
 
     console.log("vos informations: ",patient, formField)
@@ -171,13 +171,18 @@ export class FeedbackForm implements OnChanges {
 
     this.feedbackService.createFeedback(formField).subscribe({
       next: () => {
-        alert("✅ " +this.t.thankYou)
+        alert("✅ " +this.t.thankYou + " 😊");
         console.log("send")
       },
       error: (err) => {
+        this.isLoading = false;
         console.error('Erreur lors de l\'envoi du feedback', err, this.test);
-        alert('Erreur lors de l\'envoi');
+        alert('❌Erreur lors de l\'envoi😔');
       },
+      complete: () => {
+        console.log("Complète")
+        this.isLoading = false;
+      }
     });
   }
 

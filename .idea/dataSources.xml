@@ -26,5 +26,12 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="PostgreSQL" uuid="61aef9c0-5e9f-481d-bad2-045a08755eb5">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ep-young-sun-ae8uh36n-pooler.c-2.us-east-2.aws.neon.tech/neondb?user=neondb_owner&amp;password=npg_e4pYGr3ogXQt&amp;sslmode=require&amp;channelBinding=requirejdbc:postgresql://ep-young-sun-ae8uh36n-pooler.c-2.us-east-2.aws.neon.tech/neondb?user=neondb_owner&amp;password=npg_e4pYGr3ogXQt&amp;sslmode=require&amp;channelBinding=require</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

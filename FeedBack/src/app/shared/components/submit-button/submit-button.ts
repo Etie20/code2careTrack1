@@ -9,6 +9,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class SubmitButton {
   @Input() label: string = 'Submit FeedbackService';
   @Output() submit = new EventEmitter<void>();
+  @Input() isLoading: boolean = false;
 
   onClick() {
     this.submit.emit();
