@@ -2,7 +2,7 @@
 import type { Donor } from "@/lib/types/donor"
 import { environment } from "../environment";
 
-const API_URL = environment.apiURL + "/api/donor";
+const API_URL = environment.apiURL + "/donor";
 
 export async function submitDonor(data: Donor): Promise<void> {
 

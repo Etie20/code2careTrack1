@@ -3,8 +3,11 @@ package com.code2care.bloodUnit.infrastructure.controller;
 import com.code2care.bloodUnit.application.dto.StockSummaryDTO;
 import com.code2care.bloodUnit.application.service.*;
 import com.code2care.common.application.dto.PageResponse;
+import com.code2care.common.domain.model.BloodBankSummaryDto;
+import com.code2care.common.domain.model.BloodStatDto;
 import com.code2care.common.domain.model.BloodUnitDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RestController
 @RequestMapping("/api/bloodUnit")
@@ -24,14 +28,16 @@ public class BloodUnitController {
     private final SearchBloodUnitUseCase searchBloodUnitUseCase;
     private final GetBloodUnitByIdUseCase getBloodUnitByIdUseCase;
     private final GetStockSummaryUseCase getStockSummaryUseCase;
+    private final GetBloodStatUseCase getBloodStatUseCase;
+    private final GetBloodBackSummaryStatUseCase getBloodBackSummaryStatUseCase;
     private final GetBloodUnitsUseCase getBloodUnitsUseCase;
-
     @PostMapping("")
     public ResponseEntity<Object> create(@RequestBody BloodUnitDto bloodUnitDto) {
         try {
             createBloodUnitUseCase.execute(bloodUnitDto);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
+            log.error(e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -91,6 +97,26 @@ public class BloodUnitController {
         try {
             return ResponseEntity.ok(getStockSummaryUseCase.execute());
         } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("stat")
+    public ResponseEntity<List<BloodStatDto>> getStat() {
+        try {
+
+            return ResponseEntity.ok(getBloodStatUseCase.execute());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    @GetMapping("banckSummary")
+    public ResponseEntity<BloodBankSummaryDto> getBankSummary() {
+        try{
+            return ResponseEntity.ok(getBloodBackSummaryStatUseCase.execute());
+        }catch (Exception e){
+            log.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }

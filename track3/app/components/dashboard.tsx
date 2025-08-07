@@ -20,11 +20,20 @@ import {useEffect, useState} from "react"
 import AddStockModal from "./modals/add-stock-modal"
 import AddDonorModal from "./modals/add-donor-modal"
 import AddRequestModal from "./modals/add-request-modal"
+import {getBloodBanckStats, getBloodStats} from "@/app/api/bloodUnit/route";
+import { Client } from '@stomp/stompjs';
+import {BloodStat} from "@/lib/types/bloodStat";
+import {BloodBanckSummaryStat} from "@/lib/types/bloodBanckSummaryStat";
 
 export default function Dashboard() {
   const [showAddStockModal, setShowAddStockModal] = useState(false)
   const [showAddDonorModal, setShowAddDonorModal] = useState(false)
   const [showAddRequestModal, setShowAddRequestModal] = useState(false)
+  const [showBloodStatModel , setBloodStatModel] = useState<BloodStat[]>([])
+  const [loadingBloodStat, setLoadingBloodStat] = useState(true);
+  const [showBloodBanckStatModel , setBloodBanckStatModel] = useState<BloodBanckSummaryStat>({} as BloodBanckSummaryStat)
+  const [loadingBloodBanckStat, setLoadingBloodBanckStat] = useState(true);
+  const [stompClient, setStompClient] = useState<Client | undefined>(undefined);
 
   const bloodInventory = [
     { type: "O+", units: 245, capacity: 300, status: "good", trend: "up", percentage: 82 },
@@ -83,23 +92,66 @@ export default function Dashboard() {
     }
   }
 
+  let stompClientUrl ="ws://localhost:8080";
+
+
   const [currentTime, setCurrentTime] = useState('')
 
   useEffect(() => {
+    console.log('Creating STOMP client...');
+    const socket = new WebSocket("ws://code2caretrack1.onrender.com/ws");
+
+    socket.onopen = () => {
+      console.log("✅ WebSocket connected");
+      socket.send("Hello from client");
+    };
+
+    socket.onmessage = (event) => {
+      console.log("📨 Received:", event.data);
+    };
+
+    socket.onerror = (error) => {
+      console.error("❌ WebSocket error:", error);
+    };
+
+    socket.onclose = () => {
+      console.log("⚠️ WebSocket closed");
+    };
     const now = new Date()
     setCurrentTime(now.toLocaleTimeString())
+    getBloodStats().then( data =>{
+      setBloodStatModel(data)
+      setLoadingBloodStat(false)
+    })
+    getBloodBanckStats().then(data =>{
+      setBloodBanckStatModel(data)
+      setLoadingBloodBanckStat(false)
+    })
   }, [])
 
-  return (
+    function getBloodPurcentage(blood: BloodStat) {
+        return Math.round((blood.totalVolumeNeeded * 100 / blood.totalBloodVolume) * 100) / 100;
+    }
+
+    function getBloodStatus(blood: BloodStat) {
+        return getBloodPurcentage(blood) <= 30
+            ? "critical"
+            : getBloodPurcentage(blood) > 30 && getBloodPurcentage(blood) <= 55
+                ? "low"
+                : "good";
+    }
+
+    return (
     <div className="space-y-6">
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="bg-gradient-to-r from-red-500 to-pink-600 text-white border-0 shadow-lg">
+
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-red-100 text-sm font-medium">Total Units</p>
-                <p className="text-3xl font-bold">2,847</p>
+                <p className="text-3xl font-bold">{loadingBloodBanckStat.valueOf() ? "0.." : showBloodBanckStatModel.totalBloodVolume}</p>
                 <div className="flex items-center gap-1 mt-1">
                   <TrendingUp className="w-4 h-4" />
                   <span className="text-sm">+5.2%</span>
@@ -115,7 +167,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-orange-100 text-sm font-medium">Critical Low</p>
-                <p className="text-3xl font-bold">3</p>
+                <p className="text-3xl font-bold">{loadingBloodBanckStat.valueOf() ? "0.." : showBloodBanckStatModel.lowStockBloodTypes}</p>
                 <div className="flex items-center gap-1 mt-1">
                   <AlertTriangle className="w-4 h-4" />
                   <span className="text-sm">Types</span>
@@ -131,7 +183,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-blue-100 text-sm font-medium">Active Donors</p>
-                <p className="text-3xl font-bold">1,234</p>
+                <p className="text-3xl font-bold">{loadingBloodBanckStat.valueOf() ? "0.." : showBloodBanckStatModel.totalDonors}</p>
                 <div className="flex items-center gap-1 mt-1">
                   <Users className="w-4 h-4" />
                   <span className="text-sm">+12 today</span>
@@ -147,7 +199,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-green-100 text-sm font-medium">Requests Today</p>
-                <p className="text-3xl font-bold">89</p>
+                <p className="text-3xl font-bold">{loadingBloodBanckStat.valueOf() ? "0.." : showBloodBanckStatModel.todaysRequests}</p>
                 <div className="flex items-center gap-1 mt-1">
                   <Activity className="w-4 h-4" />
                   <span className="text-sm">+8.1%</span>
@@ -176,40 +228,41 @@ export default function Dashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {bloodInventory.map((blood) => (
-                  <div key={blood.type} className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                          {blood.type}
-                        </div>
-                        {getTrendIcon(blood.trend)}
-                      </div>
-                      <Badge variant="outline" className={getStatusColor(blood.status)}>
-                        {blood.status}
-                      </Badge>
+                { loadingBloodStat.valueOf() ? "Chargement" : (              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {showBloodStatModel.map((blood) => (
+                            <div key={blood.bloodType} className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                            {blood.bloodType}
+                                        </div>
+                                        {getTrendIcon(getBloodPurcentage(blood) > 50 ? "up" : "down")}
+                                    </div>
+                                    <Badge variant="outline" className={getStatusColor(getBloodStatus(blood))}>
+                                        { getBloodStatus(blood)}
+                                    </Badge>
+                                </div>
+                                <div>
+                                    <div className="flex items-center justify-between mb-1">
+                                        <span className="text-sm font-medium">{blood.totalVolumeNeeded} units</span>
+                                        <span className="text-xs text-gray-500">{getBloodPurcentage(blood)}%</span>
+                                    </div>
+                                    <Progress
+                                        value={getBloodPurcentage(blood)}
+                                        className={`h-2 ${
+                                            getBloodPurcentage(blood) <= 30
+                                                ? "[&>div]:bg-red-500"
+                                                : getBloodPurcentage(blood) > 30 && getBloodPurcentage(blood) <=55
+                                                    ? "[&>div]:bg-orange-500"
+                                                    : "[&>div]:bg-green-500"
+                                        }`}
+                                    />
+                                    <p className="text-xs text-gray-500 mt-1">of {blood.totalBloodVolume} capacity</p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-sm font-medium">{blood.units} units</span>
-                        <span className="text-xs text-gray-500">{blood.percentage}%</span>
-                      </div>
-                      <Progress
-                        value={blood.percentage}
-                        className={`h-2 ${
-                          blood.status === "critical"
-                            ? "[&>div]:bg-red-500"
-                            : blood.status === "low"
-                              ? "[&>div]:bg-orange-500"
-                              : "[&>div]:bg-green-500"
-                        }`}
-                      />
-                      <p className="text-xs text-gray-500 mt-1">of {blood.capacity} capacity</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                )}
             </CardContent>
           </Card>
         </div>
