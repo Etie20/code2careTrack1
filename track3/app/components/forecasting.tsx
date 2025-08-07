@@ -269,7 +269,7 @@ export default function Forecasting() {
           <CardContent className="p-4">
             <div className="text-center">
               <Target className="w-8 h-8 text-green-600 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-green-800">{totalPredictedDemand.toFixed(1)}</p>
+              <p className="text-2xl font-bold text-green-800">{Math.round(totalPredictedDemand)}</p>
               <p className="text-sm text-gray-600">Units to Order</p>
             </div>
           </CardContent>
@@ -295,7 +295,6 @@ export default function Forecasting() {
               >
                 <option value="7">7 Days</option>
                 <option value="30">30 Days</option>
-                <option value="90">90 Days</option>
               </select>
               <Button
                 onClick={generateForecast}
@@ -359,7 +358,7 @@ export default function Forecasting() {
                         </div>
                         <div>
                           <p className="text-sm font-medium text-gray-600">Predicted Demand</p>
-                          <p className="text-xl font-bold text-blue-600">{details.predicted_demand==null ?0 : details.predicted_demand.toFixed(2)}</p>
+                          <p className="text-xl font-bold text-blue-600">{details.predicted_demand==null ?0 : Math.round(details.predicted_demand)}</p>
                         </div>
                       </div>
 
@@ -367,7 +366,7 @@ export default function Forecasting() {
                       <div className="space-y-2">
                         <p className="text-sm font-medium text-gray-600">Recommended Order</p>
                         <div className="flex items-center gap-2">
-                          <span className="text-2xl font-bold text-green-600">{details.predicted_demand==null ?0 :details.predicted_demand.toFixed(2)+10}</span>
+                          <span className="text-2xl font-bold text-green-600">{details.predicted_demand==null ?0 :Math.round(details.predicted_demand)+10}</span>
                           <span className="text-sm text-gray-500">units</span>
                         </div>
                         <Badge variant="outline" className={getRiskColor(match?.riskLevel ?? 'Not')}>
@@ -409,12 +408,12 @@ export default function Forecasting() {
                         <Button size="sm" variant="outline" className="bg-white/60">
                           View Details
                         </Button>
-                        {details.predicted_demand==null ?0 :details.predicted_demand.toFixed(2)+10 > 0 && (
+                        {details.predicted_demand==null ?0 :Math.round(details.predicted_demand)+10 > 0 && (
                             <Button
                                 size="sm"
                                 className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
                             >
-                              Order {details.predicted_demand==null ?0 :details.predicted_demand.toFixed(2)+10} Units
+                              Order {details.predicted_demand==null ?0 :Math.round(details.predicted_demand)+10} Units
                             </Button>
                         )}
                         {match?.riskLevel === "high" && (
