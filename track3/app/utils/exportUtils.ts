@@ -4,7 +4,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import {BloodUnit} from "@/lib/types/bloodUnit";
 
-export const exportToCSV = (data : BloodUnit, filename = "Inventory.csv") => {
+export const exportToCSV = (data : BloodUnit[], filename = "Inventory.csv") => {
     const flatData = flattenData(data);
     const worksheet = XLSX.utils.json_to_sheet(flatData);
     const csv = XLSX.utils.sheet_to_csv(worksheet);
@@ -12,7 +12,7 @@ export const exportToCSV = (data : BloodUnit, filename = "Inventory.csv") => {
     saveAs(blob, filename);
 };
 
-export const exportToExcel = (data : BloodUnit, filename = "Inventory.xlsx") => {
+export const exportToExcel = (data : BloodUnit[], filename = "Inventory.xlsx") => {
     const flatData = flattenData(data);
     const worksheet = XLSX.utils.json_to_sheet(flatData);
     const workbook = XLSX.utils.book_new();
@@ -22,7 +22,7 @@ export const exportToExcel = (data : BloodUnit, filename = "Inventory.xlsx") => 
     saveAs(blob, filename);
 };
 
-export const exportToPDF = (data : BloodUnit, filename = "Inventory.pdf") => {
+export const exportToPDF = (data : BloodUnit[], filename = "Inventory.pdf") => {
     const flatData = flattenData(data);
     const doc = new jsPDF();
     const headers = Object.keys(flatData[0]);
@@ -35,8 +35,8 @@ export const exportToPDF = (data : BloodUnit, filename = "Inventory.pdf") => {
 };
 
 // Utility function to flatten nested donor object
-const flattenData = (data : BloodUnit) => {
-    return data.content.map((item) => ({
+const flattenData = (data : BloodUnit[]) => {
+    return data.map((item) => ({
         "Unit ID": item.unitId,
         "Donor Name": item.donor.fullName,
         "Blood Type": item.bloodType,
