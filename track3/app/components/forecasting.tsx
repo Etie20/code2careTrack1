@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {useEffect, useState} from "react"
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
@@ -14,8 +14,10 @@ import {
   Target,
   BarChart3,
   RefreshCw,
-  Zap,
+  Zap, Loader2,
 } from "lucide-react"
+import {BloodForecast} from "@/lib/types/forecast";
+import {getForecast} from "@/app/services/forecast.service";
 
 export default function Forecasting() {
   const [selectedPeriod, setSelectedPeriod] = useState("7days")
@@ -133,11 +135,89 @@ export default function Forecasting() {
     setTimeout(() => setIsGenerating(false), 3000)
   }
 
+  /*
   const totalRecommendedOrder = forecastData.reduce((sum, item) => sum + item.recommendedOrder, 0)
   const averageConfidence = Math.round(
     forecastData.reduce((sum, item) => sum + item.confidence, 0) / forecastData.length,
   )
+
+   */
   const highRiskTypes = forecastData.filter((item) => item.riskLevel === "high").length
+
+  const [forecast, setForecasts] = useState<BloodForecast>({
+    "B+": {
+      predicted_demand: null,
+      min_forecast: null,
+      max_forecast: null,
+      confidence: null, forecast_days: 7 },
+    "O-": {
+      predicted_demand: null,
+      min_forecast: null,
+      max_forecast: null,
+      confidence: null,
+      forecast_days: 7 },
+    "AB-": {
+      predicted_demand: null,
+      min_forecast: null,
+      max_forecast: null,
+      confidence: null,
+      forecast_days: 7 },
+    "O+": {
+      predicted_demand: null,
+      min_forecast: null,
+      max_forecast: null,
+      confidence: null,
+      forecast_days: 7 },
+    "B-": {
+      predicted_demand: null,
+      min_forecast: null,
+      max_forecast: null,
+      confidence: null,
+      forecast_days: 7 },
+    "A+": {
+      predicted_demand: null,
+      min_forecast: null,
+      max_forecast: null,
+      confidence: null,
+      forecast_days: 7 },
+    "A-": {
+      predicted_demand: null,
+      min_forecast: null,
+      max_forecast: null,
+      confidence: null,
+      forecast_days: 7 },
+    "AB+": {
+      predicted_demand: null,
+      min_forecast: null,
+      max_forecast: null,
+      confidence: null,
+      forecast_days: 7 },
+  });
+  const [loadingForecast, setLoadingForecast] = useState(true);
+
+  const values = Object.values(forecast);
+
+// Calculate total predicted_demand
+  const totalPredictedDemand = values.reduce((sum, item) => {
+    return sum + (item.predicted_demand ?? 0);
+  }, 0);
+
+// Calculate average confidence (excluding nulls)
+  const confidenceValues = values
+      .map(item => item.confidence)
+      .filter(conf => conf !== null) as number[];
+
+  const averageConfidence =
+      confidenceValues.length > 0
+          ? confidenceValues.reduce((sum, c) => sum + c, 0) / confidenceValues.length
+          : 0;
+
+  useEffect(() => {
+    getForecast().then(data => {
+      setForecasts(data);
+      setLoadingForecast(false);
+    });
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -159,7 +239,7 @@ export default function Forecasting() {
                 <Zap className="w-4 h-4" />
                 <span className="text-sm">AI Confidence</span>
               </div>
-              <p className="text-2xl font-bold">{averageConfidence}%</p>
+              <p className="text-2xl font-bold">{averageConfidence.toFixed(1)}%</p>
             </div>
           </div>
         </CardContent>
@@ -183,7 +263,7 @@ export default function Forecasting() {
           <CardContent className="p-4">
             <div className="text-center">
               <Target className="w-8 h-8 text-green-600 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-green-800">{totalRecommendedOrder}</p>
+              <p className="text-2xl font-bold text-green-800">{totalPredictedDemand.toFixed(1)}</p>
               <p className="text-sm text-gray-600">Units to Order</p>
             </div>
           </CardContent>
@@ -234,116 +314,126 @@ export default function Forecasting() {
       </div>
 
       {/* Forecast Results */}
-      <div className="grid gap-4">
-        {forecastData.map((item) => (
-          <Card
-            key={item.bloodType}
-            className="bg-white/90 backdrop-blur-sm border-gray-200 hover:shadow-lg transition-all duration-200"
-          >
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 lg:grid-cols-6 gap-6 items-center">
-                {/* Blood Type */}
-                <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                    {item.bloodType}
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-800">Blood Type {item.bloodType}</h3>
-                    <div className="flex items-center gap-2 mt-1">
-                      {getTrendIcon(item.trend)}
-                      <span className="text-sm text-gray-600 capitalize">{item.trend}</span>
+      {loadingForecast ? (
+          <div className="flex items-center justify-center py-10 gap-2">
+            <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+            <span className="text-sm text-blue-500">Chargement...</span>
+          </div>
+      ) : (
+          <div className="grid gap-4">
+            {Object.entries(forecast).map(([bloodType, details]) => {
+              const match = forecastData.find(item => item.bloodType === bloodType);
+                return(
+                <Card
+                    key={bloodType}
+                    className="bg-white/90 backdrop-blur-sm border-gray-200 hover:shadow-lg transition-all duration-200"
+                >
+                  <CardContent className="p-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-6 gap-6 items-center">
+                      {/* Blood Type */}
+                      <div className="flex items-center gap-4">
+                        <div
+                            className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                          {bloodType}
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-800">Blood Type {bloodType}</h3>
+                          <div className="flex items-center gap-2 mt-1">
+                            {getTrendIcon(match?.trend ?? 'Not available')}
+                            <span className="text-sm text-gray-600 capitalize">{match?.trend ?? 'Not available'}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Current vs Predicted */}
+                      <div className="space-y-3">
+                        <div>
+                          <p className="text-sm font-medium text-gray-600">Current Stock</p>
+                          <p className="text-xl font-bold text-gray-800">{match?.currentStock}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-gray-600">Predicted Demand</p>
+                          <p className="text-xl font-bold text-blue-600">{details.predicted_demand==null ?0 : details.predicted_demand.toFixed(2)}</p>
+                        </div>
+                      </div>
+
+                      {/* Recommendation */}
+                      <div className="space-y-2">
+                        <p className="text-sm font-medium text-gray-600">Recommended Order</p>
+                        <div className="flex items-center gap-2">
+                          <span className="text-2xl font-bold text-green-600">{details.predicted_demand==null ?0 :details.predicted_demand.toFixed(2)+10}</span>
+                          <span className="text-sm text-gray-500">units</span>
+                        </div>
+                        <Badge variant="outline" className={getRiskColor(match?.riskLevel ?? 'Not')}>
+                          {match?.riskLevel} risk
+                        </Badge>
+                      </div>
+
+                      {/* AI Confidence */}
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Brain className="w-4 h-4 text-purple-600"/>
+                          <span className="text-sm font-medium">AI Confidence</span>
+                        </div>
+                        <div className="space-y-1">
+                          <div className="flex justify-between text-sm">
+                            <span>{details.confidence==null ? 0 :(details.confidence * 100).toFixed(1)}%</span>
+                          </div>
+                          <Progress value={Number((details.confidence==null ? 0 :details.confidence * 100).toFixed(1))} className="h-2 [&>div]:bg-purple-500"/>
+                        </div>
+                      </div>
+
+                      {/* Key Factors */}
+                      <div className="space-y-2">
+                        <p className="text-sm font-medium text-gray-600">Key Factors</p>
+                        <div className="space-y-1">
+                          {match?.factors.slice(0, 2).map((factor, index) => (
+                              <p key={index} className="text-xs text-gray-500">
+                                • {factor}
+                              </p>
+                          ))}
+                          {match?.factors.length == undefined ? 0 : match?.factors.length > 2 && (
+                              <p className="text-xs text-blue-600 cursor-pointer">+{match?.factors.length - 2} more</p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex flex-col gap-2">
+                        <Button size="sm" variant="outline" className="bg-white/60">
+                          View Details
+                        </Button>
+                        {details.predicted_demand==null ?0 :details.predicted_demand.toFixed(2)+10 > 0 && (
+                            <Button
+                                size="sm"
+                                className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+                            >
+                              Order {details.predicted_demand==null ?0 :details.predicted_demand.toFixed(2)+10} Units
+                            </Button>
+                        )}
+                        {match?.riskLevel === "high" && (
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                className="border-red-300 text-red-700 hover:bg-red-50 bg-transparent"
+                            >
+                              <AlertTriangle className="w-3 h-3 mr-1"/>
+                              Priority Order
+                            </Button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </div>
-
-                {/* Current vs Predicted */}
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Current Stock</p>
-                    <p className="text-xl font-bold text-gray-800">{item.currentStock}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Predicted Demand</p>
-                    <p className="text-xl font-bold text-blue-600">{item.predictedDemand}</p>
-                  </div>
-                </div>
-
-                {/* Recommendation */}
-                <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-600">Recommended Order</p>
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl font-bold text-green-600">{item.recommendedOrder}</span>
-                    <span className="text-sm text-gray-500">units</span>
-                  </div>
-                  <Badge variant="outline" className={getRiskColor(item.riskLevel)}>
-                    {item.riskLevel} risk
-                  </Badge>
-                </div>
-
-                {/* AI Confidence */}
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Brain className="w-4 h-4 text-purple-600" />
-                    <span className="text-sm font-medium">AI Confidence</span>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-sm">
-                      <span>{item.confidence}%</span>
-                    </div>
-                    <Progress value={item.confidence} className="h-2 [&>div]:bg-purple-500" />
-                  </div>
-                </div>
-
-                {/* Key Factors */}
-                <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-600">Key Factors</p>
-                  <div className="space-y-1">
-                    {item.factors.slice(0, 2).map((factor, index) => (
-                      <p key={index} className="text-xs text-gray-500">
-                        • {factor}
-                      </p>
-                    ))}
-                    {item.factors.length > 2 && (
-                      <p className="text-xs text-blue-600 cursor-pointer">+{item.factors.length - 2} more</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex flex-col gap-2">
-                  <Button size="sm" variant="outline" className="bg-white/60">
-                    View Details
-                  </Button>
-                  {item.recommendedOrder > 0 && (
-                    <Button
-                      size="sm"
-                      className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
-                    >
-                      Order {item.recommendedOrder} Units
-                    </Button>
-                  )}
-                  {item.riskLevel === "high" && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="border-red-300 text-red-700 hover:bg-red-50 bg-transparent"
-                    >
-                      <AlertTriangle className="w-3 h-3 mr-1" />
-                      Priority Order
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+                  </CardContent>
+                </Card>
+            )})}
+          </div>
+      )}
 
       {/* AI Insights */}
       <Card className="bg-white/90 backdrop-blur-sm border-indigo-100 shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-indigo-800">
-            <Brain className="w-5 h-5" />
+            <Brain className="w-5 h-5"/>
             AI Insights & Recommendations
           </CardTitle>
         </CardHeader>
@@ -353,21 +443,21 @@ export default function Forecasting() {
               <h4 className="font-semibold text-gray-800">Key Predictions</h4>
               <div className="space-y-3">
                 <div className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg">
-                  <TrendingUp className="w-5 h-5 text-blue-600 mt-0.5" />
+                  <TrendingUp className="w-5 h-5 text-blue-600 mt-0.5"/>
                   <div>
                     <p className="text-sm font-medium text-blue-800">High O- Demand Expected</p>
                     <p className="text-xs text-blue-600">Emergency procedures likely to increase demand by 35%</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-3 bg-orange-50 rounded-lg">
-                  <AlertTriangle className="w-5 h-5 text-orange-600 mt-0.5" />
+                  <AlertTriangle className="w-5 h-5 text-orange-600 mt-0.5"/>
                   <div>
                     <p className="text-sm font-medium text-orange-800">A- Stock Critical</p>
                     <p className="text-xs text-orange-600">Current stock will last only 5 days at predicted demand</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
-                  <Target className="w-5 h-5 text-green-600 mt-0.5" />
+                  <Target className="w-5 h-5 text-green-600 mt-0.5"/>
                   <div>
                     <p className="text-sm font-medium text-green-800">Optimal Ordering Window</p>
                     <p className="text-xs text-green-600">Place orders within next 48 hours for best cost efficiency</p>
@@ -378,20 +468,22 @@ export default function Forecasting() {
             <div className="space-y-4">
               <h4 className="font-semibold text-gray-800">Recommended Actions</h4>
               <div className="space-y-2">
-                <Button className="w-full justify-start bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700">
-                  <AlertTriangle className="w-4 h-4 mr-2" />
+                <Button
+                    className="w-full justify-start bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700">
+                  <AlertTriangle className="w-4 h-4 mr-2"/>
                   Emergency Order: A- (60 units)
                 </Button>
-                <Button className="w-full justify-start bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600">
-                  <Target className="w-4 h-4 mr-2" />
+                <Button
+                    className="w-full justify-start bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600">
+                  <Target className="w-4 h-4 mr-2"/>
                   Priority Order: O- (80 units)
                 </Button>
                 <Button variant="outline" className="w-full justify-start bg-white/60">
-                  <Calendar className="w-4 h-4 mr-2" />
+                  <Calendar className="w-4 h-4 mr-2"/>
                   Schedule Donor Campaign: B-
                 </Button>
                 <Button variant="outline" className="w-full justify-start bg-white/60">
-                  <Brain className="w-4 h-4 mr-2" />
+                  <Brain className="w-4 h-4 mr-2"/>
                   Review Forecast Settings
                 </Button>
               </div>
