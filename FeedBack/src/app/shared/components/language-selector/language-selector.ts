@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {NgForOf, NgIf} from '@angular/common';
 import {Globe, LucideAngularModule} from 'lucide-angular';
 import {LanguageModel} from '../../../models/language.model';
 
@@ -22,11 +21,11 @@ export class LanguageSelector {
   isDropdownOpen = false;
 
   languages: LanguageModel[] = [
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'fr', name: 'Français', flag: '🇫🇷' },
-    { code: 'duala', name: 'Duálá', flag: '🇨🇲' },
-    { code: 'bassa', name: 'Bassa', flag: '🇨🇲' },
-    { code: 'ewondo', name: 'Ewondo', flag: '🇨🇲' },
+    { code: 'ENGLISH', name: 'English', flag: '🇺🇸' },
+    { code: 'FRENCH', name: 'Français', flag: '🇫🇷' },
+    { code: 'DLA', name: 'Duálá', flag: '🇨🇲' },
+    { code: 'BASSA', name: 'Bassa', flag: '🇨🇲' },
+    { code: 'EWONDO', name: 'Ewondo', flag: '🇨🇲' },
   ];
 
   get selectedLanguage(): LanguageModel {

@@ -1,1 +1,1 @@
-export type Language = 'en' | 'fr' | 'duala';
+export type Language = 'ENGLISH' | 'FRENCH' | 'DLA' | 'BASSA' | 'EWONDO';

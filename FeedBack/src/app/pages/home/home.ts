@@ -1,9 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {LanguageSelector} from '../../shared/components/language-selector/language-selector';
 import {FeedbackForm} from '../../shared/components/feedback-form/feedback-form';
-import {NgForOf, NgIf} from '@angular/common';
-import {MessageSquare, TrendingUp, LucideAngularModule, Bell, Users} from 'lucide-angular';
-import {Feedback} from '../feedback/feedback';
+import {LucideAngularModule,} from 'lucide-angular';
 import {Language} from '../../models/language.type';
 
 
@@ -26,27 +24,27 @@ export class Home {
 
 
 
-  language: Language = 'en';
+  language: Language = 'ENGLISH';
 
   translations: Record<string, Translations> = {
-    en: {
+    ENGLISH: {
       title: 'Patient Care System',
       subtitle: 'Comprehensive healthcare feedback and reminder management',
     },
-    fr: {
+    FRENCH: {
       title: 'Système de Soins aux Patients',
       subtitle: 'Gestion complète des commentaires et rappels de santé'
     },
-    duala: {
+    DLA: {
       title: 'Système ya Soins ya Bato',
       subtitle: 'Gestion complète ya commentaires na rappels ya santé',
 
     },
-    ewondo: {
+    EWONDO: {
       title: 'Ndako ya kosalela ba moto ba nyolo',
       subtitle: 'Bosali mobimba mwa masango na bokundoli ya mbombo'
     },
-    bassa: {
+    BASSA: {
       title: 'Nkap kukuluk ban be meyom',
       subtitle: 'Misala mi nyone mya malog na mekundol mya kukuluk'
     }

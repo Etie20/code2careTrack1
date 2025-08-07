@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {FeedbackForm} from '../../shared/components/feedback-form/feedback-form';
 import {Language} from '../../models/language.type';
 
 @Component({
@@ -11,5 +10,5 @@ import {Language} from '../../models/language.type';
   styleUrl: './feedback.css'
 })
 export class Feedback {
-  @Input() language: Language = 'en';
+  @Input() language: Language = 'ENGLISH';
 }
