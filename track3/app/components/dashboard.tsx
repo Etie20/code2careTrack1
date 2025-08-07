@@ -99,24 +99,24 @@ export default function Dashboard() {
 
   useEffect(() => {
     console.log('Creating STOMP client...');
-    const socket = new WebSocket("ws://code2caretrack1.onrender.com/ws");
-
-    socket.onopen = () => {
-      console.log("✅ WebSocket connected");
-      socket.send("Hello from client");
-    };
-
-    socket.onmessage = (event) => {
-      console.log("📨 Received:", event.data);
-    };
-
-    socket.onerror = (error) => {
-      console.error("❌ WebSocket error:", error);
-    };
-
-    socket.onclose = () => {
-      console.log("⚠️ WebSocket closed");
-    };
+    // const socket = new WebSocket("ws://code2caretrack1.onrender.com/ws");
+    //
+    // socket.onopen = () => {
+    //   console.log("✅ WebSocket connected");
+    //   socket.send("Hello from client");
+    // };
+    //
+    // socket.onmessage = (event) => {
+    //   console.log("📨 Received:", event.data);
+    // };
+    //
+    // socket.onerror = (error) => {
+    //   console.error("❌ WebSocket error:", error);
+    // };
+    //
+    // socket.onclose = () => {
+    //   console.log("⚠️ WebSocket closed");
+    // };
     const now = new Date()
     setCurrentTime(now.toLocaleTimeString())
     getBloodStats().then( data =>{
