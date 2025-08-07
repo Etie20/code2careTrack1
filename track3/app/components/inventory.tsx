@@ -16,14 +16,14 @@ import {
   Calendar,
   MapPin,
   Thermometer,
-  Clock,
+  Clock, Loader2,
 } from "lucide-react"
 import AddStockModal from "./modals/add-stock-modal"
 import FilterModal from "./modals/filter-modal"
 import ExportModal from "./modals/export-modal"
-import {BloodUnit} from "@/app/models/bloodUnit";
-import {getBloodUnits, getBloodUnitSummary} from "@/app/api/bloodUnit/route";
-import {BloodUnitSummary} from "@/app/models/bloodUnitSummary";
+import {BloodUnit} from "@/lib/types/bloodUnit";
+import {BloodUnitSummary} from "@/lib/types/bloodUnitSummary";
+import {getBloodUnits, getBloodUnitSummary} from "@/app/services/bloodUnit.service";
 
 export default function Inventory() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -31,14 +31,7 @@ export default function Inventory() {
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [showExportModal, setShowExportModal] = useState(false)
 
-  const [bloodUnits, setBloodUnits] = useState<BloodUnit>({
-    content: [],
-    last: false,
-    pageNumber: 0,
-    pageSize: 0,
-    totalElements: 0,
-    totalPages: 0
-  });
+  const [bloodUnits, setBloodUnits] = useState<BloodUnit[]>([]);
   const [bloodUnitSummary, setBloodUnitSummary] = useState<BloodUnitSummary>({
     criticalStocks: 0,
     expiringSoonStocks: 0,
@@ -58,57 +51,6 @@ export default function Inventory() {
       setLoadingBloodUnitSummary(false);
     });
   }, []);
-
-  const bloodStock = [
-    {
-      id: "BS001",
-      type: "A+",
-      quantity: 45,
-      capacity: 60,
-      location: "Réfrigérateur 1",
-      temperature: "4°C",
-      expirationDate: "2024-02-15",
-      status: "normal",
-      donorId: "DON-2024-001",
-      collectionDate: "2024-01-10",
-    },
-    {
-      id: "BS002",
-      type: "O-",
-      quantity: 12,
-      capacity: 50,
-      location: "Réfrigérateur 2",
-      temperature: "4°C",
-      expirationDate: "2024-02-08",
-      status: "critical",
-      donorId: "DON-2024-002",
-      collectionDate: "2024-01-05",
-    },
-    {
-      id: "BS003",
-      type: "B+",
-      quantity: 38,
-      capacity: 45,
-      location: "Stockage A",
-      temperature: "4°C",
-      expirationDate: "2024-02-20",
-      status: "normal",
-      donorId: "DON-2024-003",
-      collectionDate: "2024-01-12",
-    },
-    {
-      id: "BS004",
-      type: "AB-",
-      quantity: 8,
-      capacity: 25,
-      location: "Réfrigérateur 1",
-      temperature: "4°C",
-      expirationDate: "2024-02-05",
-      status: "expiring",
-      donorId: "DON-2024-004",
-      collectionDate: "2024-01-02",
-    },
-  ]
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -146,6 +88,13 @@ export default function Inventory() {
     return diffDays > 0 && diffDays < 7;
   }
 
+  function isExpired(expirationDate: string | Date): boolean {
+    const now = new Date();
+    const expDate = new Date(expirationDate);
+    return expDate.getTime() < now.getTime();
+  }
+
+
   const getBloodTypeColor = (type: string) => {
     const colors: { [key: string]: string } = {
       "A+": "bg-red-500",
@@ -176,11 +125,11 @@ export default function Inventory() {
   }
 
 
-  const filteredStock = bloodUnits.content.filter(
+  const filteredStock = bloodUnits.filter(
       (item) =>
           item.bloodType.toLowerCase().includes(searchTerm.toLowerCase()) ||
           item.storageLocation.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.donor.id.toString().toLowerCase().includes(searchTerm.toLowerCase()),
+          item.donor.fullName.toString().toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
 
@@ -225,7 +174,10 @@ export default function Inventory() {
 
         {/* Grille des Stocks */}
         {loadingBloodUnit ? (
-            <p> Chargement...</p>
+            <div className="flex items-center justify-center py-10 gap-2">
+              <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+              <span className="text-sm text-blue-500">Chargement...</span>
+            </div>
         ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredStock.map((item) => (
@@ -236,8 +188,8 @@ export default function Inventory() {
                           <div className={`w-4 h-4 rounded-full ${getBloodTypeColor(item.bloodType)}`}></div>
                           <CardTitle className="text-lg">{item.bloodType}</CardTitle>
                         </div>
-                        <Badge variant="outline" className={`${getStatusColor(isExpiringSoon(item.expirationDate) ? 'expiring' : item.currentStatus)} text-white border-0`}>
-                          {getStatusLabel(isExpiringSoon(item.expirationDate) ? 'expiring' : item.currentStatus)}
+                        <Badge variant="outline" className={`${getStatusColor(isExpiringSoon(item.expirationDate) ? 'expiring' : isExpired(item.expirationDate) ? 'Expired' : item.currentStatus)} text-white border-0`}>
+                          {getStatusLabel(isExpiringSoon(item.expirationDate) ? 'expiring' : isExpired(item.expirationDate) ? 'Expired' : item.currentStatus)}
                         </Badge>
                       </div>
                       <CardDescription className="text-xs text-gray-500">ID: {item.unitId}</CardDescription>
@@ -320,13 +272,16 @@ export default function Inventory() {
             </CardTitle>
           </CardHeader>
           {loadingBloodUnitSummary ? (
-              <p>Chargement...</p>
+              <div className="flex items-center justify-center py-10 gap-2">
+                <Loader2 className="w-6 h-6 animate-spin text-blue-500"/>
+                <span className="text-sm text-blue-500">Chargement de l'inventaire...</span>
+              </div>
           ) : (
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-gray-900">
-                      {bloodUnitSummary.totalUnits}
+                    {bloodUnitSummary.totalUnits}
                     </div>
                     <div className="text-sm text-gray-600">Unités Totales</div>
                   </div>
@@ -368,7 +323,7 @@ export default function Inventory() {
             onOpenChange={setShowExportModal}
             onExport={handleExport}
             dataType="inventory"
-        />
+         data={bloodUnits}/>
       </div>
   )
 }

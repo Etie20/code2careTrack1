@@ -12,16 +12,20 @@ import { fr } from "date-fns/locale"
 import { cn } from "@/lib/utils"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
+import {BloodUnit} from "@/lib/types/bloodUnit";
+import {exportToCSV, exportToExcel, exportToPDF} from "@/app/utils/exportUtils";
 
 interface ExportModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onExport: (config: any) => void
+  data : BloodUnit | any
   dataType: "inventory" | "donors" | "requests" | "analytics"
 }
 
-export default function ExportModal({ open, onOpenChange, onExport, dataType }: ExportModalProps) {
+export default function ExportModal({ open, onOpenChange, onExport, data, dataType }: ExportModalProps) {
   const [loading, setLoading] = useState(false)
+  const [done, setDone] = useState(false)
   const [exportConfig, setExportConfig] = useState({
     format: "",
     dateFrom: undefined as Date | undefined,
@@ -49,8 +53,6 @@ export default function ExportModal({ open, onOpenChange, onExport, dataType }: 
           { id: "collectionDate", label: "Date de Collecte" },
           { id: "status", label: "Statut" },
         ]
-      case "donors":
-        return [{ id: "name", label: "Nom Complet" }]
       case "donors":
         return [
           { id: "name", label: "Nom Complet" },
@@ -104,13 +106,22 @@ export default function ExportModal({ open, onOpenChange, onExport, dataType }: 
 
   const handleExport = async () => {
     setLoading(true)
-
-    // Simulation de l'export
-    await new Promise((resolve) => setTimeout(resolve, 3000))
-
-    onExport(exportConfig)
+    console.log(selectedFormat?.value)
+    if (selectedFormat?.value === "csv") {
+      exportToCSV(data);
+    } else if (selectedFormat?.value === "excel") {
+      exportToExcel(data);
+    } else if (selectedFormat?.value === "pdf") {
+      exportToPDF(data);
+    } else {
+      console.error("Unsupported export format");
+      // Simulation de l'export
+      //await new Promise((resolve) => setTimeout(resolve, 3000))
+    }
+    //onExport(exportConfig)
     setLoading(false)
-    onOpenChange(false)
+    //onOpenChange(false)
+    setDone(true)
 
     // Reset config
     setExportConfig({
@@ -127,7 +138,7 @@ export default function ExportModal({ open, onOpenChange, onExport, dataType }: 
   const selectedFormat = formats.find((f) => f.value === exportConfig.format)
 
   return (
-      <Dialog open={open} onOpenChange={onOpenChange}>
+      <Dialog open={!done ? open : done} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">

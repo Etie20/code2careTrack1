@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {RatingStars} from '../rating-stars/rating-stars';
 import {EmojiPicker} from '../emoji-picker/emoji-picker';
 
@@ -11,6 +11,7 @@ import {FormsModule} from '@angular/forms';
 import { SpeechToTextModule, TranscriptChangedEventArgs, SpeechToTextComponent } from '@syncfusion/ej2-angular-inputs';
 import {LucideAngularModule, Mic} from 'lucide-angular';
 import {NgClass} from '@angular/common';
+import {Language} from '../../../models/language.type';
 
 @Component({
   selector: 'app-feedback-form',
@@ -26,11 +27,11 @@ import {NgClass} from '@angular/common';
   templateUrl: './feedback-form.html',
   styleUrl: './feedback-form.css'
 })
-export class FeedbackForm {
+export class FeedbackForm implements OnChanges {
 
   @ViewChild('speechtotext') speechToTextInstance !: SpeechToTextComponent;
 
-  @Input() language: 'ENGLISH' | 'FRENCH' = 'ENGLISH';
+  @Input() language: Language = 'en';
 
   rating = 0;
   selectedEmoji = '';
@@ -43,10 +44,10 @@ export class FeedbackForm {
 
   test !: {  }
 
-  @Input() label: string = 'Service Quality';
+
 
   translations = {
-    ENGLISH: {
+    en: {
       title: 'Patient FeedbackService',
       subtitle: 'Help us improve our healthcare services',
       rateExperience: 'Rate your experience',
@@ -58,7 +59,7 @@ export class FeedbackForm {
       thankYou: 'Thank you for your feedback!',
       label : ['Wait Time', 'Resolution time'],
     },
-    FRENCH: {
+    fr: {
       title: 'Commentaires des Patients',
       subtitle: 'Aidez-nous à améliorer nos services de santé',
       rateExperience: 'Évaluez votre expérience',
@@ -70,6 +71,43 @@ export class FeedbackForm {
       thankYou: 'Merci pour vos commentaires!',
       label : ["Temps d'attente", 'Temps de résolution']
     },
+    duala:{
+      title: 'Masango ma ba moto ba nyolo',
+      subtitle: 'Salani biso to longola misala ma mbombo',
+      rateExperience: 'Tanga ndenge o moni misala ma biso',
+      howFeeling: 'Ndenge nini o yemi nsima na mboka na yo?',
+      additionalComments: 'Masango ma nkaka',
+      placeholder: 'Loba na biso ndenge o moni misala ma biso...',
+      voiceNote: 'Masango ma mongongo',
+      submit: 'Tinda masango',
+      thankYou: 'Matondo mpo na masango ma yo!',
+      label: ["Tango ya kele", 'Tango ya kosilisa']
+    },
+    ewondo:{
+      title: 'Minkukuma mi ba fam',
+      subtitle: 'Dim biso to lônge misala mi akukuma',
+      rateExperience: 'Tob ndenge a wu kiri misala mi biso',
+      howFeeling: 'Ndenge nanga a wu yem emana eyene wu ne kele?',
+      additionalComments: 'Minkukuma mi nkaka',
+      placeholder: 'Kobe na biso ndenge a wu kiri misala mi biso...',
+      voiceNote: 'Nkukuma wa ngul',
+      submit: 'Tom minkukuma',
+      thankYou: 'Akiba mpo minkukuma mi a wo!',
+      label: ["Ango wa kele", 'Ango wa silise']
+    },
+    bassa:{
+      title: 'Malog ma ban be meyom',
+      subtitle: 'Yem hii to malekle misala mya kukuluk',
+      rateExperience: 'Yangla ndeh i ne wula misala mya hii',
+      howFeeling: 'Ndeh nde i ne yem nlok i ne kele?',
+      additionalComments: 'Malog ma ikôt',
+      placeholder: 'Log na hii ndeh i ne wula misala mya hii...',
+      voiceNote: 'Malog ma dikul',
+      submit: 'Tôma malog',
+      thankYou: 'Matondo mpo malog ma wo!',
+      label: ["Nlog wa kele", 'Nlog wa bôsle']
+    }
+
   };
   feedbackCards = [
     {
@@ -86,8 +124,12 @@ export class FeedbackForm {
     },
   ];
 
-  get t() {
-    return this.translations[this.language];
+  t: any = this.translations[this.language];
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['language']) {
+      this.t = this.translations[this.language];
+    }
   }
 
   constructor(
@@ -129,7 +171,7 @@ export class FeedbackForm {
 
     this.feedbackService.createFeedback(formField).subscribe({
       next: () => {
-        alert(this.t.thankYou)
+        alert("✅ " +this.t.thankYou)
         console.log("send")
       },
       error: (err) => {

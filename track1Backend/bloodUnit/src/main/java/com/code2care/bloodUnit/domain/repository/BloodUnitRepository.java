@@ -15,6 +15,7 @@ import java.util.List;
 public interface BloodUnitRepository {
     public void save(BloodUnitDto bloodUnitDto) throws JsonProcessingException;
     public Page<BloodUnitDto> search(String searchTerm, Pageable pageable);
+    public List<BloodUnitDto> findAll();
     public BloodUnitDto getById(Long id);
     public Page<BloodUnitDto> filter(String bloodType, String storageLocation, Instant startDate, Instant endDate, Pageable pageable);
     public StockSummaryDTO getStockSummary();

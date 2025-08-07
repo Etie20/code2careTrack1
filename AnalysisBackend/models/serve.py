@@ -14,8 +14,8 @@ class DatabaseService:
             self.pool = await asyncpg.create_pool(
                 **self.db_config,
                 min_size=1,  # Minimum connections
-                max_size=2,  # Maximum connections
-                command_timeout=30,  # 30 seconds timeout
+                max_size=3,  # Maximum connections
+                command_timeout=60,  # 30 seconds timeout
                 server_settings={
                     'application_name': 'your_app_name'
                 }
@@ -32,9 +32,9 @@ class DatabaseService:
     async def get_feedback_stats(self) -> Dict[str, Any]:
         """Get feedback statistics"""
         async with self.pool.acquire() as conn:
-            try:
-                total = await conn.fetchval("SELECT COUNT(*) FROM f_analysis_feedback")
-                avg_score = await conn.fetchval("SELECT AVG(sentiment_score) FROM f_analysis_feedback")
+            try:    
+                total = await conn.fetchval("SELECT COUNT(DISTINCT fact_id) FROM f_analysis_feedback")
+                avg_score = await conn.fetchval("SELECT AVG(sentiment_id) FROM f_analysis_feedback")
                 total_with_recall = await conn.fetchval(
                     "SELECT COUNT(*) FROM f_analysis_feedback WHERE recall_id IS NOT NULL"
                 )
@@ -52,7 +52,7 @@ class DatabaseService:
         """Get sentiment distribution"""
         async with self.pool.acquire() as conn:
             try:
-                total = await conn.fetchval("SELECT COUNT(*) FROM f_analysis_feedback")
+                total = await conn.fetchval("SELECT COUNT(DISTINCT fact_id) FROM f_analysis_feedback")
                 query = """
                     SELECT s.sentiment, COUNT(f.sentiment_id) as count
                     FROM d_sentiment s

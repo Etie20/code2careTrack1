@@ -118,4 +118,13 @@ public class BloodUnitController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("")
+    public ResponseEntity<List<BloodUnitDto>> getBloodUnits() {
+        try {
+            return ResponseEntity.ok(getBloodUnitsUseCase.execute());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

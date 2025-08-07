@@ -4,6 +4,8 @@ import {BloodUnit} from "@/app/models/bloodUnit";
 import {BloodUnitSummary} from "@/app/models/bloodUnitSummary";
 import {BloodStat} from "@/app/models/bloodStat";
 import {BloodBanckSummaryStat} from "@/app/models/bloodBanckSummaryStat";
+import {BloodUnit} from "@/lib/types/bloodUnit";
+import {BloodUnitSummary} from "@/lib/types/bloodUnitSummary";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 export const getBloodStats = async () : Promise<BloodStat[]> => {

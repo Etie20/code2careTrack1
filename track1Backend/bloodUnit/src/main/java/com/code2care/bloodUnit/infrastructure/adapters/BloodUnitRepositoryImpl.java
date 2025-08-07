@@ -53,6 +53,11 @@ public  class BloodUnitRepositoryImpl implements BloodUnitRepository {
     }
 
     @Override
+    public List<BloodUnitDto> findAll() {
+        return jpaBloodUnitRepository.findAll().stream().map((element) -> modelMapper.map(element, BloodUnitDto.class)).toList();
+    }
+
+    @Override
     public BloodUnitDto getById(Long id) {
         return jpaBloodUnitRepository.findById(id).map((element) -> modelMapper.map(element, BloodUnitDto.class)).orElse(null);
     }

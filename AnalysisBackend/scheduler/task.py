@@ -17,12 +17,12 @@ TARGET_DB = {
     "host": "aws-0-eu-north-1.pooler.supabase.com"
 }
 
-@app.task(bind=True)
-def periodic_sync(self):
-    """Main scheduled sync task"""
-    sync = DBSynchronizer()
-    loop = asyncio.get_event_loop()
-    return loop.run_until_complete(_run_sync(sync))
+# @app.task(bind=True)
+# def periodic_sync(self):
+#     """Main scheduled sync task"""
+#     sync = DBSynchronizer()
+#     loop = asyncio.get_event_loop()
+#     return loop.run_until_complete(_run_sync(sync))
 
 async def _run_sync(sync: DBSynchronizer):
     """Async sync procedure"""

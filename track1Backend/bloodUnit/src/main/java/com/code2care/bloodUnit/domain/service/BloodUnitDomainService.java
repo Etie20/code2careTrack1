@@ -46,4 +46,8 @@ public class BloodUnitDomainService {
     public BloodBankSummaryDto getBloodBanckSumary() {
         return bloodUnitRepository.getBloodBankSummary();
     }
+
+    public List<BloodUnitDto> getBloodUnits() {
+        return bloodUnitRepository.findAll();
+    }
 }
