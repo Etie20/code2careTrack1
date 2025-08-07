@@ -1,0 +1,124 @@
+classDiagram
+direction TB
+class alerts {
+   varchar(50) alert_type
+   varchar(10) severity
+   varchar(3) blood_type
+   varchar(30) component_type
+   text message
+   timestamp triggered_on
+   boolean resolved
+   timestamp resolved_on
+   integer resolved_by
+   integer alert_id
+}
+class blood_units {
+   integer donor_id
+   date collection_date
+   date expiration_date
+   varchar(3) blood_type
+   integer volume_ml
+   varchar(30) component_type
+   varchar(100) storage_location
+   varchar(20) current_status
+   varchar(100) collection_center
+   integer medical_history_id
+   integer unit_id
+}
+class demand_forecasts {
+   integer department_id
+   varchar(3) blood_type
+   varchar(30) component_type
+   date forecast_date
+   integer forecast_quantity
+   date forecast_start
+   date forecast_end
+   numeric(5,2) confidence_level
+   varchar(50) model_version
+   integer forecast_id
+}
+class department_needs {
+   integer department_id
+   integer personnel_id
+   varchar(3) blood_type
+   varchar(30) component_type
+   integer volume_needed
+   varchar(20) demand_type
+   date requested_date
+   date due_date
+   varchar(20) status
+   text note
+   integer need_id
+}
+class departments {
+   varchar(100) department_name
+   varchar(100) location
+   text description
+   integer department_id
+}
+class donor_medical_history {
+   integer donor_id
+   date screening_date
+   integer hemoglobin_level
+   numeric(5,2) weight_kg
+   varchar(20) blood_pressure
+   numeric(4,1) temperature_celsius
+   varchar(255) infectious_disease_test
+   varchar(20) screening_status
+   timestamp created_at
+   integer history_id
+}
+class donors {
+   varchar(255) full_name
+   varchar(10) gender
+   date date_of_birth
+   varchar(3) blood_type
+   varchar(30) contact_number
+   varchar(255) email
+   varchar(100) occupation
+   text address
+   date registration_date
+   date last_donation_date
+   text medical_notes
+   integer donor_id
+}
+class inventory_transactions {
+   varchar(10) transaction_type
+   date transaction_date
+   varchar(255) reason
+   integer transaction_id
+}
+class personnel {
+   varchar(255) full_name
+   varchar(10) gender
+   date date_of_birth
+   varchar(30) contact_number
+   varchar(255) email
+   varchar(50) role
+   varchar(255) password_hash
+   timestamp created_at
+   integer personnel_id
+}
+class transaction_history {
+   integer inventory_tx_id
+   integer unit_id
+   integer volume_retrieved
+   varchar(3) blood_type
+   varchar(30) component_type
+   integer personnel_id
+   integer department_id
+   timestamp recorded_at
+   integer history_id
+}
+
+alerts  -->  personnel : resolved_by personnel_id
+blood_units  -->  donor_medical_history : medical_history_id history_id
+blood_units  -->  donors : donor_id
+demand_forecasts  -->  departments : department_id
+department_needs  -->  departments : department_id
+department_needs  -->  personnel : personnel_id
+donor_medical_history  -->  donors : donor_id
+transaction_history  -->  blood_units : unit_id
+transaction_history  -->  departments : department_id
+transaction_history  -->  inventory_transactions : inventory_tx_id transaction_id
+transaction_history  -->  personnel : personnel_id

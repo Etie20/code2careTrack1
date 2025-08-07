@@ -1,0 +1,129 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class alerts {
+   alert_type: varchar(50)
+   severity: varchar(10)
+   blood_type: varchar(3)
+   component_type: varchar(30)
+   message: text
+   triggered_on: timestamp
+   resolved: boolean
+   resolved_on: timestamp
+   resolved_by: integer
+   alert_id: integer
+}
+class blood_units {
+   donor_id: integer
+   collection_date: date
+   expiration_date: date
+   blood_type: varchar(3)
+   volume_ml: integer
+   component_type: varchar(30)
+   storage_location: varchar(100)
+   current_status: varchar(20)
+   collection_center: varchar(100)
+   medical_history_id: integer
+   unit_id: integer
+}
+class demand_forecasts {
+   department_id: integer
+   blood_type: varchar(3)
+   component_type: varchar(30)
+   forecast_date: date
+   forecast_quantity: integer
+   forecast_start: date
+   forecast_end: date
+   confidence_level: numeric(5,2)
+   model_version: varchar(50)
+   forecast_id: integer
+}
+class department_needs {
+   department_id: integer
+   personnel_id: integer
+   blood_type: varchar(3)
+   component_type: varchar(30)
+   volume_needed: integer
+   demand_type: varchar(20)
+   requested_date: date
+   due_date: date
+   status: varchar(20)
+   note: text
+   need_id: integer
+}
+class departments {
+   department_name: varchar(100)
+   location: varchar(100)
+   description: text
+   department_id: integer
+}
+class donor_medical_history {
+   donor_id: integer
+   screening_date: date
+   hemoglobin_level: integer
+   weight_kg: numeric(5,2)
+   blood_pressure: varchar(20)
+   temperature_celsius: numeric(4,1)
+   infectious_disease_test: varchar(255)
+   screening_status: varchar(20)
+   created_at: timestamp
+   history_id: integer
+}
+class donors {
+   full_name: varchar(255)
+   gender: varchar(10)
+   date_of_birth: date
+   blood_type: varchar(3)
+   contact_number: varchar(30)
+   email: varchar(255)
+   occupation: varchar(100)
+   address: text
+   registration_date: date
+   last_donation_date: date
+   medical_notes: text
+   donor_id: integer
+}
+class inventory_transactions {
+   transaction_type: varchar(10)
+   transaction_date: date
+   reason: varchar(255)
+   transaction_id: integer
+}
+class personnel {
+   full_name: varchar(255)
+   gender: varchar(10)
+   date_of_birth: date
+   contact_number: varchar(30)
+   email: varchar(255)
+   role: varchar(50)
+   password_hash: varchar(255)
+   created_at: timestamp
+   personnel_id: integer
+}
+class transaction_history {
+   inventory_tx_id: integer
+   unit_id: integer
+   volume_retrieved: integer
+   blood_type: varchar(3)
+   component_type: varchar(30)
+   personnel_id: integer
+   department_id: integer
+   recorded_at: timestamp
+   history_id: integer
+}
+
+alerts                  -[#595959,plain]-^  personnel              : "resolved_by:personnel_id"
+blood_units             -[#595959,plain]-^  donor_medical_history  : "medical_history_id:history_id"
+blood_units             -[#595959,plain]-^  donors                 : "donor_id"
+demand_forecasts        -[#595959,plain]-^  departments            : "department_id"
+department_needs        -[#595959,plain]-^  departments            : "department_id"
+department_needs        -[#595959,plain]-^  personnel              : "personnel_id"
+donor_medical_history   -[#595959,plain]-^  donors                 : "donor_id"
+transaction_history     -[#595959,plain]-^  blood_units            : "unit_id"
+transaction_history     -[#595959,plain]-^  departments            : "department_id"
+transaction_history     -[#595959,plain]-^  inventory_transactions : "inventory_tx_id:transaction_id"
+transaction_history     -[#595959,plain]-^  personnel              : "personnel_id"
+@enduml

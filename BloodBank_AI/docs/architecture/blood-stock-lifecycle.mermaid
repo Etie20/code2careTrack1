@@ -1,0 +1,8 @@
+stateDiagram-v2
+    [*] --> Disponible
+    Disponible --> Réservé : Réservation
+    Réservé --> Disponible : Annulation
+    Réservé --> Distribué : Transfusion
+    Disponible --> Expiré : Date dépassée
+    Distribué --> [*]
+    Expiré --> [*]

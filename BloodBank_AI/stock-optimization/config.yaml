@@ -1,0 +1,20 @@
+# config.yaml - Fichier de configuration
+delivery_cycle_days: 7                 # Fréquence des livraisons (jours)
+delivery_lead_time_days: 2             # Délai entre commande et réception
+service_level: 0.95                    # Probabilité de ne pas être en rupture
+safety_stock_multiplier: 1.65          # Facteur Z-score pour le niveau de service
+wastage_rate: 0.03                     # Pourcentage d'unités expirant
+
+# Coûts unitaires par groupe sanguin (en euros)
+cost_per_unit:
+  A+: 150
+  A-: 150
+  B+: 140
+  B-: 140
+  O+: 130
+  O-: 130
+  AB+: 160
+  AB-: 160
+
+holding_cost_per_unit: 10              # Coût de stockage par unité sur l'horizon
+shortage_cost_per_unit: 500            # Coût d'une unité manquante

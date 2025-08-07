@@ -1,0 +1,40 @@
+@startuml
+!include <C4/C4_Container>
+
+Person(admin, "Administrateur", "Gère les utilisateurs, configurations et audits")
+Person(doctor, "Médecin", "Consulte les stocks, soumet des besoins médicaux")
+Person(tech, "Technicien", "Enregistre les dons, gère l'inventaire, traite les alertes")
+
+System_Boundary(bloodbank, "BloodBank AI") {
+    Container(frontend, "Tableau de Bord", "Next.js 15", "Interface React avec Tailwind CSS\nhttps://care-bloodbank.vercel.app/")
+
+    Container(data_ingestion, "API d'Ingestion", "Java Spring Boot", "Module 1: Intégration DHIS2\nWebhooks temps réel")
+
+    Container(ai_forecasting, "Service de Prévision", "Python", "Module 2: Modèles STL/ARIMA/XGBoost\nPrécision de 92%")
+
+    Container(stock_optimization, "Optimisation Stocks", "Python", "Module 4: Algorithmes SciPy/PuLP\nCalcul des commandes optimales")
+
+    ContainerDb(database, "Base de Données", "PostgreSQL", "Schéma fourni (10 tables)\nHébergement Neon.tech")
+}
+
+' Relations utilisateurs
+Rel(admin, frontend, "Utilise", "HTTPS")
+Rel(doctor, frontend, "Consulte prévisions", "HTTPS")
+Rel(tech, frontend, "Met à jour inventaire", "HTTPS")
+
+' Relations internes
+Rel(frontend, data_ingestion, "API: stocks/alertes", "REST/HTTPS")
+Rel(frontend, ai_forecasting, "API: prédictions", "REST/HTTPS")
+Rel(frontend, stock_optimization, "API: recommandations", "REST/HTTPS")
+
+Rel(data_ingestion, database, "Persiste données", "JDBC")
+Rel(ai_forecasting, database, "Lit données historiques", "SQLAlchemy")
+Rel(stock_optimization, database, "Lit stocks/prévisions", "SQLAlchemy")
+
+' Systèmes externes
+System_Ext(dhis2, "DHIS2", "Système national d'information sanitaire")
+System_Ext(hospital, "Systèmes Hospitaliers", "Systèmes cliniques locaux")
+
+Rel(dhis2, data_ingestion, "Synchronisation données", "API REST")
+Rel(hospital, data_ingestion, "Notifications événements", "Webhooks JSON")
+@enduml
