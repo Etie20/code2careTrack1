@@ -94,7 +94,6 @@ export default function Inventory() {
     return expDate.getTime() < now.getTime();
   }
 
-
   const getBloodTypeColor = (type: string) => {
     const colors: { [key: string]: string } = {
       "A+": "bg-red-500",
