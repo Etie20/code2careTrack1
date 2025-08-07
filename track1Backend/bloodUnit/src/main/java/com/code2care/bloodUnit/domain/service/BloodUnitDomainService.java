@@ -2,19 +2,24 @@ package com.code2care.bloodUnit.domain.service;
 
 import com.code2care.bloodUnit.application.dto.StockSummaryDTO;
 import com.code2care.bloodUnit.domain.repository.BloodUnitRepository;
+import com.code2care.common.domain.model.BloodBankSummaryDto;
+import com.code2care.common.domain.model.BloodStatDto;
 import com.code2care.common.domain.model.BloodUnitDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BloodUnitDomainService {
     private final BloodUnitRepository bloodUnitRepository;
 
-    public void save(BloodUnitDto bloodUnitDto) {
+    public void save(BloodUnitDto bloodUnitDto) throws JsonProcessingException {
         bloodUnitRepository.save(bloodUnitDto);
     }
 
@@ -32,5 +37,13 @@ public class BloodUnitDomainService {
 
     public StockSummaryDTO getStockSummary() {
         return bloodUnitRepository.getStockSummary();
+    }
+
+    public List<BloodStatDto> getBloodStats() {
+        return bloodUnitRepository.getBloodStat();
+    }
+
+    public BloodBankSummaryDto getBloodBanckSumary() {
+        return bloodUnitRepository.getBloodBankSummary();
     }
 }
