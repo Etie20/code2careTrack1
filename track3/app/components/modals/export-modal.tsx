@@ -12,7 +12,7 @@ import { fr } from "date-fns/locale"
 import { cn } from "@/lib/utils"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
-import {BloodUnit} from "@/app/models/bloodUnit";
+import {BloodUnit} from "@/lib/types/bloodUnit";
 import {exportToCSV, exportToExcel, exportToPDF} from "@/app/utils/exportUtils";
 
 interface ExportModalProps {
@@ -53,8 +53,6 @@ export default function ExportModal({ open, onOpenChange, onExport, data, dataTy
           { id: "collectionDate", label: "Date de Collecte" },
           { id: "status", label: "Statut" },
         ]
-      case "donors":
-        return [{ id: "name", label: "Nom Complet" }]
       case "donors":
         return [
           { id: "name", label: "Nom Complet" },

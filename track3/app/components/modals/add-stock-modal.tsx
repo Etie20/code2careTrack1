@@ -1,6 +1,6 @@
 "use client"
 
-import type React from "react"
+import React, {useEffect} from "react"
 
 import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
@@ -14,8 +14,10 @@ import { CalendarIcon, Droplets, Loader2 } from "lucide-react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import { cn } from "@/lib/utils"
-import {BloodUnit, Content} from "@/app/models/bloodUnit";
-import {Donor} from "@/app/models/donor";
+import {BloodUnit} from "@/lib/types/bloodUnit";
+import {getDonors} from "@/app/services/donor.service";
+import {Donor} from "@/lib/types/donor";
+import {submitBloodUnit} from "@/app/services/bloodUnit.service";
 
 interface AddStockModalProps {
   open: boolean
@@ -25,12 +27,12 @@ interface AddStockModalProps {
 
 export default function AddStockModal({ open, onOpenChange, onSubmit }: AddStockModalProps) {
   const [loading, setLoading] = useState(false)
-  const [formData, setFormData] = useState<Content>({
+  const [formData, setFormData] = useState<BloodUnit>({
     bloodType: "",
-    collectionCenter: "",
+    collectionCenter: "DGH",
     collectionDate: new Date(),
     componentType: "",
-    currentStatus: "",
+    currentStatus: "Available",
     donor: {
       id: 0,
       fullName: "",
@@ -52,9 +54,8 @@ export default function AddStockModal({ open, onOpenChange, onSubmit }: AddStock
     volumeMl: 0
 
   })
-  const [selectedDonorId, setSelectedDonorId] = useState<number>(0);
   const [donors, setDonors] = useState<Donor[]>([]);
-  const selectedDonor = donors.find((donor) => donor.id === selectedDonorId);
+  const [loadingDonor, setLoadingDonor] = useState(false)
 
   const bloodTypes = [
     { value: "A+", label: "A+", color: "bg-red-500" },
@@ -71,41 +72,53 @@ export default function AddStockModal({ open, onOpenChange, onSubmit }: AddStock
     e.preventDefault()
     setLoading(true)
 
-    // Simulation d'une requête API
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    onSubmit(formData)
-    setLoading(false)
-    onOpenChange(false)
-
-    // Reset form
-    setFormData({
-      bloodType: "",
-      collectionCenter: "",
-      collectionDate: new Date(),
-      componentType: "",
-      currentStatus: "",
-      donor: {
-        id: 0,
-        fullName: "",
-        contactNumber: "",
+    try {
+      await submitBloodUnit(formData as BloodUnit)
+      onOpenChange(false)
+      // Reset form
+      setFormData({
         bloodType: "",
-        gender: "",
-        dateOfBirth: undefined,
-        email: "",
-        address: "",
-        occupation: "",
-        registrationDate: undefined,
-        lastDonationDate: undefined,
-        medicalNotes: ""
-      },
-      expirationDate: new Date(),
-      screening: null,
-      storageLocation: "",
-      unitId: 0,
-      volumeMl: 0
-    })
+        collectionCenter: "DGH",
+        collectionDate: new Date(),
+        componentType: "",
+        currentStatus: "Available",
+        donor: {
+          id: 0,
+          fullName: "",
+          contactNumber: "",
+          bloodType: "",
+          gender: "",
+          dateOfBirth: undefined,
+          email: "",
+          address: "",
+          occupation: "",
+          registrationDate: undefined,
+          lastDonationDate: undefined,
+          medicalNotes: ""
+        },
+        expirationDate: new Date(),
+        screening: null,
+        storageLocation: "",
+        unitId: 0,
+        volumeMl: 0
+      })
+
+      console.log("valeurs du formulaire, ", formData )
+      alert("✅Nouvelle Unité de sang crée avec succès .😄")
+    } catch (error) {
+      console.error("Erreur lors de l'ajout de l'Unité de sang :", error)
+      alert("⚠️Une erreur est survenue. Veuillez réessayer.😔")
+    } finally {
+      setLoading(false)
+    }
   }
+
+  useEffect(() => {
+    getDonors().then(data => {
+      setDonors(data);
+      setLoadingDonor(false);
+    });
+  }, []);
 
   return (
       <Dialog open={open} onOpenChange={onOpenChange}>
