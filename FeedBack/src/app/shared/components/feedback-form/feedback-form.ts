@@ -163,7 +163,7 @@ export class FeedbackForm implements OnChanges {
       starRating: this.rating,
       waitTimeMin : this.feedbackSummaryTexts[0],
       resolutionTimeMin : this.feedbackSummaryTexts[1],
-      language: this.language.toUpperCase(),
+      language: "ENGLISH",
     };
 
     console.log("vos informations: ",patient, formField)
