@@ -15,9 +15,12 @@ import json
 import os
 from pathlib import Path
 from typing import Literal, Optional
+import logging
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field, field_validator
+
+logging.basicConfig(level=logging.INFO)
 
 # --------------------------------------------------------------------------- #
 # Chargement du dictionnaire                                                  #
@@ -71,7 +74,7 @@ class ReminderRequest(BaseModel):
     def _require_date_for_appointment(cls, v, info):
         reminder_type = info.data.get("reminder_type")
         if reminder_type == "appointment" and not v:
-            raise ValueError("date requis pour un rappel de rendez‑vous")
+            raise ValueError("date requis pour un rappel de rendez-vous")
         return v
 
 class ReminderResponse(BaseModel):
@@ -113,7 +116,7 @@ class ReminderService:
             .replace("{{hospital}}", hospital or "")
         )
 
-        # Nettoyage double‑espace si date absente (cas medication)
+        # Nettoyage double-espace si date absente (cas medication)
         return " ".join(msg.split())
 
 # --------------------------------------------------------------------------- #
@@ -177,7 +180,7 @@ def compose_reminder(req: ReminderRequest):
             sent = True
         except RuntimeError as exc:
             # SMS désactivé, mais on ne bloque pas la composition
-            print(f"[INFO] SMS non envoyé : {exc}")
+            logging.info(f"SMS non envoyé : {exc}")
 
     return ReminderResponse(message=message, sent=sent, sms_sid=sms_sid)
 
