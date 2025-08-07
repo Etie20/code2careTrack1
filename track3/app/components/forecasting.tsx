@@ -20,7 +20,7 @@ import {BloodForecast} from "@/lib/types/forecast";
 import {getForecast} from "@/app/services/forecast.service";
 
 export default function Forecasting() {
-  const [selectedPeriod, setSelectedPeriod] = useState("7days")
+  const [selectedPeriod, setSelectedPeriod] = useState("7")
   const [isGenerating, setIsGenerating] = useState(false)
 
   const forecastData = [
@@ -132,7 +132,13 @@ export default function Forecasting() {
 
   const generateForecast = () => {
     setIsGenerating(true)
-    setTimeout(() => setIsGenerating(false), 3000)
+    setLoadingForecast(true)
+    getForecast(Number(selectedPeriod)).then(data => {
+      setForecasts(data);
+      setLoadingForecast(false);
+    });
+    setIsGenerating(false)
+    //setTimeout(() => setIsGenerating(false), 3000)
   }
 
   /*
@@ -213,7 +219,7 @@ export default function Forecasting() {
           : 0;
 
   useEffect(() => {
-    getForecast().then(data => {
+    getForecast(7).then(data => {
       setForecasts(data);
       setLoadingForecast(false);
     });
@@ -252,7 +258,7 @@ export default function Forecasting() {
             <div className="text-center">
               <Calendar className="w-8 h-8 text-blue-600 mx-auto mb-2" />
               <p className="text-2xl font-bold text-blue-800">
-                {selectedPeriod === "7days" ? "7" : selectedPeriod === "30days" ? "30" : "90"}
+                {selectedPeriod}
               </p>
               <p className="text-sm text-gray-600">Days Forecast</p>
             </div>
@@ -287,9 +293,9 @@ export default function Forecasting() {
                 onChange={(e) => setSelectedPeriod(e.target.value)}
                 className="px-3 py-2 border border-purple-200 rounded-md bg-white/80 text-sm"
               >
-                <option value="7days">7 Days</option>
-                <option value="30days">30 Days</option>
-                <option value="90days">90 Days</option>
+                <option value="7">7 Days</option>
+                <option value="30">30 Days</option>
+                <option value="90">90 Days</option>
               </select>
               <Button
                 onClick={generateForecast}

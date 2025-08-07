@@ -1,10 +1,10 @@
 import {environment} from "@/app/environment";
 import {BloodForecast} from "@/lib/types/forecast";
 
-const API_URL = environment.analysisURL + "blood-forecast/";
+const API_URL = environment.analysisURL + "blood-forecast";
 
-export async function getForecast(): Promise<BloodForecast> {
-    const res = await fetch(API_URL, {
+export async function getForecast(day : number): Promise<BloodForecast> {
+    const res = await fetch(`${API_URL}?days=${day}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
