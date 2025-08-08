@@ -36,11 +36,11 @@ import MessageTime from "@/app/components/message-time";
 interface UserProfile {
   age?: number
   gender?: "male" | "female" | "unknown"
-  language: "fr" | "en"
+  language: "fr" | "en" | "pi"
   medicalContext?: string[]
 }
 
-const getWelcomeMessage = (lang: "fr" | "en") => {
+const getWelcomeMessage = (lang: "fr" | "en" | "pi") => {
   return lang === "fr"
       ? "👋 **Bonjour !** Je suis **Dr. Assistant**, votre compagnon médical intelligent.\n\n🏥 **Hôpital Général de Douala** - *Votre santé, notre priorité*\n\n✨ **Je peux vous aider avec :**\n• 🩺 Explications de diagnostics simples\n• 💊 Conseils sur vos médicaments\n• 🛡️ Prévention et conseils santé\n• ❤️ Support empathique 24/7\n\n💬 **Parlez-moi naturellement** - je vous comprends !"
       : "👋 **Hello!** I'm **Dr. Assistant**, your intelligent medical companion.\n\n🏥 **Douala General Hospital** - *Your health, our priority*\n\n✨ **I can help you with:**\n• 🩺 Simple diagnosis explanations\n• 💊 Medication advice\n• 🛡️ Prevention and health tips\n• ❤️ Empathetic 24/7 support\n\n💬 **Talk to me naturally** - I understand you!"
@@ -49,8 +49,8 @@ const getWelcomeMessage = (lang: "fr" | "en") => {
 export default function PremiumMedicalChatbot() {
   const [isRecording, setIsRecording] = useState(false)
   const [isSpeaking, setIsSpeaking] = useState(false)
-  const [language, setLanguage] = useState<"fr" | "en">("fr")
-  const [userProfile, setUserProfile] = useState<UserProfile>({ language: "fr" })
+  const [language, setLanguage] = useState<"fr" | "en" | "pi">("en")
+  const [userProfile, setUserProfile] = useState<UserProfile>({ language: "en" })
   const [isTyping, setIsTyping] = useState(false)
   const [connectionStatus, setConnectionStatus] = useState<"online" | "offline" | "connecting">("online")
   const [showSettings, setShowSettings] = useState(false)
@@ -354,6 +354,18 @@ export default function PremiumMedicalChatbot() {
                 {/* Language Switcher */}
                 <div className="flex bg-white/60 backdrop-blur-sm rounded-xl p-1 border border-white/40 shadow-sm">
                   <Button
+                      variant={language === "en" ? "default" : "ghost"}
+                      size="sm"
+                      onClick={() => setLanguage("en")}
+                      className={`text-xs h-8 px-4 rounded-lg font-medium transition-all duration-200 ${
+                          language === "en"
+                              ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                              : "text-gray-600 hover:text-gray-900 hover:bg-white/60"
+                      }`}
+                  >
+                    🇬🇧 English
+                  </Button>
+                  <Button
                       variant={language === "fr" ? "default" : "ghost"}
                       size="sm"
                       onClick={() => setLanguage("fr")}
@@ -366,16 +378,16 @@ export default function PremiumMedicalChatbot() {
                     🇫🇷 Français
                   </Button>
                   <Button
-                      variant={language === "en" ? "default" : "ghost"}
+                      variant={language === "pi" ? "default" : "ghost"}
                       size="sm"
-                      onClick={() => setLanguage("en")}
+                      onClick={() => setLanguage("pi")}
                       className={`text-xs h-8 px-4 rounded-lg font-medium transition-all duration-200 ${
-                          language === "en"
+                          language === "pi"
                               ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
                               : "text-gray-600 hover:text-gray-900 hover:bg-white/60"
                       }`}
                   >
-                    🇬🇧 English
+                    🇬🇧 Pidgin
                   </Button>
                 </div>
 
@@ -657,14 +669,16 @@ export default function PremiumMedicalChatbot() {
 
             {/* Enhanced Disclaimer */}
             <div className="mt-6 text-center">
-              <Card className="inline-block p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/50 backdrop-blur-sm shadow-lg rounded-2xl">
+              <div className="inline-block">
                 <p className="text-sm text-amber-800 flex items-center gap-2 font-medium">
                   <Shield className="h-4 w-4" />
                   {language === "fr"
                       ? "⚠️ Information éducative uniquement. Consultez toujours votre médecin pour un avis personnalisé."
                       : "⚠️ Educational information only. Always consult your doctor for personalized advice."}
                 </p>
-              </Card>
+              </div>
+              {/*<Card className="inline-block p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/50 backdrop-blur-sm shadow-lg rounded-2xl">*/}
+              {/*</Card>*/}
             </div>
 
             {/* Voice Recording Indicator */}

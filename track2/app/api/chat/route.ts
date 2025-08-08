@@ -32,11 +32,11 @@ export async function POST(req: Request) {
 PROFIL UTILISATEUR DÉTECTÉ:
 - Âge estimé: ${userProfile.age || "Non déterminé"}
 - Genre: ${userProfile.gender || "Non déterminé"}  
-- Langue: ${language === "fr" ? "Français camerounais" : "Anglais camerounais"}
+- Langue: ${language === "fr" ? "Français camerounais" : language === "en" ? "Anglais" : "Anglais camerounais"}
 
 DIRECTIVES AVANCÉES:
 1. **Ton personnalisé**: Utilise un ton ${getPersonalizedTone(userProfile)}
-2. **Langue**: Réponds exclusivement en ${language === "fr" ? "français camerounais" : "anglais camerounais"} avec des expressions locales appropriées
+2. **Langue**: Réponds exclusivement en ${language === "fr" ? "français camerounais" : language === "en" ? "anglais" :"anglais camerounais"} avec des expressions locales appropriées
 3. **Analyse sémantique**: Identifie l'intention (diagnostic, traitement, médicament, urgence, prévention)
 4. **Contexte médical**: Adapte tes réponses au contexte médical camerounais (paludisme, typhoïde, hypertension, diabète)
 5. **Empathie culturelle**: Utilise des références culturelles camerounaises appropriées

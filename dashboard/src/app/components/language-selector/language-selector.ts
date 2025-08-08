@@ -20,9 +20,4 @@ export class LanguageSelector {
     { code: 'bassa', name: 'Bassa', flag: '🇨🇲' },
     { code: 'ewondo', name: 'Ewondo', flag: '🇨🇲' },
   ];
-
-  onChange(value: string) {
-    this.language = value;
-    this.languageChange.emit(value);
-  }
 }

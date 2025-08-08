@@ -60,6 +60,13 @@ export class Patient {
     stream: () => this.patientService.findAllPatient(),
   });
 
+  languages = [
+    { code: 'ENGLISH', name: 'ENGLISH'},
+    { code: 'FRENCH', name: 'FRENCH'},
+    { code: 'DOUALA', name: 'DOUALA'},
+    { code: 'BASSA', name: 'BASSA'},
+    { code: 'EWONDO', name: 'EWONDO'},
+  ];
 
   constructor(private patientService: PatientService, private fb: FormBuilder) {
     this.patientForm = this.fb.group({
@@ -67,7 +74,7 @@ export class Patient {
       age: ['', Validators.required],
       department: ['', Validators.required],
       phoneNumber: ['', Validators.required],
-      preferredLanguage: [this.language, Validators.required],
+      preferredLanguage: ['ENGLISH', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       createdAt: [new Date(Date.now()), Validators.required],
     });

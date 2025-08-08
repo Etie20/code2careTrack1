@@ -3,7 +3,9 @@ import {NgClass} from '@angular/common';
 import {Dashboard} from '../dashboard/dashboard';
 import {Reminders} from '../reminders/reminders';
 import {LanguageSelector} from '../../components/language-selector/language-selector';
-import {BellIcon, Heart, HomeIcon, LucideAngularModule, PersonStandingIcon} from 'lucide-angular';
+import {BellIcon, Heart, HomeIcon, LucideAngularModule, PersonStandingIcon, Speaker} from 'lucide-angular';
+import {Patient} from '../patient/patient';
+import {Feedbacks} from '../feedbacks/feedbacks';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +15,8 @@ import {BellIcon, Heart, HomeIcon, LucideAngularModule, PersonStandingIcon} from
     Reminders,
     LanguageSelector,
     LucideAngularModule,
+    Patient,
+    Feedbacks,
   ],
   templateUrl: './home.html',
   standalone: true,
@@ -53,6 +57,7 @@ export class Home {
   tb: { [key: string]: string } = {
     dashboard: 'Dashboard',
     reminders: 'Reminders',
+    feedbacks: 'Feedbacks',
     patients: 'Patients',
     analytics: 'Analytics'
   };
@@ -67,6 +72,11 @@ export class Home {
       value: 'reminders',
       label: 'reminders',
       icon: BellIcon
+    },
+    {
+      value: 'feedbacks',
+      label: 'feedbacks',
+      icon: Speaker
     },
     {
       value: 'patients',

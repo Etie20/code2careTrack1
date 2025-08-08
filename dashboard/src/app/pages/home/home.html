@@ -25,7 +25,7 @@
   <main class="container mx-auto px-4 py-8">
     <div class="space-y-6">
       <!-- Tabs -->
-      <div class="grid w-full grid-cols-3 bg-white/60 backdrop-blur-sm rounded-lg overflow-hidden">
+      <div class="grid w-full grid-cols-4 shadow shadow-2xl bg-white/60 backdrop-blur-sm rounded-lg overflow-hidden">
         @for (tab of tabs; track tab.value) {
           <button
             (click)="setActiveTab(tab.value)"
@@ -52,8 +52,15 @@
         <app-reminders [language]="language"></app-reminders>
       }
 
-      <!-- Reminders Tab -->
+      <!-- Patients Tab -->
+      @if (activeTab === 'patients') {
+        <app-patient [language]="language"></app-patient>
+      }
 
+      <!-- Feedbacks Tab -->
+      @if (activeTab === 'feedbacks') {
+        <app-feedbacks [language]="language"></app-feedbacks>
+      }
 
     </div>
 

@@ -101,6 +101,19 @@
               class="input w-full"
             />
           </div>
+          <div class="grid gap-3">
+            <select
+              formControlName="preferredLanguage"
+              id="select-174001"
+              class="select bg-white/80 backdrop-blur-sm rounded px-2 py-1 text-sm"
+            >
+              @for (lang of languages; track lang.code) {
+                <option [value]="lang.code">
+                  {{ lang.name }}
+                </option>
+              }
+            </select>
+          </div>
 
           <button (click)="onSubmit()" class="btn w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
             @if (loading()){
